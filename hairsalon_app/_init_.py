@@ -12,9 +12,12 @@ def create_app(config = ConfigProd):
 
     #import your blueprints here
     # ex) from smt.smt.smt... import smt..
+    from hairsalon_app.main_view.routes import main_bp
+
 # ---------
     #Register your blueprints here
     #app.register_blueprint(yourBlueprintHere)
+    app.register_blueprint(main_bp)
 
     login_manager = LoginManager()
     login_manager.init_app(app)
