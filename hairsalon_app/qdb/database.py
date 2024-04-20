@@ -37,6 +37,22 @@ class Database():
                                 print(e)
                         statement_parts = []
 
+# ---------Work in your code blocks --------!!!!!!!*
+
+# ---------Amy 
+
+
+# ---------Iana 
+
+
+# ---------Darina
+
+
+
+
+
+#----------END of work area -----------
+
 # if __name__ != '__main__':
     #import things 
 
