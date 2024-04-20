@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hair Salon App</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+</head>
+<body>
+    <div id="navigation-div">
+        <h3>Hair Salon Manager</h3>
+        <img src="">
+        <nav>
+            <ul class="nav-div">
+                <li>Go to <a href="{{}}"></a>Home</li>
+                <li>Go to <a href="{{}}"></a>List Appointments</li>
+                <li>Go to <a href="{{}}"></a>About</li>
+            </ul>
+            <ul class="nav-div">
+                {% block content_admin %}
+                {% endblock %}
+                <li>Go to <a href="{{}}"></a>My Appointments</li>
+                <li>Go to <a href="{{}}"></a>My Reports</li>
+                <li>Go to <a href="{{}}"></a>Create Appointment</li>
+            </ul>
+            <ul class="nav-div">
+                <li><a href="{{}}"></a>Profile</li>
+                <li><a href="{{}}"></a>Logout</li>
+            </ul>
+        </nav>
+    </div>
+</body>
+</html>

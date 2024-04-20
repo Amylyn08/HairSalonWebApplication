@@ -1,6 +1,7 @@
 from flask import Flask, flash, redirect, render_template, url_for
 from flask_login import LoginManager
 from hairsalon_app.config import ConfigProd
+from hairsalon_app.users.User import User
 
 
 def create_app(config = ConfigProd):
@@ -28,6 +29,7 @@ def create_app(config = ConfigProd):
     @login_manager.user_loader
     def load_user(user_id):
         return User(user_id)
+    
     #unauthorized function from login_manager.
     @login_manager.unauthorized_handler
     def unauthorized():
