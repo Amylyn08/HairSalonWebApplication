@@ -61,6 +61,19 @@ class Database():
             print(e)
         
         return appointments
+    
+    def get_all_appointments(self):
+        ''' method to list all appointments '''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_appointment'
+                fetch = c.execute(sql).fetchall()
+                appointments.append(Appointment((fetch[0], fetch[1], fetch[2],fetch[3], fetch[4], fetch[5], fetch[6])))
+        except Exception as e:
+            print(e)
+        
+        return appointments
 
 
 
