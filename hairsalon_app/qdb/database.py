@@ -1,5 +1,6 @@
 import os 
 import oracledb
+from hairsalon_app.appointment_view.appointment import Appointment
 
 #from hairsalon_app.users.Client import Client
 
@@ -147,6 +148,46 @@ class Database():
 # ----------------------
 
 # ---------Darina
+
+    def get_my_appointments(self, client_id):
+        ''' method to list all appointments of a given client '''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_appointment WHERE client_id= :client_id'
+                info = {'client_id':client_id}
+                fetch = c.execute(sql, info).fetchall()
+                appointments.append(Appointment((fetch[0], fetch[1], fetch[2],fetch[3], fetch[4], fetch[5], fetch[6])))
+        except Exception as e:
+            print(e)
+        
+        return appointments
+    
+    def get_all_appointments(self):
+        ''' method to list all appointments '''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_appointment'
+                fetch = c.execute(sql).fetchall()
+                appointments.append(Appointment((fetch[0], fetch[1], fetch[2],fetch[3], fetch[4], fetch[5], fetch[6])))
+        except Exception as e:
+            print(e)
+        
+        return appointments
+
+# add new address to database
+    def add_new_appointment(self, appointment_id, status, approved, date_appointment, client_id, professional_id, service_id):
+        '''  method to schedule a new appointment, data coming fro a user input form'''
+        try:
+            with self.__connection.cursor() as cursor:
+                sql = f'INSERT INTO salon_appointment (appointment_id, status, approved, date_appointment, client_id, professional_id, service_id) VALUES ( :appointment_id, :status, :approved, :date_appointment, :client_id, :professional_id, :service_id)'
+                info = {'appointment_id' : appointment_id, 'status': status, 'approved': approved, 'date_appointment': date_appointment, 'client_id' : client_id, 'professional_id': professional_id, 'service_id': service_id}
+                cursor.execute(sql, info)
+                self.__connection.commit()
+        except Exception as e:
+            print (e)
+
 
 
 
