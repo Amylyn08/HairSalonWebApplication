@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content_side_pannel %}
+<p>This is a hair salon service application for 420 Final Project...</p>
+{% endblock %}
+{% block content_main_pannel %}
+<h2>My appointments</h2>
+
+{% for appointment in context %}
+<h2>{{context.username}}</h2>
+  <ul>
+    <li>Id: {{appointment.id}}</li>
+    <li>Date: {{appointment.date}}</li>
+  </ul>
+{% endfor %}
+
+  
+{% endblock %}
