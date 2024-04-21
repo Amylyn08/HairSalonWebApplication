@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content_side_pannel %}
+<p>This is a hair salon service application for 420 Final Project...</p>
+{% endblock %}
+{% block content_main_pannel %}
+<h2>Schedule your appointment</h2>
+<form action="" method="POST">
+    {{form.hidden_tag()}}  
+    <fieldset>
+      {{form.date (class="form-field", placeholder = "Date")}}
+      {{form.professional (class="form-field", placeholder = "Professional")}}
+    </fieldset>
+    {{form.submit (class=button)}}
+  </form>
+  
+{% endblock %}
