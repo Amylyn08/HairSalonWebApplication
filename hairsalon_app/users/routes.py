@@ -13,7 +13,7 @@ users_bp = Blueprint("user",__name__,template_folder='templates')
 users_clients= []
 users_professionals =[]
 
-#Generates all the notes
+#Generates all the 
 @users_bp.route("/profile/client")
 def user_list_client():
     """Function for listing all the users."""

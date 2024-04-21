@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
+{% block content_side_pannel %}
+
+
 {% block content_main_pannel %}  
     {% for client in clients %}
         <h3> {{client.full_name}} </h3>
         <h5> {{client.username}}</h5>
-        <p> {{Address: client.address}} </p><br>
-        <p> {{Email: client.email}} </p><br>
-        <p> {{Age: client.age}} </p>
+        <p> Address:{{client.address}} </p><br>
+        <p> Email: {{ client.email}} </p><br>
+        <p> Age: {{client.age}} </p>
     {% endfor %}
 {% endblock content_overriden %}
