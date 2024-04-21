@@ -17,11 +17,11 @@ users_professionals =[]
 @users_bp.route("/profile/client")
 def user_list_client():
     """Function for listing all the users."""
-    users = db.get_users_clients()
+    users_clients = db.get_users_clients()
     return render_template('client.html')
 
 @users_bp.route("/profile/professional")
 def user_list_professional():
     """Function for listing all the users."""
-    users = db.get_users_professional()
+    users_professionals= db.get_users_professional()
     return render_template('professional.html')
