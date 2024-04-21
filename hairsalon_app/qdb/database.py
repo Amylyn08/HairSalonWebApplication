@@ -1,6 +1,8 @@
 import os 
 import oracledb
 
+from hairsalon_app.users.Users import Users
+
 class Database():
      
     def __init__(self, autocommit=True):
@@ -18,6 +20,19 @@ class Database():
     #returns connection
     def  db_conn (self): 
         return self.__connection
+    
+    def close(self):
+        '''Closes the connection'''
+        if self.__connection is not None:
+            self.__connection.close()
+            self.__connection = None
+
+    def __reconnect(self):
+        try:
+            self.close()
+        except oracledb.Error as f:
+            pass
+        self.__connection = self.__connect()
 
     def __run_file(self, file_path):
         statement_parts = []
@@ -36,14 +51,69 @@ class Database():
                             except Exception as e:
                                 print(e)
                         statement_parts = []
+    def get_cursor(self):
+        for i in range(3):
+            try:
+                return self.__connection.cursor()
+            except Exception as e:
+                # Might need to reconnect
+                self.__reconnect()
 
 # ---------Work in your code blocks --------!!!!!!!*
 
 # ---------Amy 
 
 
-# ---------Iana 
-
+# ---------Iana
+#Get the list of professionals
+    def get_users_professional(self):
+        '''Returns all user objects in a list'''
+        list_professionals = []
+        try:
+            with self.get_cursor() as cur:
+                qry = f" select * from salon_proffesional"
+                r = cur.execute(qry).fetchall()
+                for professional in r:
+                    list_professionals.append(Users(professional[3]))
+        except Exception as e:
+            print(e)
+        return list_professionals 
+    
+#Get the list of clients
+    def get_users_clients(self):
+        '''Returns all user objects in a list'''
+        list_clients = []
+        try:
+            with self.get_cursor() as cur:
+                qry = f" select * from salon_client"
+                r = cur.execute(qry).fetchall()
+                for client in r:
+                    list_clients.append(Users(client[3]))
+        except Exception as e:
+            print(e)
+        return list_clients 
+#Add a new user
+    #Add a new client
+    def add_new_client(self,username):
+        '''  method to add a new client, data coming fro a user input form'''
+        with self.get_cursor() as cur:
+            qry = "INSERT INTO salon_client(username)"
+            try:
+                cur.execute(qry,(username))
+                self.__connection.commit()
+            except Exception as e:
+                print(e)
+    #Add a new proffesional
+    def add_new_proffesional(self,username):
+        '''  method to add a new proffesional, data coming fro a user input form'''
+        with self.get_cursor() as cur:
+            qry = "INSERT INTO salon_professional(username)"
+            try:
+                cur.execute(qry,(username))
+                self.__connection.commit()
+            except Exception as e:
+                print(e)
+# ----------------------
 
 # ---------Darina
 
