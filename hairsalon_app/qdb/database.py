@@ -1,7 +1,9 @@
 import os 
 import oracledb
 
-from hairsalon_app.users.Users import Users
+from hairsalon_app.users.Client import Client
+
+from hairsalon_app.users.Professional import Profesionnal
 
 class Database():
      
@@ -67,49 +69,49 @@ class Database():
 # ---------Iana
 #Get the list of professionals
     def get_users_professional(self):
-        '''Returns all user objects in a list'''
+        '''Returns all client objects in a list'''
         list_professionals = []
         try:
             with self.get_cursor() as cur:
                 qry = f" select * from salon_proffesional"
                 r = cur.execute(qry).fetchall()
                 for professional in r:
-                    list_professionals.append(Users(professional[3]))
+                    list_professionals.append(Profesionnal(professional[3],professional[4],professional[5],professional[6],professional[7],professional[8],professional[9],professional[10],professional[11],professional[12]))
         except Exception as e:
             print(e)
         return list_professionals 
     
 #Get the list of clients
     def get_users_clients(self):
-        '''Returns all user objects in a list'''
+        '''Returns all profesionnal objects in a list'''
         list_clients = []
         try:
             with self.get_cursor() as cur:
                 qry = f" select * from salon_client"
                 r = cur.execute(qry).fetchall()
                 for client in r:
-                    list_clients.append(Users(client[3]))
+                    list_clients.append(Client(client[3],client[4],client[5],client[6],client[7],client[8],client[9],client[10]))
         except Exception as e:
             print(e)
         return list_clients 
 #Add a new user
     #Add a new client
-    def add_new_client(self,username):
+    def add_new_client(self,username,full_name, email, user_image,password, phone, address, age):
         '''  method to add a new client, data coming fro a user input form'''
         with self.get_cursor() as cur:
-            qry = "INSERT INTO salon_client(username)"
+            qry = "INSERT INTO salon_client(username,full_name, email, user_image,password, phone, address, age)"
             try:
-                cur.execute(qry,(username))
+                cur.execute(qry,(username,full_name, email, user_image,password, phone, address, age))
                 self.__connection.commit()
             except Exception as e:
                 print(e)
     #Add a new proffesional
-    def add_new_proffesional(self,username):
+    def add_new_proffesional(self,username,full_name, email, user_image,password, phone, address, age, speciality, payrate):
         '''  method to add a new proffesional, data coming fro a user input form'''
         with self.get_cursor() as cur:
-            qry = "INSERT INTO salon_professional(username)"
+            qry = "INSERT INTO salon_professional(username,full_name, email, user_image,password, phone, address, age, speciality, payrate)"
             try:
-                cur.execute(qry,(username))
+                cur.execute(qry,(username, full_name, email, user_image,password, phone, address, age, speciality, payrate))
                 self.__connection.commit()
             except Exception as e:
                 print(e)
