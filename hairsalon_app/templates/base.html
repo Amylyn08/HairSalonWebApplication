@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hair Salon App</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
 </head>
 <body>
     <div id="navigation-div">
-        <h3>Saloon</h3>
         <div id="nav-div1">
-            <img id="logo" src="{{url_for('static', filename='images/logo.jpg')}}" alt="Hair salon logo with scissors and comb.">
+            <section id="logo-section">
+                <h3>Saloon</h3>
+                <img id="logo" src="{{url_for('static', filename='images/logo.jpg')}}" alt="Hair salon logo with scissors and comb.">
+            </section>
             <nav>
                 <ul class="nav-div">
                     <li>Go to</li>
