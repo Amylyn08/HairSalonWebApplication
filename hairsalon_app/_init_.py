@@ -20,9 +20,7 @@ def create_app(config = ConfigProd):
 # ---------
     #Register your blueprints here
 
-    app.register_blueprint(main_bp)
     app.register_blueprint(appointment_bp)
-    #app.register_blueprint(yourBlueprintHere)
     app.register_blueprint(main_bp)
 
     login_manager = LoginManager()
