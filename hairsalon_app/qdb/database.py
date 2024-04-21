@@ -1,9 +1,9 @@
 import os 
 import oracledb
 
-from hairsalon_app.users.Client import Client
+#from hairsalon_app.users.Client import Client
 
-from hairsalon_app.users.Professional import Profesionnal
+#from hairsalon_app.users.Professional import Profesionnal
 
 class Database():
      
@@ -53,6 +53,22 @@ class Database():
                             except Exception as e:
                                 print(e)
                         statement_parts = []
+    
+    def __reconnect(self):
+        try:
+            self.close()
+        except oracledb.Error as f:
+            pass
+        self.__connection = self.__connect()
+
+    def run_sql_script(self, sql_filename):
+        if os.path.exists(sql_filename):
+            self.__connect()
+            self.__run_file(sql_filename)
+            self.close()
+        else:
+            print('Invalid Path')
+
     def get_cursor(self):
         for i in range(3):
             try:
@@ -68,32 +84,32 @@ class Database():
 
 # ---------Iana
 #Get the list of professionals
-    def get_users_professional(self):
-        '''Returns all client objects in a list'''
-        list_professionals = []
-        try:
-            with self.get_cursor() as cur:
-                qry = f" select * from salon_proffesional"
-                r = cur.execute(qry).fetchall()
-                for professional in r:
-                    list_professionals.append(Profesionnal(professional[3],professional[4],professional[5],professional[6],professional[7],professional[8],professional[9],professional[10],professional[11],professional[12]))
-        except Exception as e:
-            print(e)
-        return list_professionals 
+#     def get_users_professional(self):
+#         '''Returns all client objects in a list'''
+#         list_professionals = []
+#         try:
+#             with self.get_cursor() as cur:
+#                 qry = f" select * from salon_proffesional"
+#                 r = cur.execute(qry).fetchall()
+#                 for professional in r:
+#                     list_professionals.append(Profesionnal(professional[3],professional[4],professional[5],professional[6],professional[7],professional[8],professional[9],professional[10],professional[11],professional[12]))
+#         except Exception as e:
+#             print(e)
+#         return list_professionals 
     
-#Get the list of clients
-    def get_users_clients(self):
-        '''Returns all profesionnal objects in a list'''
-        list_clients = []
-        try:
-            with self.get_cursor() as cur:
-                qry = f" select * from salon_client"
-                r = cur.execute(qry).fetchall()
-                for client in r:
-                    list_clients.append(Client(client[3],client[4],client[5],client[6],client[7],client[8],client[9],client[10]))
-        except Exception as e:
-            print(e)
-        return list_clients 
+# #Get the list of clients
+#     def get_users_clients(self):
+#         '''Returns all profesionnal objects in a list'''
+#         list_clients = []
+#         try:
+#             with self.get_cursor() as cur:
+#                 qry = f" select * from salon_client"
+#                 r = cur.execute(qry).fetchall()
+#                 for client in r:
+#                     list_clients.append(Client(client[3],client[4],client[5],client[6],client[7],client[8],client[9],client[10]))
+#         except Exception as e:
+#             print(e)
+#         return list_clients 
 #Add a new user
     #Add a new client
     def add_new_client(self,username,full_name, email, user_image,password, phone, address, age):
@@ -115,6 +131,19 @@ class Database():
                 self.__connection.commit()
             except Exception as e:
                 print(e)
+    
+    #Selects client based on the username                
+    # def get_client_user(self, username):
+    #     oneclient= []
+    #     with self.get_cursor() as cur:
+    #         qry = f"SELECT * FROM salon_client WHERE username='{username}'"
+    #         try:
+    #             clients = cur.execute(qry).fetchall()
+    #             for client in clients:
+    #                 oneclient.append(Client(client[3],client[4],client[5],client[6],client[7],client[8],client[9],client[10]))
+    #         except Exception as e:
+    #             print(e)
+    #     return oneclient
 # ----------------------
 
 # ---------Darina
@@ -137,4 +166,4 @@ database = Database()
 # 2.	Call run_sql_script on da1tabase.sql  if the script (database.py) is run in isolation.
 
 if __name__ == '__main__':
-    database.run_sql_script('schema.sql')
+    database.run_sql_script('schemasql')
