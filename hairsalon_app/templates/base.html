@@ -7,38 +7,34 @@
     <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
 </head>
 <body>
-    <div id="navigation-div">
-        <h3>Saloon</h3>
-        <div id="nav-div1">
-            <img id="logo" src="{{url_for('static', filename='images/logo.jpg')}}" alt="Hair salon logo with scissors and comb.">
+    <nav id="nav1"> 
+        <ul >
+            <!-- Will link to the creation of appointements! -->
+            <li> BOOK NOW    •    514 -928 -2935</li>  
+            <!-- <li> • </li>
+            <li> 514 -928 -2935 </li> -->
+        </ul> 
+        <ul >
+            <li><img class="icon" src="{{url_for('static', filename='images/phone2.webp')}}" alt="Phone icon."></li>
+        </ul>
+    </nav>
+    <nav id="nav2">
+        <div id ="left-nav">
+            <h3>Saloon</h3>
+            <img id="logo" src="{{url_for('static', filename='images/CutHair.webp')}}" alt="Guy cuts his hair.">
+        </div>
+        <div id="right-nav">
             <nav>
-                <ul class="nav-div">
-                    <li>Go to</li>
-                    <li>Go to List Appointments</li>
-                    <li>Go to About</li>
-                </ul>                
-                <ul class="nav-div">
+                <ul >
+                    <li>My profile <img class="icon" src="{{url_for('static', filename='images/icon.webp')}}" alt="Profile icon."></li>
+                    <li>My Appointments <img class="icon" src="{{url_for('static', filename='images/appointment3.webp')}}" alt="Appointement icon."></li>
+                    <li>My Reports <img class="icon" src="{{url_for('static', filename='images/Report2.webp')}}" alt="Rapport icon."></li>
                     {% block content_admin %}
                     {% endblock %}
-                    <li>Go to My Appointments</li>
-                    <li>Go to My Reports</li>
-                    <li>Go to Create Appointment</li>
-                </ul>
-                <ul class="nav-div">
-                    <li>Profile</li>
-                    <li>Logout</li>
                 </ul>
             </nav>
-        </div>
-        <div id="session-info">
-            {% block content_session %}
-            <!-- default view -->
-            <p>Project w24 Visitor view</p>
-            <!-- Session view to override if needed: INSERT WHAT THE VIEW IS, admin? member?prof? super? -->
-            {% endblock %}
-            <p>Hi {{current_user.username}}</p>
-        </div>  
-    </div>
+        </div> 
+    </nav>
     <main>
         <div id="side-pannel">
             {% block content_side_pannel %}
