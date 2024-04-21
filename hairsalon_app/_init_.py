@@ -6,7 +6,7 @@ from hairsalon_app.appointment_view.routes import appointment_bp
 from hairsalon_app.config import ConfigProd
 from hairsalon_app.users.User import User
 
-
+       
 def create_app(config = ConfigProd):
 
     #Creating flask app

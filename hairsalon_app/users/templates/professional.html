@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content_main_pannel %}  
+    {% for professional in professionals %}
+        <h3> {{professional.full_name}} </h3>
+        <h4> {{professional.speciality}}</h4>
+        <h5> {{professional.username}}</h5>
+        <p> {{Address: professional.address}} </p><br>
+        <p> {{Email: professional.email}} </p><br>
+        <p> {{Age: professional.age}} </p>
+
+    {% endfor %}
+{% endblock content_overriden %}
