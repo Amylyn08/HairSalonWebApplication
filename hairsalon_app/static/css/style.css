@@ -1,0 +1,93 @@
+/* Reset default browser styles */
+html, body, ul, ol, li, h1, h2, h3, p, form, input, textarea, button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+/* Set box-sizing property to border-box for all elements */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the body fills the viewport height */
+}
+
+/* Navigation styles */
+#navigation-div {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#navigation-div h3 {
+    margin: 0;
+}
+
+#nav-div1 {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li:last-child {
+    margin-right: 0;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Session info styles */
+#session-info p {
+    margin: 0;
+}
+
+/* Main content styles */
+main {
+    display: flex;
+    flex: 1;
+}
+
+#side-pannel {
+    flex: 1;
+    padding: 20px;
+}
+
+#main-pannel {
+    flex: 3;
+    padding: 20px;
+}
+
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    margin-top: auto; /* Push the footer to the bottom */
+}
+
+#
