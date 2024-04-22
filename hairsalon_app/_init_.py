@@ -1,9 +1,12 @@
 from flask import Flask, flash, redirect, render_template, url_for
+from flask import *
 from flask_login import LoginManager
+from hairsalon_app.main_view.routes import main_bp
+from hairsalon_app.appointment_view.routes import appointment_bp
 from hairsalon_app.config import ConfigProd
 from hairsalon_app.users.User import User
 
-
+       
 def create_app(config = ConfigProd):
 
     #Creating flask app
@@ -16,7 +19,8 @@ def create_app(config = ConfigProd):
 
 # ---------
     #Register your blueprints here
-    #app.register_blueprint(yourBlueprintHere)
+
+    app.register_blueprint(appointment_bp)
     app.register_blueprint(main_bp)
 
     login_manager = LoginManager()
