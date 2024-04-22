@@ -27,8 +27,10 @@
                     <li>Go to Create Appointment</li>
                 </ul>
                 <ul class="nav-div">
-                    <li>Profile</li>
-                    <li>Logout</li>
+                    {% block content_user %}
+                    <!-- ovveride this or user view -->
+                    <li>Sign in</li>
+                    {% endblock %}
                 </ul>
             </nav>
         </div>
