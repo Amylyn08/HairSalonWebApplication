@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
+{% block content_when_login %}
+<li>My profile <img class="icon" src="{{url_for('static', filename='images/icon.webp')}}" alt="Profile icon."></li>
+{% endblock %}
+
 {% block content_side_pannel %}
-
-
 {% block content_main_pannel %}  
     {% for client in clients %}
         <h3> {{client.full_name}} </h3>
