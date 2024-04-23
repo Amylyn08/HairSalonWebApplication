@@ -19,7 +19,7 @@ def create_appointment():
     return render_template('appointment.html', form = appointment_form)
 
 #route for user's appointments
-@appointment_bp.route("/my_appointments")
+@appointment_bp.route("/my_appointments", methods=['GET'])
 def my_appointments():
     #get apps from db
     my_appointments = db.get_my_appointments()
@@ -30,7 +30,7 @@ def my_appointments():
     return redirect(url_for("create_appointment"))
 
 #route for all appointments
-@appointment_bp.route("/all_appointments")
+@appointment_bp.route("/all_appointments", methods=['GET'])
 def all_appointments(): #the id is the one for the note
     #get apps from db
     all_appointments = db.get_all_appointments()
