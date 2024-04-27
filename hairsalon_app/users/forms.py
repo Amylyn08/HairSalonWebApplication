@@ -3,6 +3,7 @@ from wtforms import DecimalField, EmailField, PasswordField, StringField, Submit
 from wtforms.validators import DataRequired, Email, EqualTo, Length, NumberRange
 from flask_wtf.file import FileField, FileAllowed
 
+
 class NewUserForm(FlaskForm):
     username = StringField('username', validators=[DataRequired(), Length(min=4, max=20)])
     full_name = StringField('full_name', validators=[DataRequired(), Length(min=4, max=20)])

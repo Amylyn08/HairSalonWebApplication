@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 {% block content_side_pannel %}
 <p>Some description...</p>
@@ -14,7 +15,7 @@
             {{form.password(class='form-field', placeholder='Password')}}
             {{form.confirm_password(class='form-field', placeholder='Confirm_password')}}
             <section>
-                {{ render_field(field= form.user_image, class='form-field')}}
+                {{ form.user_image(class='form-field') }}
             </section>
             {{form.phone_number(class='form-field', placeholder='Phone Number')}}
             {{form.address(class='form-field', placeholder='Street Number, Province, Country')}}
@@ -33,7 +34,7 @@
             {{form.password(class='form-field', placeholder='Password')}}
             {{form.confirm_password(class='form-field', placeholder='Confirm_password')}}
             <section>
-                {{ render_field(field= form.user_image, class='form-field')}}
+                {{ form.user_image(class='form-field') }}
             </section>
             {{form.phone_number(class='form-field', placeholder='Phone Number')}}
             {{form.address(class='form-field', placeholder='Street Number, Province, Country')}}
