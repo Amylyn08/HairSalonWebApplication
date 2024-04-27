@@ -2,6 +2,7 @@
 #Section : 01
 from flask import Blueprint, current_app, flash, url_for, redirect, render_template
 from hairsalon_app.qdb.database import Database
+from flask_bcrypt import Bcrypt
 import secrets
 import os
 from PIL import Image
@@ -53,10 +54,40 @@ def professional_name(username):
 @users_bp.route('/register/', methods=['GET', 'POST'])
 def register():
     form = NewUserForm()
-    if form.password.data != form.retype_password.data: 
+    if form.password.data != form.confirm_password.data: 
         flash('Passwords do not match!', 'error')
-    if form.validate_on_submit():
-        #checks if this user already exists
+    elif form.validate_on_submit():
+        # Check if this user already exists
+        member_exists = db.get_member(form.username.data)
+        if not member_exists:
+            b = Bcrypt()
+            hashed_pass = b.generate_password_hash(form.password.data).decode('utf-8')
+            if form.pay_rate.data is not None and form.specialty.data is not None:
+                db.add_new_proffesional(username=form.username.data, 
+                                        full_name=form.full_name.data,
+                                        email=form.email.data,
+                                        user_image=form.user_image.data,
+                                        password=hashed_pass, 
+                                        phone=form.phone_number.data,
+                                        address=form.address.data,
+                                        age=form.age.data, 
+                                        speciality=form.specialty.data,
+                                        payrate=form.pay_rate.data)
+            else:
+                db.add_new_client(username=form.username.data, 
+                                    full_name=form.full_name.data,
+                                    email=form.email.data,
+                                    user_image=form.user_image.data,
+                                    password=hashed_pass, 
+                                    phone=form.phone_number.data,
+                                    address=form.address.data,
+                                    age=form.age.data)
+            flash('Successful registration! Please Login to continue...', 'success')
+            return redirect(url_for('main.login'))
+        else:
+            flash('This account already exists.', 'error')
+    return render_template('register.html', form=form)
+
         
 
 def save_file(form_file):

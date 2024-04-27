@@ -141,7 +141,7 @@ class Database():
                 print(f'The following error occured: {e}')
     #Add a new proffesional
 
-def add_new_proffesional(self, username, full_name, email, user_image, password, phone, address, age, speciality, payrate):
+def add_new_pro(self, username, full_name, email, user_image, password, phone, address, age, speciality, payrate):
     ''' Method to add a new professional, data coming from a user input form '''
     with self.get_cursor() as cur:
         qry = '''INSERT INTO salon_professional(user_type, username, full_name, email,
