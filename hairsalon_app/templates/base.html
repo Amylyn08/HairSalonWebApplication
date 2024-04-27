@@ -24,8 +24,10 @@
             <nav>
                 <ul >
                     {% block content_when_login %}
-                        <li> Login <img class="icon" src="{{url_for('static', filename='images/login.png')}}" alt="Login icon."></li>
-                        <li> Register <img class="icon" src="{{url_for('static', filename='images/register.webp')}}" alt="Register icon."> </li>
+                    <li>
+                        <a href="{{ url_for('users_bp.register') }}">Register</a>
+                        <img class="icon" src="{{ url_for('static', filename='images/register.webp') }}" alt="Register icon.">
+                    </li>
                     {% endblock %}
                     <li>Appointments <img class="icon" src="{{url_for('static', filename='images/appointment3.webp')}}" alt="Appointement icon."></li>
                     <li>My Reports <img class="icon" src="{{url_for('static', filename='images/Report2.webp')}}" alt="Rapport icon."></li>
@@ -36,9 +38,9 @@
         </div> 
     </nav>
     <main>
-        <!-- <div id="side-pannel">
+        <div id="side-pannel">
             {% block content_side_pannel %}
-             In the respective templates, override this block to add content for your view. 
+             <!-- In the respective templates, override this block to add content for your view.  -->
             {% endblock %} 
             <section id="flash-errors">
                 {% if get_flashed_messages() %}
@@ -56,7 +58,7 @@
                 </ul>
                 {% endif %}
             </section>
-        </div> -->
+        </div>
         <div id="main-pannel">
             {% block content_main_pannel %}
             <!-- In the respective templates, override this block to add content for your view. -->

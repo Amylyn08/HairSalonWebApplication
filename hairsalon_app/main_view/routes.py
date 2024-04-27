@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, redirect, render_template, url_for
 
 
-main_bp = Blueprint('main', __name__, template_folder='templates')
+main_bp = Blueprint('main_bp', __name__, template_folder='templates')
 
 #db = Database()
 

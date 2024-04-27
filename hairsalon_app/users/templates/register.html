@@ -1,0 +1,49 @@
+
+{% extends 'base.html' %}
+{% block content_side_pannel %}
+<p>Some description...</p>
+{% endblock content_side_pannel %}
+{% block content_main_pannel %}
+<h2>Register With Us</h2>
+<div id="register_client">
+    <form action="" method="POST" enctype="multipart/form-data" novalidate>
+        {{ form.hidden_tag() }}
+        <fieldset>
+            {{form.username (class='form-field', placeholder="Username")}}
+            {{form.full_name(class='form-field', placeholder="full_name")}}
+            {{form.email (class='form-field', placeholder="Email")}}
+            {{form.password(class='form-field', placeholder='Password')}}
+            {{form.confirm_password(class='form-field', placeholder='Confirm_password')}}
+            <section>
+                {{ form.user_image(class='form-field') }}
+            </section>
+            {{form.phone_number(class='form-field', placeholder='Phone Number')}}
+            {{form.address(class='form-field', placeholder='Street Number, Province, Country')}}
+            {{form.age(class='form-field', placeholder='Age')}}
+        </fieldset>
+        {{form.submit(class='button')}}
+    </form>
+</div>
+<div id="register_pro">
+    <form action="" method="POST" enctype="multipart/form-data" novalidate>
+        {{ form.hidden_tag() }}
+        <fieldset>
+            {{form.username (class='form-field', placeholder="Username")}}
+            {{form.full_name(class='form-field', placeholder="full_name")}}
+            {{form.email (class='form-field', placeholder="Email")}}
+            {{form.password(class='form-field', placeholder='Password')}}
+            {{form.confirm_password(class='form-field', placeholder='Confirm_password')}}
+            <section>
+                {{ form.user_image(class='form-field') }}
+            </section>
+            {{form.phone_number(class='form-field', placeholder='Phone Number')}}
+            {{form.address(class='form-field', placeholder='Street Number, Province, Country')}}
+            {{form.age(class='form-field', placeholder='Age')}}
+            {{form.pay_rate(class='form-field', placeholder='Pay Rate')}}
+            {{form.specialty(class='form-field', placeholder='Specialty')}}
+        </fieldset>
+        {{form.submit(class='button')}}
+    </form>
+</div>
+
+{% endblock content_main_pannel %}
