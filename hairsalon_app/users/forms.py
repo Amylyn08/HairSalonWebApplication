@@ -8,7 +8,7 @@ class NewUserForm(FlaskForm):
     username = StringField('username', validators=[DataRequired(), Length(min=4, max=20)])
     full_name = StringField('full_name', validators=[DataRequired(), Length(min=4, max=20)])
     email = EmailField('email', validators=[DataRequired(), Email()])
-    password = PasswordField('password', validators=[DataRequired()])
+    password = PasswordField('password', validators=[DataRequired(), Length(min=4)])
     confirm_password = PasswordField('confirm_password', validators=[DataRequired(), EqualTo('password')])
     user_image = FileField('user_image', validators=[FileAllowed(['png', 'jpg', 'jpeg'])])
     phone_number = TelField('phone_number', validators=[DataRequired()])

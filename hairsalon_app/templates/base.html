@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hair Salon App</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    {% block content_css %}{% endblock content_css %}
 </head>
 <body>
     <nav id="nav1"> 
@@ -24,6 +25,7 @@
             <nav>
                 <ul >
                     {% block content_when_login %}
+                    <li>login <img class='icon' src='{{url_for("static", filename="images/login.png")}}'alt="Login logo with key and man"></li>
                     <li>
                         <a href="{{ url_for('users_bp.register') }}">Register</a>
                         <img class="icon" src="{{ url_for('static', filename='images/register.webp') }}" alt="Register icon.">

@@ -12,7 +12,7 @@ from hairsalon_app.users.forms import NewUserForm
 db = Database()
 
 #Create a blueprint
-users_bp = Blueprint("users_bp",__name__,template_folder='templates')
+users_bp = Blueprint("users_bp",__name__,template_folder='templates', static_folder='static', static_url_path='/users/static')
 
 #List of users
 users_clients= []
@@ -58,7 +58,7 @@ def register():
         flash('Passwords do not match!', 'error')
     elif form.validate_on_submit():
         # Check if this user already exists
-        member_exists = db.get_member(form.username.data)
+        member_exists = db.get_member(username=form.username.data)
         if not member_exists:
             b = Bcrypt()
             hashed_pass = b.generate_password_hash(form.password.data).decode('utf-8')

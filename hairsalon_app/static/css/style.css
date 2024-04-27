@@ -111,6 +111,7 @@ main {
 #main-pannel {
     flex: 3;
     padding: 20px;
+    justify-content: center;
 }
 
 /* Footer styles */
@@ -121,7 +122,4 @@ footer {
     padding: 10px;
     margin-top: auto; /* Push the footer to the bottom */
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 0e625221e4c932a98f8332ad1fe1feda48167721

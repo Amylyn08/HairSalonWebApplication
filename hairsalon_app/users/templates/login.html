@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content_css %}
+<link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/login.css')}}">
+{% endblock content_css %}
+{% block content_side_pannel %}
+<p>Some content..</p>
+{% endblock content_side_pannel %}
+{% block content_main_pannel %}
+<h2>Login</h2>
+<div id="login-div">
+    
+</div>
+{% endblock content_main_pannel %}
