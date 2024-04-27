@@ -21,7 +21,6 @@ CREATE TABLE salon_user (
     age NUMBER(3) NOT NULL,
     pay_rate DECIMAL(5, 2) default(NULL),
     specialty VARCHAR2(15) default(NULL),
-    acess_level NUMBER(1) default(NULL),
     
     CONSTRAINT user_pk PRIMARY KEY (user_id)
 );

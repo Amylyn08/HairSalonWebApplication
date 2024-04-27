@@ -1,6 +1,9 @@
+from multiprocessing.connection import Client
 import os 
 import oracledb  
 from hairsalon_app.appointment_view.appointment import Appointment
+from hairsalon_app.users.Member import Member
+from hairsalon_app.users.Professional import Profesionnal
 
 #from hairsalon_app.users.Client import Client
 
@@ -82,6 +85,17 @@ class Database():
 
 # ---------Amy 
 
+#this function saves the passed in as parameter to the database.
+# def save_image_to_db(self, hexed_file_name):
+#     try:
+#         with self.__connection.cursor() as cursor:
+#             qry='''INSERT INTO salon_user (user_image)
+#                     VALUES(:hexed_file_name)'''
+#         cursor.execute(qry, hexed_file_name=hexed_file_name)
+#     except Exception as e:
+#         print(f'The following error has occured: {e}')
+
+
 
 # ---------Iana
 #Get the list of professionals
@@ -113,25 +127,83 @@ class Database():
 #         return list_clients 
 #Add a new user
     #Add a new client
+
     def add_new_client(self,username,full_name, email, user_image,password, phone, address, age):
         '''  method to add a new client, data coming fro a user input form'''
         with self.get_cursor() as cur:
-            qry = "INSERT INTO salon_client(username,full_name, email, user_image,password, phone, address, age)"
+            qry = '''INSERT INTO salon_user(username,full_name, email, user_image,password, phone, address, age)
+                        VALUES(:username, :full_name, :email, :user_image, :password, :phone, :address, :age)'''
             try:
-                cur.execute(qry,(username,full_name, email, user_image,password, phone, address, age))
+                cur.execute(qry, username=username, full_name=full_name, email=email, user_image=user_image,
+                                 password=password, phone=phone, address=address, age=age )
                 self.__connection.commit()
             except Exception as e:
-                print(e)
+                print(f'The following error occured: {e}')
     #Add a new proffesional
-    def add_new_proffesional(self,username,full_name, email, user_image,password, phone, address, age, speciality, payrate):
-        '''  method to add a new proffesional, data coming fro a user input form'''
-        with self.get_cursor() as cur:
-            qry = "INSERT INTO salon_professional(username,full_name, email, user_image,password, phone, address, age, speciality, payrate)"
-            try:
-                cur.execute(qry,(username, full_name, email, user_image,password, phone, address, age, speciality, payrate))
-                self.__connection.commit()
-            except Exception as e:
-                print(e)
+
+def add_new_proffesional(self, username, full_name, email, user_image, password, phone, address, age, speciality, payrate):
+    ''' Method to add a new professional, data coming from a user input form '''
+    with self.get_cursor() as cur:
+        qry = '''INSERT INTO salon_professional(user_type, username, full_name, email,
+                                                user_image, password_hashed,
+                                                phone_number, address, age, specialty, pay_rate)
+                VALUES ('professional', :username, :full_name, :email, :user_image, :password,
+                        :phone, :address, :age, :specialty, :payrate)'''
+        try:
+            cur.execute(qry, {'username': username, 'full_name': full_name, 'email': email, 'user_image': user_image,
+                              'password': password, 'phone': phone, 'address': address, 'age': age,
+                              'specialty': speciality, 'payrate': payrate})
+            self.__connection.commit()
+        except Exception as e:
+            print(e)
+
+
+# def get_client(self, username):
+#     try:
+#         with self.__connection.cursor() as cursor:
+#             qry ='''SELECT username,
+#                             full_name, 
+#                             email, 
+#                             user_image, 
+#                             password_hashed, 
+#                             phone_number
+#                             address,
+#                             age 
+#                     WHERE username=:username
+#                             '''
+#             cursor.execute(qry, username=username)
+#             rows = cursor.fetchall()
+#             client_list = []
+#             for client in rows:
+#                 client_list.append(Client(*client))
+#             return client_list
+#     except Exception as e:
+#         print(f'The following error occured: {e}')
+
+def get_member(self, username):
+    try:
+        with self.__connection.cursor() as cursor:
+            qry ='''SELECT  user_type,
+                            username,
+                            full_name, 
+                            email, 
+                            user_image, 
+                            password_hashed, 
+                            phone_number
+                            address,
+                            age,
+                            specialty,
+                            pay_rate
+                    WHERE username=:username
+                            '''
+            cursor.execute(qry, username=username)
+            rows = cursor.fetchall()
+            member_list = []
+            for member in rows:
+                member_list.append(Member(*member))
+            return member_list
+    except Exception as e:
+        print(f'The following error occured: {e}')
     
     #Selects client based on the username                
     # def get_client_user(self, username):
