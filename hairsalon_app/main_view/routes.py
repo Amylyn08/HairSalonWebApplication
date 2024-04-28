@@ -14,6 +14,11 @@ def home():
 def about():
     return render_template('about.html')
 
+@main_bp.route('/member-home')
+def member_home():
+    return render_template('home_member.html')
+
+
 @main_bp.route('/adminsuper-home/')
 def adminsuper_home():
     return render_template('home_adminsuper.html')
@@ -25,9 +30,6 @@ def adminappoint_home():
 def adminuser_home():
     return render_template('home_adminuser.html')
 
-@main_bp.route('/member-home/')
-def adminsuper_home():
-    return render_template('home_member.html')
 
 
 
