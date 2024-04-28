@@ -1,18 +1,21 @@
 #Name : Iana Feniuc
 #Section : 01
 from flask import Blueprint, current_app, flash, url_for, redirect, render_template
+from flask_login import login_required, login_user, logout_user
 from hairsalon_app.qdb.database import Database
 from flask_bcrypt import Bcrypt
 import secrets
 import os
 from PIL import Image
 
-from hairsalon_app.users.forms import NewUserForm
+from hairsalon_app.users.Member import Member
+from hairsalon_app.users.User import User
+from hairsalon_app.users.forms import LoginForm, NewUserForm
 #Create an instance of Database
 db = Database()
 
 #Create a blueprint
-users_bp = Blueprint("users_bp",__name__,template_folder='templates')
+users_bp = Blueprint("users_bp",__name__,template_folder='templates', static_folder='static', static_url_path='/users/static')
 
 #List of users
 users_clients= []
@@ -58,15 +61,16 @@ def register():
         flash('Passwords do not match!', 'error')
     elif form.validate_on_submit():
         # Check if this user already exists
-        member_exists = db.get_member(form.username.data)
+        file_name = save_file(form_file=form.user_image.data)
+        member_exists = db.get_member(username=form.username.data)
         if not member_exists:
             b = Bcrypt()
             hashed_pass = b.generate_password_hash(form.password.data).decode('utf-8')
             if form.pay_rate.data is not None and form.specialty.data is not None:
-                db.add_new_proffesional(username=form.username.data, 
+                db.add_new_pro(username=form.username.data, 
                                         full_name=form.full_name.data,
                                         email=form.email.data,
-                                        user_image=form.user_image.data,
+                                        user_image=file_name,
                                         password=hashed_pass, 
                                         phone=form.phone_number.data,
                                         address=form.address.data,
@@ -77,18 +81,45 @@ def register():
                 db.add_new_client(username=form.username.data, 
                                     full_name=form.full_name.data,
                                     email=form.email.data,
-                                    user_image=form.user_image.data,
+                                    user_image=file_name,
                                     password=hashed_pass, 
                                     phone=form.phone_number.data,
                                     address=form.address.data,
                                     age=form.age.data)
             flash('Successful registration! Please Login to continue...', 'success')
-            return redirect(url_for('main.login'))
+            return redirect(url_for('users_bp.login'))
         else:
             flash('This account already exists.', 'error')
     return render_template('register.html', form=form)
 
-        
+@users_bp.route('/login/', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user_exists = db.get_member(username=form.username.data)
+        if user_exists:
+            b = Bcrypt()
+            password_hashed = user_exists.password
+            if b.check_password_hash(password_hashed, form.password.data):
+                user = User(username=form.username.data)
+                login_user(user)
+                flash(f'Success: Logged in as {form.username.data}', 'success')
+        if 'admin' in user_exists.user_type:
+            return redirect(url_for('main_bp.admin_home'))
+        else:
+            return redirect(url_for('main_bp.home'))
+    flash ('Invalid password or username. Retry', 'error')        
+    return render_template('login.html', form=form)
+
+
+#route for and function for logout.
+@users_bp.route('/logout/', methods=['GET','POST'])
+@login_required
+def logout():
+    logout_user()
+    flash("You have been logged out successfully", "success")
+    return redirect(url_for('main_bp.home'))
+
 
 def save_file(form_file):
     random_file_name  = secrets.token_hex(8)
