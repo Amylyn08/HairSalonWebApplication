@@ -225,19 +225,22 @@ class Database():
 
 # ---------Darina
 
-    # def get_my_appointments(self, client_id):
-    #     ''' method to list all appointments of a given client '''
-    #     appointments = []
-    #     try:
-    #         with self.__connection.cursor() as c:
-    #             sql = f'SELECT * FROM salon_appointment WHERE client_id= :client_id'
-    #             info = {'client_id':client_id}
-    #             fetch = c.execute(sql, info).fetchall()
-    #             appointments.append(Appointment((fetch[0], fetch[1], fetch[2],fetch[3], fetch[4], fetch[5], fetch[6])))
-    #     except Exception as e:
-    #         print(e)
+    def get_my_appointments(self, client_id):
+        ''' method to list all appointments of a given client '''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_appointment WHERE client_id = :client_id'
+                info = {'client_id':client_id}
+                fetch = c.execute(sql, info).fetchall()
+                print(len(fetch))
+                for record in fetch:
+                    print(record)
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+        except Exception as e:
+            print(e)
         
-    #     return appointments
+        return appointments
     
     def get_all_appointments(self):
         ''' method to list all appointments '''
@@ -247,11 +250,9 @@ class Database():
                 sql = f'SELECT * FROM salon_appointment'
                 fetch = c.execute(sql).fetchall()
                 print(len(fetch))
-                #pdb.set_trace()
                 for record in fetch:
                     print(record)
                     appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
-                #pdb.set_trace
         except Exception as e:
             print(e)
         

@@ -19,15 +19,15 @@ def create_appointment():
     return render_template('appointment.html', form = appointment_form)
 
 #route for user's appointments
-@appointment_bp.route("/my_appointments", methods=['GET'])
-def my_appointments():
+@appointment_bp.route("/my_appointments/<int:client_id>", methods=['GET'])
+def my_appointments(client_id):
     #get apps from db
-    my_appointments = db.get_my_appointments()
+    my_appointments = db.get_my_appointments(client_id)
      
     if (len(my_appointments)!= 0):
         return render_template("my_appointments.html", context = my_appointments)
         
-    return redirect(url_for("create_appointment"))
+    return redirect(url_for("appointment_bp.create_appointment"))
 
 #route for all appointments
 @appointment_bp.route("/all_appointments", methods=['GET'])
