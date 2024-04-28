@@ -13,16 +13,17 @@ def create_appointment():
     appointment_form = AppointmentForm() #create form to add address to list
 
     if appointment_form.validate_on_submit():
+        db.add_new_appointment()
         flash('Appointment scheduled', 'success')
 
     #return render_template("owners.html", context = owners, form = owners_form)
     return render_template('appointment.html', form = appointment_form)
 
 #route for user's appointments
-@appointment_bp.route("/my_appointments/<int:client_id>", methods=['GET'])
-def my_appointments(client_id):
+@appointment_bp.route("/my_appointments/<string:username>", methods=['GET'])
+def my_appointments(username):
     #get apps from db
-    my_appointments = db.get_my_appointments(client_id)
+    my_appointments = db.get_my_appointments(username)
      
     if (len(my_appointments)!= 0):
         return render_template("my_appointments.html", context = my_appointments)

@@ -225,13 +225,13 @@ class Database():
 
 # ---------Darina
 
-    def get_my_appointments(self, client_id):
+    def get_my_appointments(self, username):
         ''' method to list all appointments of a given client '''
         appointments = []
         try:
             with self.__connection.cursor() as c:
-                sql = f'SELECT * FROM salon_appointment WHERE client_id = :client_id'
-                info = {'client_id':client_id}
+                sql = f'SELECT * FROM salon_appointment INNER JOIN salon_user ON salon_appointment.client_id = salon_user.user_id WHERE username = :username'
+                info = {'username':username}
                 fetch = c.execute(sql, info).fetchall()
                 print(len(fetch))
                 for record in fetch:
@@ -259,16 +259,16 @@ class Database():
         return appointments
 
 # add new address to database
-    def add_new_appointment(self, appointment_id, status, approved, date_appointment, client_id, professional_id, service_id):
-        '''  method to schedule a new appointment, data coming fro a user input form'''
-        try:
-            with self.__connection.cursor() as cursor:
-                sql = f'INSERT INTO salon_appointment (appointment_id, status, approved, date_appointment, client_id, professional_id, service_id) VALUES ( :appointment_id, :status, :approved, :date_appointment, :client_id, :professional_id, :service_id)'
-                info = {'appointment_id' : appointment_id, 'status': status, 'approved': approved, 'date_appointment': date_appointment, 'client_id' : client_id, 'professional_id': professional_id, 'service_id': service_id}
-                cursor.execute(sql, info)
-                self.__connection.commit()
-        except Exception as e:
-            print (e)
+    # def add_new_appointment(self, (client_id, professional, service, venue, slot)):
+    #     '''  method to schedule a new appointment, data coming fro a user input form'''
+    #     try:
+    #         with self.__connection.cursor() as cursor:
+    #             sql = f'INSERT INTO salon_appointment (client_id, professional_id, service_id) VALUES (:client_id, :professional_id, :service_id)'
+    #             info = {'client_id' : client_id, 'professional_id': professional_id, 'service_id': service_id}
+    #             cursor.execute(sql, info)
+    #             self.__connection.commit()
+    #     except Exception as e:
+    #         print (e)
 
 
 
