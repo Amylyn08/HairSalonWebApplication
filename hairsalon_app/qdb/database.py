@@ -145,7 +145,7 @@ class Database():
     def add_new_pro(self, username, full_name, email, user_image, password, phone, address, age, speciality, payrate):
         ''' Method to add a new professional, data coming from a user input form '''
         with self.get_cursor() as cur:
-            qry = '''INSERT INTO salon_professional(user_type, username, full_name, email,
+            qry = '''INSERT INTO salon_user(user_type, username, full_name, email,
                                                     user_image, password_hashed,
                                                     phone_number, address, age, specialty, pay_rate)
                     VALUES ('professional', :username, :full_name, :email, :user_image, :password,
@@ -154,9 +154,34 @@ class Database():
                 cur.execute(qry, {'username': username, 'full_name': full_name, 'email': email, 'user_image': user_image,
                                 'password': password, 'phone': phone, 'address': address, 'age': age,
                                 'specialty': speciality, 'payrate': payrate})
-                self.__connection.commit()
             except Exception as e:
                 print(e)
+
+    def get_list_pros(self):
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''SELECT user_type,
+                                username,
+                                full_name, 
+                                email, 
+                                user_image, 
+                                password_hashed, 
+                                phone_number,
+                                address,
+                                age,
+                                specialty,
+                                pay_rate
+                        FROM salon_user
+                        WHERE user_type='professional' '''
+                cursor.execute(qry)
+                rows = cursor.fetchall()
+                pros_list = []
+                for pro in rows:
+                    pros_list.append(Member(*pro))
+                return pros_list
+        except Exception as e:
+            print(f'Error retrieving member: {e}')
+            return None
 
 
     # def get_client(self, username):
@@ -257,18 +282,45 @@ class Database():
             print(e)
         
         return appointments
+        
+    def get_appointment_by_client_date(self, username, date):
+        try:
+            with self.__connection.cursor() as c:
+                qry = '''
+                    SELECT
+                        appointment_id
+                    FROM
+                        salon_appointment
+                    INNER JOIN
+                        salon_user ON salon_appointment.client_id = salon_user.user_id
+                    WHERE
+                        date_appointment = :date
+                        AND salon_user.username = :username
+                '''
+                c.execute(qry, {"date": date, "username": username})
+                appointments = c.fetchall()
+                # Process appointments as needed
+                return appointments
+        except Exception as e:
+            # Handle exceptions
+            print(e)
+
 
 # add new address to database
     def add_new_appointment(self, username, professional, service, venue, slot, date):
         '''  method to schedule a new appointment, data coming fro a user input form'''
         try:
             with self.__connection.cursor() as cursor:
-                sql = f'INSERT INTO salon_appointment (client_id, professional_id, service_id, slot, venue, date_appointment) VALUES ((SELECT user_id FROM salon_user WHERE username = :username), (SELECT user_id FROM salon_user WHERE full_name = :professional), (SELECT service_id FROM salon_service WHERE service_name = :service), :slot, :venue, :date_appointment)'
+                sql = f'''INSERT INTO salon_appointment (client_id, professional_id, service_id, slot, venue, date_appointment) 
+                            VALUES ((SELECT user_id FROM salon_user WHERE username = :username), 
+                                    (SELECT user_id FROM salon_user WHERE username = :professional), 
+                                    (SELECT service_id FROM salon_service WHERE service_name = :service), 
+                                    :slot, :venue, :date_appointment)'''
                 info = {'username' : username, 'professional': professional, 'service': service, 'slot': slot, 'venue': venue, 'date_appointment': date}
                 cursor.execute(sql, info)
                 self.__connection.commit()
         except Exception as e:
-            print (e)
+            print (f'The following error occured: {e}')
 
 
 

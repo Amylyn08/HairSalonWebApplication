@@ -1,4 +1,5 @@
 from flask import Blueprint, flash, redirect, render_template, url_for
+from flask_login import current_user, login_required
 from hairsalon_app.appointment_view.forms import AppointmentForm
 from hairsalon_app.appointment_view.appointment import Appointment
 from hairsalon_app.qdb.database import Database
@@ -9,19 +10,26 @@ db = Database()
 
 
 @appointment_bp.route('/appointment/', methods=['POST', 'GET'])
+@login_required 
 def create_appointment():
-    appointment_form = AppointmentForm() #create form to add address to list
-
-    if appointment_form.validate_on_submit():
-        #print(appointment_form.username, appointment_form.professional, appointment_form.service, appointment_form.venue, appointment_form.slot, appointment_form.date)
-        db.add_new_appointment(appointment_form.username.data, appointment_form.professional.data, appointment_form.service.data, appointment_form.venue.data, appointment_form.slot.data, appointment_form.date.data)
+    form = AppointmentForm() #create form to add address to list
+    if form.validate_on_submit():
+        existing_apps = db.get_appointment_by_client_date(username=current_user.username, date=form.date.data)
+        if existing_apps is None:       
+            db.add_new_appointment(username=current_user.username,
+                                   professional=form.professional.data,
+                                   service=form.service.data,
+                                   venue=form.venue.data,
+                                   slot=form.slot.data,
+                                   date=form.date.data)
         flash('Appointment scheduled', 'success')
-
-    #return render_template("owners.html", context = owners, form = owners_form)
-    return render_template('appointment.html', form = appointment_form)
+        return redirect(url_for('appointment_bp.my_appointments', username=current_user.username))
+    flash('Invalid Inputs.' 'error')
+    return render_template('appointment.html', form=form)
 
 #route for user's appointments
 @appointment_bp.route("/my_appointments/<string:username>", methods=['GET'])
+@login_required
 def my_appointments(username):
     #get apps from db
     my_appointments = db.get_my_appointments(username)
