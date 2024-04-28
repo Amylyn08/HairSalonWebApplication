@@ -3,9 +3,13 @@
 <p>This is a hair salon service application for 420 Final Project...</p>
 {% endblock %}
 {% block content_when_login %}
+<p>Hey {{current_user.username}}</p>
 <li>Profile</li>
-
+<li><a href="{{url_for('users_bp.logout')}}">Logout</a></li>
 {% endblock content_when_login %}
+{% block content_admin %}
+<li>Admin Panel</li>
+{% endblock content_admin %}
 {% block content_main_pannel %}
 <h2>Welcome Home</h2>
 <img id="home_image" src="{{url_for('static', filename='images/logo.jpg')}}" alt="Hair salon logo with scissors and comb.">

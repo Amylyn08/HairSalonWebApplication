@@ -104,8 +104,11 @@ def login():
                 user = User(username=form.username.data)
                 login_user(user)
                 flash(f'Success: Logged in as {form.username.data}', 'success')
-                return redirect(url_for('main_bp.home'))
-        flash ('Invalid password or username. Retry', 'error')        
+        if 'admin' in user_exists.user_type:
+            return redirect(url_for('main_bp.admin_home'))
+        else:
+            return redirect(url_for('main_bp.home'))
+    flash ('Invalid password or username. Retry', 'error')        
     return render_template('login.html', form=form)
 
 
@@ -116,6 +119,7 @@ def logout():
     logout_user()
     flash("You have been logged out successfully", "success")
     return redirect(url_for('main_bp.home'))
+
 
 def save_file(form_file):
     random_file_name  = secrets.token_hex(8)

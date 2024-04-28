@@ -13,3 +13,7 @@ def home():
 @main_bp.route('/about')
 def about():
     return render_template('about.html')
+
+@main_bp.route('/admin-home/')
+def admin_home():
+    return render_template('AdminLoggedIn.html')
