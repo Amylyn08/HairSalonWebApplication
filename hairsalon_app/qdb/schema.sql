@@ -77,12 +77,12 @@ CREATE TABLE salon_report(
 );
 
 INSERT INTO salon_user(user_type, username,full_name, email, user_image,password_hashed, phone_number, address, age)
-    VALUES('admin_user','user_manager1', 'ADMIN_USER', 'saloon.adminuser@gmail.com', 'adminpfp.png', '123', '5142222222', '5000 street 1 Canada', 100);
+    VALUES('admin_user','user_manager1', 'ADMIN_USER', 'saloon.adminuser@gmail.com', 'adminpfp.png', '$2b$12$pVPMylNY6cZniBAIj5DOfeHS4gRSSNRib8q0FJHH2WTfpgYA1mwoa', '5142222222', '5000 street 1 Canada', 100);
 
 INSERT INTO salon_user(user_type, username,full_name, email, user_image,password_hashed, phone_number, address, age)
-    VALUES('admin_super','nasr', 'ADMIN_SUPER', 'saloon.adminuser@gmail.com', 'adminpfp.png', '123', '5142222222', '5000 street 1 Canada', 100);
+    VALUES('admin_super','nasr', 'ADMIN_SUPER', 'saloon.adminuser@gmail.com', 'adminpfp.png', '$2b$12$14P.P/NpWsWYuM37HM5oqOCUq1/Z.mpX7rZp6RsM5DDpQLYhwMTJW', '5142222222', '5000 street 1 Canada', 100);
 
 INSERT INTO salon_user(user_type, username,full_name, email, user_image,password_hashed, phone_number, address, age)
-    VALUES('admin_appoint','appoint_manager1', 'ADMIN_APPOINT', 'saloon.admin@gmail.com', 'adminpfp.png', '456', '5142222222', '5000 street 1 Canada', 100);
+    VALUES('admin_appoint','appoint_manager1', 'ADMIN_APPOINT', 'saloon.admin@gmail.com', 'adminpfp.png', '$2b$12$dqjq50fQ6cbbMAduE4FUfOJGVRnRas.aaMG6X4pujumPpm7WafnVW', '5142222222', '5000 street 1 Canada', 100);
 
 SELECT  user_type,username,full_name, email, user_image, password_hashed, phone_number,address,age,specialty,pay_rate FROM SALON_USER WHERE username='nasr';
