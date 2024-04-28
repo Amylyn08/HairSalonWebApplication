@@ -7,12 +7,14 @@
 <form action="" method="POST">
     {{form.hidden_tag()}}  
     <fieldset>
+      <label for="username">Enter username</label>
+      {{form.username (class="form-field", label= "username")}}
       <label for="venue">Room Number</label>
       {{form.venue (class="form-field", label= "venue")}}
       <label for="date">Date</label>
       {{form.date (class="form-field", label = "date")}}
-      <label for="time">Time slot</label>
-      {{form.time (class="form-field", label = "time")}}
+      <label for="slot">Time slot</label>
+      {{form.slot (class="form-field", label = "slot")}}
       <label for="professional">Professional</label>
       {{form.professional (class="form-field", label = "professional")}}
       <label for="service">Service</label>

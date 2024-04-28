@@ -13,7 +13,8 @@ def create_appointment():
     appointment_form = AppointmentForm() #create form to add address to list
 
     if appointment_form.validate_on_submit():
-        db.add_new_appointment()
+        #print(appointment_form.username, appointment_form.professional, appointment_form.service, appointment_form.venue, appointment_form.slot, appointment_form.date)
+        db.add_new_appointment(appointment_form.username.data, appointment_form.professional.data, appointment_form.service.data, appointment_form.venue.data, appointment_form.slot.data, appointment_form.date.data)
         flash('Appointment scheduled', 'success')
 
     #return render_template("owners.html", context = owners, form = owners_form)

@@ -259,16 +259,16 @@ class Database():
         return appointments
 
 # add new address to database
-    # def add_new_appointment(self, (client_id, professional, service, venue, slot)):
-    #     '''  method to schedule a new appointment, data coming fro a user input form'''
-    #     try:
-    #         with self.__connection.cursor() as cursor:
-    #             sql = f'INSERT INTO salon_appointment (client_id, professional_id, service_id) VALUES (:client_id, :professional_id, :service_id)'
-    #             info = {'client_id' : client_id, 'professional_id': professional_id, 'service_id': service_id}
-    #             cursor.execute(sql, info)
-    #             self.__connection.commit()
-    #     except Exception as e:
-    #         print (e)
+    def add_new_appointment(self, username, professional, service, venue, slot, date):
+        '''  method to schedule a new appointment, data coming fro a user input form'''
+        try:
+            with self.__connection.cursor() as cursor:
+                sql = f'INSERT INTO salon_appointment (client_id, professional_id, service_id, slot, venue, date_appointment) VALUES ((SELECT user_id FROM salon_user WHERE username = :username), (SELECT user_id FROM salon_user WHERE full_name = :professional), (SELECT service_id FROM salon_service WHERE service_name = :service), :slot, :venue, :date_appointment)'
+                info = {'username' : username, 'professional': professional, 'service': service, 'slot': slot, 'venue': venue, 'date_appointment': date}
+                cursor.execute(sql, info)
+                self.__connection.commit()
+        except Exception as e:
+            print (e)
 
 
 
