@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content_side_pannel %}
+<p>This is a hair salon service application for 420 Final Project...</p>
+{% endblock %}
+{% block content_when_login %}
+<li>Profile</li>
+
+{% endblock content_when_login %}
+{% block content_main_pannel %}
+<h2>Welcome Home</h2>
+<img id="home_image" src="{{url_for('static', filename='images/logo.jpg')}}" alt="Hair salon logo with scissors and comb.">
+<div id="schedule-with-us">
+<h4>Shedule An Appointment </h4>
+    <p>(514) 928-2935</p>
+    <p>Saloon.appointments@gmail.com</p>
+    <a href=""><buton>Make Appointment</buton></a>
+</div>
+{% endblock %}

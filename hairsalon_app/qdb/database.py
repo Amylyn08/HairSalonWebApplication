@@ -130,14 +130,14 @@ class Database():
 
     def add_new_client(self,username,full_name, email, user_image,password, phone, address, age):
         '''  method to add a new client, data coming fro a user input form'''
-        with self.get_cursor() as cur:
-            qry = '''INSERT INTO salon_user(username,full_name, email, user_image,password, phone, address, age)
-                        VALUES(:username, :full_name, :email, :user_image, :password, :phone, :address, :age)'''
-            try:
+        try:
+            with self.__connection.cursor() as cur:
+                qry = '''INSERT INTO salon_user(username,full_name, email, user_image,password_hashed, phone_number, address, age)
+                            VALUES(:username, :full_name, :email, :user_image, :password, :phone, :address, :age)'''
+                
                 cur.execute(qry, username=username, full_name=full_name, email=email, user_image=user_image,
-                                 password=password, phone=phone, address=address, age=age )
-                self.__connection.commit()
-            except Exception as e:
+                                    password=password, phone=phone, address=address, age=age )
+        except Exception as e:
                 print(f'The following error occured: {e}')
     #Add a new proffesional
 
@@ -183,27 +183,30 @@ class Database():
     def get_member(self, username):
         try:
             with self.__connection.cursor() as cursor:
-                qry ='''SELECT  user_type,
+                qry = '''SELECT user_type,
                                 username,
                                 full_name, 
                                 email, 
                                 user_image, 
                                 password_hashed, 
-                                phone_number
+                                phone_number,
                                 address,
                                 age,
                                 specialty,
                                 pay_rate
-                        WHERE username=:username
-                                '''
+                        FROM salon_user
+                        WHERE username = :username'''
                 cursor.execute(qry, username=username)
-                rows = cursor.fetchall()
-                member_list = []
-                for member in rows:
-                    member_list.append(Member(*member))
-                return member_list
+                row = cursor.fetchone()
+                if row:
+                    member = Member(*row)
+                    return member
+                else:
+                    return None
         except Exception as e:
-            print(f'The following error occured: {e}')
+            print(f'Error retrieving member: {e}')
+            return None
+
     
     #Selects client based on the username                
     # def get_client_user(self, username):

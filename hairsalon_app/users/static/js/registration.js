@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', function(){
     const toggleCheckbox = document.getElementById('toggle');
 
     // Get the register forms
-    const registerClient = document.getElementById('register_client');
-    const registerPro = document.getElementById('register_pro');
+    const registerClient = document.getElementById('register-client');
+    const registerPro = document.getElementById('register-pro');
 
     // Add event listener to toggle checkbox
     toggleCheckbox.addEventListener('change', function() {

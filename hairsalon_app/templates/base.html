@@ -19,13 +19,18 @@
     <nav id="nav2">
         <div id ="left-nav">
             <h3>Saloon</h3>
+            <li>Home</li>
+            <li>About</li>
             <img id="logo" src="{{url_for('static', filename='images/CutHair.webp')}}" alt="Guy cuts his hair.">
         </div>
         <div id="right-nav">
             <nav>
                 <ul >
                     {% block content_when_login %}
-                    <li>login <img class='icon' src='{{url_for("static", filename="images/login.png")}}'alt="Login logo with key and man"></li>
+                    <li>login 
+                        <a href="{{url_for('users_bp.login')}}">Login</a>
+                        <img class='icon' src='{{url_for("static", filename="images/login.png")}}'alt="Login logo with key and man">
+                    </li>
                     <li>
                         <a href="{{ url_for('users_bp.register') }}">Register</a>
                         <img class="icon" src="{{ url_for('static', filename='images/register.webp') }}" alt="Register icon.">
@@ -47,7 +52,7 @@
             <section id="flash-errors">
                 {% if get_flashed_messages() %}
                 <ul>
-                     with categories true meaning we get the category, plus the message. [0] = category, [1] = message itself 
+                     <!-- with categories true meaning we get the category, plus the message. [0] = category, [1] = message itself  -->
                     {% for message in get_flashed_messages(with_categories=True) %}
                         {% if 'success' in message[0] %}
                             <li class="success">{{ message[1] }}</li>

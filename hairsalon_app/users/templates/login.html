@@ -8,6 +8,13 @@
 {% block content_main_pannel %}
 <h2>Login</h2>
 <div id="login-div">
-    
+    <form method="POST" action="">
+        {{form.hidden_tag()}}
+        <fieldset>
+            {{form.username(class='form-field', placeholder='Username')}}
+            {{form.password(class='form-field', placeholder='Password')}}
+        </fieldset>
+        {{form.submit(class='button')}}
+    </form>
 </div>
 {% endblock content_main_pannel %}
