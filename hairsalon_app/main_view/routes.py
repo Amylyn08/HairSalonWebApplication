@@ -14,6 +14,20 @@ def home():
 def about():
     return render_template('about.html')
 
-@main_bp.route('/admin-home/')
-def admin_home():
-    return render_template('AdminLoggedIn.html')
+@main_bp.route('/adminsuper-home/')
+def adminsuper_home():
+    return render_template('home_adminsuper.html')
+
+@main_bp.route('/adminappoint-home/')
+def adminappoint_home():
+    return render_template('home_adminappoint.html')
+@main_bp.route('/adminuser-home/')
+def adminuser_home():
+    return render_template('home_adminuser.html')
+
+@main_bp.route('/member-home/')
+def adminsuper_home():
+    return render_template('home_member.html')
+
+
+
