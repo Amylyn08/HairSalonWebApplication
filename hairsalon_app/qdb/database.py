@@ -4,6 +4,7 @@ import oracledb
 from hairsalon_app.appointment_view.appointment import Appointment
 from hairsalon_app.users.Member import Member
 from hairsalon_app.users.Professional import Profesionnal
+import pdb
 
 #from hairsalon_app.users.Client import Client
 
@@ -238,18 +239,23 @@ class Database():
         
     #     return appointments
     
-    # def get_all_appointments(self):
-    #     ''' method to list all appointments '''
-    #     appointments = []
-    #     try:
-    #         with self.__connection.cursor() as c:
-    #             sql = f'SELECT * FROM salon_appointment'
-    #             fetch = c.execute(sql).fetchall()
-    #             appointments.append(Appointment((fetch[0], fetch[1], fetch[2],fetch[3], fetch[4], fetch[5], fetch[6])))
-    #     except Exception as e:
-    #         print(e)
+    def get_all_appointments(self):
+        ''' method to list all appointments '''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_appointment'
+                fetch = c.execute(sql).fetchall()
+                print(len(fetch))
+                #pdb.set_trace()
+                for record in fetch:
+                    print(record)
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                #pdb.set_trace
+        except Exception as e:
+            print(e)
         
-    #     return appointments
+        return appointments
 
 # add new address to database
     def add_new_appointment(self, appointment_id, status, approved, date_appointment, client_id, professional_id, service_id):

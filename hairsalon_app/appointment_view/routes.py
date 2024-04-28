@@ -35,7 +35,7 @@ def all_appointments(): #the id is the one for the note
     #get apps from db
     all_appointments = db.get_all_appointments()
      
-    if (len(my_appointments)!= 0):
+    if (len(all_appointments)!= 0):
         return render_template("all_appointments.html", context = all_appointments)
         
-    return redirect(url_for("create_appointment"))
+    return redirect(url_for("appointment_bp.create_appointment"))

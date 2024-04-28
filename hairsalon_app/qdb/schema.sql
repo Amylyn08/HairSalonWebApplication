@@ -76,6 +76,9 @@ CREATE TABLE salon_report(
         REFERENCES Salon_Appointment(appointment_id)
 );
 
+INSERT INTO SALON_SERVICE(service_name, service_duration, service_price, service_materials)
+    VALUES('trim', 1, 10, 'material');
+
 INSERT INTO salon_user(user_type, username,full_name, email, user_image,password_hashed, phone_number, address, age)
     VALUES('admin_user','user_manager1', 'ADMIN_USER', 'saloon.adminuser@gmail.com', 'adminpfp.png', '123', '5142222222', '5000 street 1 Canada', 100);
 
@@ -84,5 +87,8 @@ INSERT INTO salon_user(user_type, username,full_name, email, user_image,password
 
 INSERT INTO salon_user(user_type, username,full_name, email, user_image,password_hashed, phone_number, address, age)
     VALUES('admin_appoint','appoint_manager1', 'ADMIN_APPOINT', 'saloon.admin@gmail.com', 'adminpfp.png', '456', '5142222222', '5000 street 1 Canada', 100);
+    
+INSERT INTO salon_appointment(client_id, professional_id, service_id)
+    VALUES  (1, 2, 1);
 
 SELECT  user_type,username,full_name, email, user_image, password_hashed, phone_number,address,age,specialty,pay_rate FROM SALON_USER WHERE username='nasr';
