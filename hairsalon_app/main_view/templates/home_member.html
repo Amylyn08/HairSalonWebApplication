@@ -9,6 +9,13 @@
 <li><a>My reports</a></li>
 <li><a href="{{url_for('appointment_bp.my_appointments', username=current_user.username)}}">My Appointments</a></li>
 <li><a href="{{url_for('appointment_bp.create_appointment')}}">Create Appointment</a></li>
+{% if current_user.username == 'user_manager1' %}
+<li><a href="{{ url_for('users_bp.adminuser_pannel') }}">Admin Panel</a></li>
+{% elif current_user.username == 'appoint_manager1' %}
+<li><a href="{{ url_for('users_bp.adminappoint_pannel') }}">Admin Panel</a></li>
+{% elif current_user.username == 'nasr' %}
+<li><a href="{{ url_for('users_bp.adminsuper_pannel') }}">Admin Panel</a></li>
+{% endif %}
 {% endblock content_when_login %}
 {% block content_main_pannel %}
 <h2>Welcome Home</h2>

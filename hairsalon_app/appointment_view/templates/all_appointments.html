@@ -11,6 +11,14 @@
         {# Use the default content_when_login if the user is not logged in #}
         {{ super() }}
     {% endif %}
+    {% if current_user.username == 'admin_user' %}
+        <li><a href="{{ url_for('users_bp.adminuser_pannel') }}">Admin Panel</a></li>
+    {% elif current_user.username == 'appoint_manager1' %}
+        <li><a href="{{ url_for('users_bp.adminappoint_pannel') }}">Admin Panel</a></li>
+    {% elif current_user.username == 'nasr' %}
+        <li><a href="{{ url_for('users_bp.adminsuper_pannel') }}">Admin Panel</a></li>
+    {% endif %}
+
 {% endblock content_when_login %}
 
 {% block content_side_pannel %}
