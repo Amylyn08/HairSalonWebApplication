@@ -1,4 +1,7 @@
-{% extends 'home_adminuser.html'%}
+{% extends 'base.html'%}
+{% block content_css %}
+<script src="{{url_for('users_bp.static', filename='js/admin_panel.js')}}"></script>
+{% endblock content_css %}
 {% block content_when_login %}
 <p>Hey {{current_user.username}}</p>
 <li>Profile</li>
@@ -11,14 +14,52 @@
 <h2>Admin Pannel USER</h2>
 <div class="admin_pannel">
     <nav>
-        <ul>
-            <li>Clients</li>
+        <ul id="adminnav-menu">
+            <li class="active">Clients</li>
             <li>Employees</li>
         </ul>
     </nav>
-    <div id="client-list">
-
+    <div id="Client-list" class="content active">
+        <h3>Client List</h3>
+        <table class="admin-table">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Active</th>
+                <th>Picture</th>
+            </tr>
+            {% for client in clients %}
+            <tr>
+                <td>ID here</td>
+                <td>{{client.username}}</td>
+                <td>{{client.full_name}}</td>    
+                <td class="account-active">Deactivate</td>
+                <td><img src="{{ url_for('static', filename='images/user-pics/' + client.user_image) }}" alt="Profile picture of user"></td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
-    <div id="Employees-list">
+    <div id="Employees-list" class="content">
+        <h3>Employee List</h3>
+        <table class="admin-table">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Active</th>
+                <th>Picture</th>
+            </tr>
+            {% for employee in employees %}
+            <tr>
+                <td>ID here</td>
+                <td>{{employee.username}}</td>
+                <td>{{employee.full_name}}</td>    
+                <td class="active">Deactivate</td>
+                <td><img src="{{url_for('static', filename='images/user-pics/{{employee.user_image}}')}}" alt="Profile picture of user"></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </div>
 {% endblock content_main_pannel %}

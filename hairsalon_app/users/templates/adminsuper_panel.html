@@ -1,4 +1,4 @@
-{% extends 'home_adminsuper.html'%}
+{% extends 'base.html'%}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/admin_panel.css')}}">
 <script src="{{url_for('users_bp.static', filename='js/admin_panel.js')}}"></script>
@@ -38,7 +38,7 @@
                 <td>{{client.username}}</td>
                 <td>{{client.full_name}}</td>    
                 <td class="account-active">Deactivate</td>
-                <td><img src="{{url_for('static', filename='images/user-pics/{{client.user_image}}')}}" alt="Profile picture of user"></td>
+                <td><img src="{{ url_for('static', filename='images/user-pics/' + client.user_image) }}" alt="Profile picture of user"></td>
             </tr>
             {% endfor %}
         </table>
@@ -59,7 +59,7 @@
                 <td>{{employee.username}}</td>
                 <td>{{employee.full_name}}</td>    
                 <td class="active">Deactivate</td>
-                <td><img src="{{url_for('static', filename='images/user-pics/{{employee.user_image}}')}}" alt="Profile picture of user"></td>
+                <td><img src="{{ url_for('static', filename='images/user-pics/' + employee.user_image) }}" alt="Profile picture of user"></td>
             </tr>
             {% endfor %}
         </table>
@@ -77,7 +77,7 @@
             {% for app in appointments %}
             <tr>
                 <td>{{app.appointment_id}}</td>
-                <td>{{app.tatus}}</td>
+                <td>{{app.status}}</td>
                 <td>{{app.client_id}}</td>
                 <td>{{app.professional_id}}</td>
                 <td></td>

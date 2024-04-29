@@ -64,11 +64,14 @@ def adminsuper_pannel():
 
 @users_bp.route('/adminuser-pannel/')
 def adminuser_pannel():
-    return render_template('adminuser_panel.html')
+    client_list = db.get_list_clients()
+    pro_list = db.get_list_pros()
+    return render_template('adminuser_panel.html', clients=client_list, employees=pro_list)
 
 @users_bp.route('/adminappoint-pannel/')
 def adminappoint_pannel():
-    return render_template('adminappoint_panel.html')
+    app_list = db.get_all_appointments()
+    return render_template('adminappoint_panel.html', appointments=app_list)
 @users_bp.route('/register/', methods=['GET', 'POST'])
 def register():
     form = NewUserForm()
