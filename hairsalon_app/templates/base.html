@@ -36,9 +36,12 @@
                         <img class="icon" src="{{ url_for('static', filename='images/register.webp') }}" alt="Register icon.">
                     </li>
                     {% endblock %}
-                    <li>Appointments <img class="icon" src="{{url_for('static', filename='images/appointment3.webp')}}" alt="Appointement icon."></li>
+                    <li> 
+                        <a href="{{url_for('appointment_bp.all_appointments')}}">Appointments</a>
+                        <img class="icon" src="{{url_for('static', filename='images/appointment3.webp')}}" alt="Appointement icon.">
+                    </li>
                     <li>My Reports <img class="icon" src="{{url_for('static', filename='images/Report2.webp')}}" alt="Rapport icon."></li>
-                    <li>Create Appointment</li>
+
                     {% block content_admin %}
                     {% endblock %} 
                 </ul>

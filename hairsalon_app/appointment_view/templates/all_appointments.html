@@ -7,8 +7,14 @@
 
 {% for appointment in context %}
   <ul>
-    <li>Id: {{appointment.id}}</li>
-    <li>Date: {{appointment.date}}</li>
+    <li>Id: {{appointment.appointment_id}}</li>
+    <li>Date: {{appointment.date_appointment}}</li>
+    <li>Status: {{appointment.status}}</li>
+    <li>Client id: {{appointment.client_id}}</li>
+    <li>Professional Id: {{appointment.professional_id}}</li>
+    <li>Service Id: {{appointment.service_id}}</li>
+    <li>Slot: {{appointment.slot}}</li>
+    <li>Venue: {{appointment.venue}}</li>
   </ul>
 {% endfor %}
 

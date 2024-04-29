@@ -7,8 +7,18 @@
 <form action="" method="POST">
     {{form.hidden_tag()}}  
     <fieldset>
-      {{form.date (class="form-field", placeholder = "Date")}}
-      {{form.professional (class="form-field", placeholder = "Professional")}}
+      <label for="username">Enter username</label>
+      {{form.username (class="form-field", label= "username", value=current_user.username)}}
+      <label for="venue">Room Number</label>
+      {{form.venue (class="form-field", label= "venue")}}
+      <label for="date">Date</label>
+      {{form.date (class="form-field", label = "date")}}
+      <label for="slot">Time slot</label>
+      {{form.slot (class="form-field", label = "slot")}}
+      <label for="professional">Professional</label>
+      {{form.professional (class="form-field", label = "professional")}}
+      <label for="service">Service</label>
+      {{form.service (class="form-field", label = "service")}}
     </fieldset>
     {{form.submit (class=button)}}
   </form>
