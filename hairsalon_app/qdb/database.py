@@ -161,6 +161,7 @@ class Database():
         try:
             with self.__connection.cursor() as cursor:
                 qry = '''SELECT user_type,
+                                status,
                                 username,
                                 full_name, 
                                 email, 
@@ -186,6 +187,7 @@ class Database():
         try:
             with self.__connection.cursor() as cursor:
                 qry = '''SELECT user_type,
+                                status,
                                 username,
                                 full_name, 
                                 email, 
@@ -243,6 +245,7 @@ class Database():
         try:
             with self.__connection.cursor() as cursor:
                 qry = '''SELECT user_type,
+                                status,
                                 username,
                                 full_name, 
                                 email, 
