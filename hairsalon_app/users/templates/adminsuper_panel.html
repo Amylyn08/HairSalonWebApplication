@@ -1,23 +1,35 @@
 {% extends 'home_adminsuper.html'%}
+{% block content_css %}
+<link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/admin_panel.css')}}">
+<script src="{{url_for('users_bp.static', filename='js/admin_panel.js')}}"></script>
+{% endblock content_css %}
+{% block content_when_login %}
+<p>Hey {{current_user.username}}</p>
+<li>Profile</li>
+<li><a href="{{url_for('users_bp.logout')}}">Logout</a></li>
+<li><a>My reports</a></li>
+<li><a href="{{url_for('appointment_bp.my_appointments', username=current_user.username)}}">My Appointments</a></li>
+<li><a href="{{url_for('appointment_bp.create_appointment')}}">Create Appointment</a></li>
+{% endblock content_when_login %}
 {% block content_main_pannel %}
 <h2>Admin Pannel SUPER</h2>
 <div class="admin_pannel">
     <nav>
-        <ul>
-            <li>Clients</li>
+        <ul id="adminnav-menu">
+            <li class="active">Clients</li>
             <li>Employees</li>
             <li>Appointments</li>
-             <!-- will also have report inside  -->
+             <!-- will also have report inside  5  -->
         </ul>
     </nav>
-    <div id="client-list">
-
+    <div id="Client-list" class="content active">
+        <h3>Client List</h3>
     </div>
-    <div id="Employees-list">
-
+    <div id="Employees-list" class="content">
+        <h3>Employee List</h3>
     </div>
-    <div id="Appointments-list">
-
-    </div>
+    <div id="Appointments-list" class="content">
+        <h3>Appointment List With Reports</h3>
+    </div>    
 </div>
 {% endblock content_main_pannel %}
