@@ -42,7 +42,7 @@ def create_app(config = ConfigProd):
     @login_manager.unauthorized_handler
     def unauthorized():
         flash("Please login before", 'error')
-        return redirect(url_for('main.login'))
+        return redirect(url_for('main_bp.home'))
     
     # Define error handler for 404 error
     @app.errorhandler(404)

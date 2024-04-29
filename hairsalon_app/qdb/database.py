@@ -323,6 +323,26 @@ class Database():
             print (f'The following error occured: {e}')
 
 
+    def get_all_services(self):
+        service_names = []
+        try:
+            with self.__connection.cursor() as c:
+                qry = '''
+                    SELECT
+                        service_name
+                    FROM
+                        salon_service
+                '''
+                c.execute()
+                services = c.fetchall()
+                for service in services:
+                    service_names.append(service)
+
+                # Process appointments as needed
+                return services
+        except Exception as e:
+            # Handle exceptions
+            print(e)
 
 
 
