@@ -181,8 +181,41 @@ class Database():
                 return pros_list
         except Exception as e:
             print(f'Error retrieving member: {e}')
-            return None
 
+    def get_list_clients(self):
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''SELECT user_type,
+                                username,
+                                full_name, 
+                                email, 
+                                user_image, 
+                                password_hashed, 
+                                phone_number,
+                                address,
+                                age,
+                                pay_rate, 
+                                specialty
+                        FROM salon_user
+                        WHERE user_type='client' '''
+                cursor.execute(qry)
+                rows = cursor.fetchall()
+                clients_list = []
+                for client in rows:
+                    clients_list.append(Member(*client))
+                return clients_list
+        except Exception as e:
+            print(f'Error retrieving member: {e}')
+
+    def get_all_admin_username(self):
+        try:
+            with self.__connection.cursor() as c:
+                qry='''SELECT username FROM SALON_USER WHERE user_type LIKE 'admin%' '''
+                c.execute(qry)
+                names = c.fetchall()
+                return names
+        except Exception as e:
+            print(f'Error retrieving member: {e}')
 
     # def get_client(self, username):
     #     try:

@@ -56,7 +56,11 @@ def professional_name(username):
 
 @users_bp.route('/adminsuper-pannel/')
 def adminsuper_pannel():
-    return render_template('adminsuper_panel.html')
+    client_list = db.get_list_clients()
+    pro_list = db.get_list_pros()
+    app_list = db.get_all_appointments()
+
+    return render_template('adminsuper_panel.html', clients=client_list, employees=pro_list, appointments=app_list,)
 
 @users_bp.route('/adminuser-pannel/')
 def adminuser_pannel():

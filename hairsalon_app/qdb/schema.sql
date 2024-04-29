@@ -98,3 +98,7 @@ INSERT INTO salon_appointment (client_id, professional_id, service_id, slot, ven
                                     (SELECT user_id FROM salon_user WHERE username = 'Michelle_BelHair'), 
                                     (SELECT service_id FROM salon_service WHERE service_name = 'Trimming'), 
                                     '10-11', '1', SYSDATE);
+
+SELECT user_type,username,full_name, email, user_image, password_hashed, phone_number,address,age FROM salon_user WHERE user_type='client';
+
+SELECT username FROM SALON_USER WHERE user_type LIKE 'admin%'
