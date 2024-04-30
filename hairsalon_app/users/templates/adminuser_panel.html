@@ -34,8 +34,21 @@
                 <td>ID here</td>
                 <td>{{client.username}}</td>
                 <td>{{client.full_name}}</td>    
-                <td class="account-active">Deactivate</td>
+                {% if current_user.is_active %}
+                <td class="access">
+                    <form action="{{ url_for('users_bp.deactivate_user') }}" method="post">
+                        <input type="submit" value="Activated">
+                    </form>
+                </td>
+                {% else %}
+                <td class="access deactivated">
+                    <form action="{{ url_for('users_bp.reactivate_user') }}" method="post">
+                        <input type="submit" value="Deactivated">
+                    </form>
+                </td>
+                {% endif %}
                 <td><img src="{{ url_for('static', filename='images/user-pics/' + client.user_image) }}" alt="Profile picture of user"></td>
+                <td>{{client.status}}</td>
             </tr>
             {% endfor %}
         </table>
@@ -55,8 +68,21 @@
                 <td>ID here</td>
                 <td>{{employee.username}}</td>
                 <td>{{employee.full_name}}</td>    
-                <td class="active">Deactivate</td>
+                {% if current_user.is_active %}
+                <td class="access">
+                    <form action="{{ url_for('users_bp.deactivate_user') }}" method="post">
+                        <input type="submit" value="Activated">
+                    </form>
+                </td>
+                {% else %}
+                <td class="access deactivated">
+                    <form action="{{ url_for('users_bp.reactivate_user') }}" method="post">
+                        <input type="submit" value="Deactivated">
+                    </form>
+                </td>                
+                {% endif %}
                 <td><img src="{{url_for('static', filename='images/user-pics/{{employee.user_image}}')}}" alt="Profile picture of user"></td>
+                <td>{{employee.status}}</td>
             </tr>
             {% endfor %}
         </table>

@@ -1,5 +1,6 @@
 class Member:
-    def __init__(self, user_type, status, username, full_name, email, user_image,password, phone, address, age, speciality, payrate):
+    def __init__(self,user_id, user_type, status, username, full_name, email, user_image,password, phone, address, age, speciality, payrate):
+        self.user_id = user_id
         self.user_type = user_type
         self.status = status
         self.username = username

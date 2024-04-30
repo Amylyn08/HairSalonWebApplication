@@ -35,13 +35,27 @@
             </tr>
             {% for client in clients %}
             <tr>
-                <td>ID here</td>
-                <td>{{client.username}}</td>
-                <td>{{client.full_name}}</td>    
-                <td class="account-active">Deactivate</td>
+                <td>{{ client.id }}</td> <!-- Assuming client's ID is stored in a field called 'id' -->
+                <td>{{ client.username }}</td>
+                <td>{{ client.full_name }}</td>
+                {% if current_user.is_active %}
+                <td class="access">
+                    <form action="{{ url_for('users_bp.deactivate_user', username=client.username) }}" method="post">
+                        <input type="hidden" name="user_id" value="{{ client.id }}"> <!-- Hidden input field to store user's ID -->
+                        <input type="submit" value="Activated">
+                    </form>
+                </td>
+                {% else %}
+                <td class="access deactivated">
+                    <form action="{{ url_for('users_bp.reactivate_user', username=client.username) }}" method="post">                        <input type="submit" value="Deactivated">
+                    </form>
+                </td>
+                {% endif %}
                 <td><img src="{{ url_for('static', filename='images/user-pics/' + client.user_image) }}" alt="Profile picture of user"></td>
+                <td>{{ client.status }}</td>
             </tr>
             {% endfor %}
+            
         </table>
     </div>
     <div id="Employees-list" class="content">
@@ -54,15 +68,28 @@
                 <th>Active</th>
                 <th>Picture</th>
                 <th class="flag">Flag</th>
-                <th>Warn</th>
             </tr>
             {% for employee in employees %}
             <tr>
-                <td>ID here</td>
+                <td>{{employee.user_id}}</td>
                 <td>{{employee.username}}</td>
                 <td>{{employee.full_name}}</td>    
-                <td class="active">Deactivate</td>
+                {% if current_user.is_active %}
+                <td class="access">
+                    <form action="{{ url_for('users_bp.deactivate_user', username=employee.username) }}" method="post">
+                        <input type="submit" value="Activated">
+                    </form>
+                </td>
+                {% else %}
+                <td class="access deactivated">
+                    <form action="{{ url_for('users_bp.reactivate_user', username=employee.username) }}" method="post">
+                        <input type="submit" value="Deactivated">
+                    </form>
+                </td>
+                
+                {% endif %}
                 <td><img src="{{ url_for('static', filename='images/user-pics/' + employee.user_image) }}" alt="Profile picture of user"></td>
+                <td>{{employee.status}}</td>
             </tr>
             {% endfor %}
         </table>

@@ -5,3 +5,11 @@
 .content.active {
     display: block;
 }
+
+.account-active{
+    background-color: green;
+}
+
+.deactivated{
+    background-color: red;
+}
