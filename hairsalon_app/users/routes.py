@@ -56,15 +56,22 @@ def professional_name(username):
 
 @users_bp.route('/adminsuper-pannel/')
 def adminsuper_pannel():
-    return render_template('adminsuper_panel.html')
+    client_list = db.get_list_clients()
+    pro_list = db.get_list_pros()
+    app_list = db.get_all_appointments()
+
+    return render_template('adminsuper_panel.html', clients=client_list, employees=pro_list, appointments=app_list,)
 
 @users_bp.route('/adminuser-pannel/')
 def adminuser_pannel():
-    return render_template('adminuser_panel.html')
+    client_list = db.get_list_clients()
+    pro_list = db.get_list_pros()
+    return render_template('adminuser_panel.html', clients=client_list, employees=pro_list)
 
 @users_bp.route('/adminappoint-pannel/')
 def adminappoint_pannel():
-    return render_template('adminappoint_panel.html')
+    app_list = db.get_all_appointments()
+    return render_template('adminappoint_panel.html', appointments=app_list)
 @users_bp.route('/register/', methods=['GET', 'POST'])
 def register():
     form = NewUserForm()
@@ -115,13 +122,13 @@ def login():
                 user = User(username=form.username.data)
                 login_user(user)
                 flash(f'Success: Logged in as {form.username.data}', 'success')
-            if user_exists.user_type == 'admin_super':
-                return redirect(url_for('main_bp.adminsuper_home'))
-            elif user_exists.user_type == 'admin_appoint':
-                return redirect(url_for('main_bp.adminappoint_home'))
-            elif user_exists.user_type == 'admin_user':
-                return redirect(url_for('main_bp.adminuser_home'))
-            else:
+            # if user_exists.user_type == 'admin_super':
+            #     return redirect(url_for('main_bp.adminsuper_home'))
+            # elif user_exists.user_type == 'admin_appoint':
+            #     return redirect(url_for('main_bp.adminappoint_home'))
+            # elif user_exists.user_type == 'admin_user':
+            #     return redirect(url_for('main_bp.adminuser_home'))
+            # else:
                 return redirect(url_for('main_bp.member_home'))
     flash ('Invalid password or username. Retry', 'error')        
     return render_template('login.html', form=form)
