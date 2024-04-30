@@ -25,9 +25,7 @@ CREATE TABLE salon_user (
     CONSTRAINT user_pk PRIMARY KEY (user_id)
 );
 
----Insert Valuesfor user member
-INSERT INTO salon_user(username, full_name, email, user_image ,password_hashed, phone_number, address, age) 
-VALUES('iana_life','Iana Feniuc','ianafeniuc@gmail.com','user.png','sjkdhuvb','514-567-1567','2135 Boul Russeau',19);
+
 
 -- Create table for salon_service
 CREATE TABLE salon_service (
@@ -99,6 +97,7 @@ INSERT INTO salon_appointment (client_id, professional_id, service_id, slot, ven
                                     (SELECT service_id FROM salon_service WHERE service_name = 'Trimming'), 
                                     '10-11', '1', SYSDATE);
 
-SELECT user_type,username,full_name, email, user_image, password_hashed, phone_number,address,age FROM salon_user WHERE user_type='client';
+---Insert Valuesfor user member
+INSERT INTO salon_user(username, full_name, email, user_image ,password_hashed, phone_number, address, age) 
+VALUES('iana_life','Iana Feniuc','ianafeniuc@gmail.com','user.png','sjkdhuvb','514-567-1567','2135 Boul Russeau',19);
 
-SELECT username FROM SALON_USER WHERE user_type LIKE 'admin%'

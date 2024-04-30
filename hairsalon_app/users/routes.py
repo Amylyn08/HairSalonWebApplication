@@ -73,6 +73,8 @@ def adminuser_pannel():
 def adminappoint_pannel():
     app_list = db.get_all_appointments()
     return render_template('adminappoint_panel.html', appointments=app_list)
+
+
 @users_bp.route('/register/', methods=['GET', 'POST'])
 def register():
     form = NewUserForm()
