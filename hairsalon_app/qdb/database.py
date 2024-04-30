@@ -161,6 +161,7 @@ class Database():
         try:
             with self.__connection.cursor() as cursor:
                 qry = '''SELECT user_id,
+                                is_active,
                                 user_type,
                                 status,
                                 username,
@@ -188,6 +189,7 @@ class Database():
         try:
             with self.__connection.cursor() as cursor:
                 qry = '''SELECT user_id,
+                                is_active,
                                 user_type,
                                 status,
                                 username,
@@ -247,6 +249,7 @@ class Database():
         try:
             with self.__connection.cursor() as cursor:
                 qry = '''SELECT user_id,
+                                is_active,
                                 user_type,
                                 status,
                                 username,
