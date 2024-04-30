@@ -16,4 +16,36 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // Intercept form submissions
+    document.querySelectorAll('.access form').forEach(form => {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission behavior
+
+            const td = form.parentElement;
+            const button = form.querySelector('input[type="submit"]');
+
+            // Toggle button value and class
+            if (button.value === 'Activated') {
+                button.value = 'Deactivated';
+                td.classList.remove('access');
+                td.classList.add('access', 'deactivated');
+            } else {
+                button.value = 'Activated';
+                td.classList.remove('access', 'deactivated');
+                td.classList.add('access');
+            }
+
+            // Submit the form asynchronously
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form)
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+            }).catch(error => {
+                console.error('Error submitting form:', error);
+            });
+        });
+    });
 });

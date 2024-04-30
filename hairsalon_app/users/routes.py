@@ -1,7 +1,7 @@
 #Name : Iana Feniuc
 #Section : 01
 from flask import Blueprint, current_app, flash, url_for, redirect, render_template
-from flask_login import login_required, login_user, logout_user
+from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from hairsalon_app.qdb.database import Database
 from flask_bcrypt import Bcrypt
 import secrets
@@ -13,6 +13,7 @@ from hairsalon_app.users.User import User
 from hairsalon_app.users.forms import LoginForm, NewUserForm
 #Create an instance of Database
 db = Database()
+login_manager = LoginManager()
 
 #Create a blueprint
 users_bp = Blueprint("users_bp",__name__,template_folder='templates', static_folder='static', static_url_path='/users/static')
@@ -60,7 +61,7 @@ def adminsuper_pannel():
     pro_list = db.get_list_pros()
     app_list = db.get_all_appointments()
 
-    return render_template('adminsuper_panel.html', clients=client_list, employees=pro_list, appointments=app_list,)
+    return render_template('adminsuper_panel.html', clients=client_list, employees=pro_list, appointments=app_list)
 
 @users_bp.route('/adminuser-pannel/')
 def adminuser_pannel():
@@ -122,13 +123,6 @@ def login():
                 user = User(username=form.username.data)
                 login_user(user)
                 flash(f'Success: Logged in as {form.username.data}', 'success')
-            # if user_exists.user_type == 'admin_super':
-            #     return redirect(url_for('main_bp.adminsuper_home'))
-            # elif user_exists.user_type == 'admin_appoint':
-            #     return redirect(url_for('main_bp.adminappoint_home'))
-            # elif user_exists.user_type == 'admin_user':
-            #     return redirect(url_for('main_bp.adminuser_home'))
-            # else:
                 return redirect(url_for('main_bp.member_home'))
     flash ('Invalid password or username. Retry', 'error')        
     return render_template('login.html', form=form)
@@ -142,6 +136,23 @@ def logout():
     flash("You have been logged out successfully", "success")
     return redirect(url_for('main_bp.home'))
 
+@users_bp.route('/deactivate/', methods=['GET','POST'])
+def deactivate_user(username):
+    user = load_user(username)
+    user.is_active = False
+    flash(f'User {current_user.username} has been deactivated','success')
+
+@users_bp.route('/reactivate/', methods=['GET','POST'])
+def reactivate_user(username):
+    user = load_user(username)
+    user.is_active = True
+    flash(f'User {current_user.username} has been reactivated','success')
+
+    
+#loading user from login_manager
+@login_manager.user_loader
+def load_user(username):
+    return User(username)
 
 def save_file(form_file):
     random_file_name  = secrets.token_hex(8)

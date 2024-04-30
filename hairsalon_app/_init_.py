@@ -35,14 +35,14 @@ def create_app(config = ConfigProd):
 
     #loading user from login_manager
     @login_manager.user_loader
-    def load_user(user_id):
-        return User(user_id)
+    def load_user(username):
+        return User(username)
     
     #unauthorized function from login_manager.
     @login_manager.unauthorized_handler
     def unauthorized():
         flash("Please login before", 'error')
-        return redirect(url_for('main.login'))
+        return redirect(url_for('users_bp.login'))
     
     # Define error handler for 404 error
     @app.errorhandler(404)

@@ -160,7 +160,8 @@ class Database():
     def get_list_pros(self):
         try:
             with self.__connection.cursor() as cursor:
-                qry = '''SELECT user_type,
+                qry = '''SELECT user_id,
+                                user_type,
                                 status,
                                 username,
                                 full_name, 
@@ -186,7 +187,8 @@ class Database():
     def get_list_clients(self):
         try:
             with self.__connection.cursor() as cursor:
-                qry = '''SELECT user_type,
+                qry = '''SELECT user_id,
+                                user_type,
                                 status,
                                 username,
                                 full_name, 
@@ -244,7 +246,8 @@ class Database():
     def get_member(self, username):
         try:
             with self.__connection.cursor() as cursor:
-                qry = '''SELECT user_type,
+                qry = '''SELECT user_id,
+                                user_type,
                                 status,
                                 username,
                                 full_name, 
