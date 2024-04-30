@@ -119,6 +119,7 @@ def login():
     if form.validate_on_submit():
         user_exists = db.get_member(username=form.username.data)
         if user_exists:
+            
             b = Bcrypt()
             password_hashed = user_exists.password
             if b.check_password_hash(password_hashed, form.password.data):
