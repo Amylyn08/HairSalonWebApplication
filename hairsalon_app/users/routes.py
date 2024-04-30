@@ -10,7 +10,7 @@ from PIL import Image
 
 from hairsalon_app.users.Member import Member
 from hairsalon_app.users.User import User
-from hairsalon_app.users.forms import LoginForm, NewUserForm
+from hairsalon_app.users.forms import LoginForm, NewUserForm, UpdateUserForm
 #Create an instance of Database
 db = Database()
 
@@ -22,37 +22,11 @@ users_clients= []
 users_professionals =[]
 
 #Generates all the 
-@users_bp.route("/profile/client/")
-# def user_list_client():
-#     """Function for listing all the users."""
-#     users_clients = db.get_users_clients()
-#     return render_template('allUsers.html', clients =users_clients)
-
-# @users_bp.route("/profile/professional/")
-# def user_list_professional():
-#     """Function for listing all the users."""
-#     users_professionals= db.get_users_professional()
-#     return render_template('allUsers.html', profesionnals = users_professionals)
-
-# @users_bp.route("/profile/<username>/")
-# def client_name(username):
-#     """Function for finding a client by his username."""
-#     users_clients = db.get_users_clients()
-#     for client in users_clients:
-#         if client.username == username:
-#             return render_template('client.html', clients = client)
-#     flash("Sorry but this address doesn't exist !","errors_class")
-#     return redirect(url_for('user_list_client'))
-
-# @users_bp.route("/profile/<username>/")
-# def professional_name(username):
-#     """Function for finding a client by his username."""
-#     users_professionals = db.get_users_professional()
-#     for professional in users_professionals:
-#         if professional.username == username:
-#             return render_template('professional.html', professionals= professional)
-#     flash("Sorry but this address doesn't exist !","errors_class")
-#     return redirect(url_for('user_list_professional'))
+@users_bp.route("/allUsers/")
+def user_list_client():
+    """Function for listing all the users."""
+    users_clients = db.get_users()
+    return render_template('Users.html', clients =users_clients)
 
 @users_bp.route('/adminsuper-pannel/')
 def adminsuper_pannel():
@@ -72,6 +46,7 @@ def adminuser_pannel():
 def adminappoint_pannel():
     app_list = db.get_all_appointments()
     return render_template('adminappoint_panel.html', appointments=app_list)
+
 @users_bp.route('/register/', methods=['GET', 'POST'])
 def register():
     form = NewUserForm()
@@ -108,7 +83,7 @@ def register():
             return redirect(url_for('users_bp.login'))
         else:
             flash('This account already exists.', 'error')
-    return render_template('register.html', form=form)
+    return render_template('register.html', form=form)  #redirect to login page???
 
 @users_bp.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -122,17 +97,34 @@ def login():
                 user = User(username=form.username.data)
                 login_user(user)
                 flash(f'Success: Logged in as {form.username.data}', 'success')
-            # if user_exists.user_type == 'admin_super':
-            #     return redirect(url_for('main_bp.adminsuper_home'))
-            # elif user_exists.user_type == 'admin_appoint':
-            #     return redirect(url_for('main_bp.adminappoint_home'))
-            # elif user_exists.user_type == 'admin_user':
-            #     return redirect(url_for('main_bp.adminuser_home'))
-            # else:
                 return redirect(url_for('main_bp.member_home'))
     flash ('Invalid password or username. Retry', 'error')        
     return render_template('login.html', form=form)
 
+#route to profile
+@users_bp.route('/profile/<username>/')
+@login_required
+def profile(username):
+    user = db.get_member(username=username)
+    return render_template('Profile.html', users=user)
+
+@users_bp.route('/profile/edit/<username>/', methods=['GET', 'POST'])
+def edit_profile(username):
+    user = db.get_member(username=username)
+    form = UpdateUserForm()
+    if form.validate_on_submit():
+        b = Bcrypt()
+        hashed_old_pass = b.generate_password_hash(form.old_password.data).decode('utf-8')
+        if b.check_password_hash(user.password, hashed_old_pass):
+            file_name = save_file(form_file=form.user_image.data)
+            if form.new_password.data is not None and form.old_password.data is not None:
+                b = Bcrypt()
+                hashed_new_pass = b.generate_password_hash(form.new_password.data).decode('utf-8')
+                db.update_profile(username=form.username.data, user_image=file_name,new_password= hashed_new_pass)
+                flash('Successful update!','success')
+                return redirect(url_for('users_bp.profile', username=form.username.data))
+    else:
+        return render_template('update_profile.html', form=form, users=user)
 
 #route for and function for logout.
 @users_bp.route('/logout/', methods=['GET','POST'])
@@ -141,6 +133,7 @@ def logout():
     logout_user()
     flash("You have been logged out successfully", "success")
     return redirect(url_for('main_bp.home'))
+
 
 
 def save_file(form_file):

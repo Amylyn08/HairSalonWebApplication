@@ -50,6 +50,10 @@ body {
     display: flex;
  }
 
+ #left-nav li{
+    text-decoration: none;
+ }
+
 #logo{
     height: auto;
     width: auto;

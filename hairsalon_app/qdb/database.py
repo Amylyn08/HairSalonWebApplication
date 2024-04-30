@@ -99,19 +99,19 @@ class Database():
 
 
 # ---------Iana
-#Get the list of professionals
-#     def get_users_professional(self):
-#         '''Returns all client objects in a list'''
-#         list_professionals = []
-#         try:
-#             with self.get_cursor() as cur:
-#                 qry = f" select * from salon_proffesional"
-#                 r = cur.execute(qry).fetchall()
-#                 for professional in r:
-#                     list_professionals.append(Profesionnal(professional[3],professional[4],professional[5],professional[6],professional[7],professional[8],professional[9],professional[10],professional[11],professional[12]))
-#         except Exception as e:
-#             print(e)
-#         return list_professionals 
+# Get the list of user
+    def get_users(self):
+        '''Returns all users objects in a list'''
+        list_users = []
+        try:
+            with self.get_cursor() as cur:
+                qry = f" select * from salon_user"
+                users = cur.execute(qry).fetchall()
+                for user in users:
+                    list_users.append(Member(user[2],user[3],user[4],user[5],user[6],user[7],user[8],user[9],user[10],user[11],user[12],user[13]))
+        except Exception as e:
+            print(e)
+        return list_users 
     
 # #Get the list of clients
 #     def get_users_clients(self):
@@ -240,7 +240,19 @@ class Database():
     #             return client_list
     #     except Exception as e:
     #         print(f'The following error occured: {e}')
+    def update_profile(self,username, user_image, new_password):
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''UPDATE salon_user
+                        SET user_image = :user_image,
+                            password_hashed = :new_password
+                            WHERE username = :username'''
+                cursor.execute(qry, username=username, user_image=user_image, new_password=new_password)
+        except Exception as e:
+            print(f'Error updating member: {e}')
+    
 
+    
     def get_member(self, username):
         try:
             with self.__connection.cursor() as cursor:
@@ -377,4 +389,4 @@ database = Database()
 # 2.	Call run_sql_script on da1tabase.sql  if the script (database.py) is run in isolation.
 
 if __name__ == '__main__':
-    database.run_sql_script('schemasql')
+    database.run_sql_script('schema.sql')
