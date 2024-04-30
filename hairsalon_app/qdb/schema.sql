@@ -93,11 +93,24 @@ INSERT INTO salon_user(user_type, username, full_name, email,user_image, passwor
     VALUES('professional','Michelle_BelHair', 'Michelle Bellaire', 'Michelle.hair@outlook.com', 'michelle.png','$2b$12$lgb37fRBrPOg17wTlCD4yuKldS4xedBS2V.iXgiQNxu.gk1mIciMG', '7010 street 1', '5142222222', 51, 'curly hair', 100);
 
 INSERT INTO salon_appointment (client_id, professional_id, service_id, slot, venue, date_appointment) 
-                            VALUES ((SELECT user_id FROM salon_user WHERE username = 'Amyly'), 
+                            VALUES ((SELECT user_id FROM salon_user WHERE username = 'nasr'), 
+                                    (SELECT user_id FROM salon_user WHERE username = 'Michelle_BelHair'), 
+                                    (SELECT service_id FROM salon_service WHERE service_name = 'Trimming'), 
+                                    '10-11', '1', SYSDATE);
+INSERT INTO salon_appointment (client_id, professional_id, service_id, slot, venue, date_appointment) 
+                            VALUES ((SELECT user_id FROM salon_user WHERE username = 'nasr'), 
                                     (SELECT user_id FROM salon_user WHERE username = 'Michelle_BelHair'), 
                                     (SELECT service_id FROM salon_service WHERE service_name = 'Trimming'), 
                                     '10-11', '1', SYSDATE);
 
+INSERT INTO Salon_report(appointment_id, date_report, member_type, title, client_report, professional_report)
+    VALUES  (1, SYSDATE, 0, 'title', 'very good job', 'nice client');
+
+INSERT INTO Salon_report(appointment_id, date_report, member_type, title, client_report, professional_report)
+    VALUES  (2, SYSDATE, 0, 'title', 'not good job', 'bad client');
+
 SELECT user_type,username,full_name, email, user_image, password_hashed, phone_number,address,age FROM salon_user WHERE user_type='client';
 
-SELECT username FROM SALON_USER WHERE user_type LIKE 'admin%'
+SELECT username FROM SALON_USER WHERE user_type LIKE 'admin%';
+
+COMMIT;

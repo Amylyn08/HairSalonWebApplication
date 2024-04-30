@@ -342,7 +342,7 @@ class Database():
             print(e)
 
 
-# add new address to database
+# add new appointment to database
     def add_new_appointment(self, username, professional, service, venue, slot, date):
         '''  method to schedule a new appointment, data coming fro a user input form'''
         try:
@@ -358,6 +358,21 @@ class Database():
         except Exception as e:
             print (f'The following error occured: {e}')
 
+# add new report to database
+    def add_new_report(self, appointment_id, title, client_report, professional_report, member_type):
+        '''  method to schedule a new appointment, data coming fro a user input form'''
+        try:
+            with self.__connection.cursor() as cursor:
+                sql = f'''INSERT INTO salon_report (appointment_id, title, client_report, professional_report, member_type) 
+                            VALUES (:appointment_id, 
+                                    :title, 
+                                    :client_report, 
+                                    :professional_report, :member_type)'''
+                info = {'appointment_id' : appointment_id, 'title': title, 'client_report': client_report, 'professional_report': professional_report, 'member_type': member_type}
+                cursor.execute(sql, info)
+                self.__connection.commit()
+        except Exception as e:
+            print (f'The following error occured: {e}')
 
     def get_all_services(self):
         service_names = []

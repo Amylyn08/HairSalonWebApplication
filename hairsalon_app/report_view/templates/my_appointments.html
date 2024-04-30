@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content_when_login %}
+<p>Hey {{current_user.username}}</p>
+<li>Profile</li>
+<li><a href="{{url_for('users_bp.logout')}}">Logout</a></li>
+<li><a>My reports</a></li>
+<li><a href="{{url_for('appointment_bp.my_appointments', username=current_user.username)}}">My Appointments</a></li>
+<li><a href="{{url_for('appointment_bp.create_appointment')}}">Create Appointment</a></li>
+{% if current_user.username == 'user_manager1' %}
+<li><a href="{{ url_for('users_bp.adminuser_pannel') }}">Admin Panel</a></li>
+{% elif current_user.username == 'appoint_manager1' %}
+<li><a href="{{ url_for('users_bp.adminappoint_pannel') }}">Admin Panel</a></li>
+{% elif current_user.username == 'nasr' %}
+<li><a href="{{ url_for('users_bp.adminsuper_pannel') }}">Admin Panel</a></li>
+{% endif %}
+{% endblock content_when_login %}
+{% block content_side_pannel %}
+<p>This is a hair salon service application for 420 Final Project...</p>
+{% endblock %}
+{% block content_main_pannel %}
+<h2>My appointments</h2>
+
+{% for appointment in context %}
+  <ul>
+    <li>Id: {{appointment.appointment_id}}</li>
+    <li>Date: {{appointment.date_appointment}}</li>
+    <li>Status: {{appointment.status}}</li>
+    <li>Client id: {{appointment.client_id}}</li>
+    <li>Professional Id: {{appointment.professional_id}}</li>
+    <li>Service Id: {{appointment.service_id}}</li>
+    <li>Slot: {{appointment.slot}}</li>
+    <li>Venue: {{appointment.venue}}</li>
+  </ul>
+{% endfor %}
+
+  
+{% endblock %}
