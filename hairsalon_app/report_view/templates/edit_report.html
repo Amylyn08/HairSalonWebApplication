@@ -18,20 +18,18 @@
 <p>This is a hair salon service application for 420 Final Project...</p>
 {% endblock %}
 {% block content_main_pannel %}
-<h2>My appointments</h2>
+<h2>Edit report</h2>
 
-{% for appointment in context %}
-  <ul>
-    <li>Id: {{appointment.appointment_id}}</li>
-    <li>Date: {{appointment.date_appointment}}</li>
-    <li>Status: {{appointment.status}}</li>
-    <li>Client id: {{appointment.client_id}}</li>
-    <li>Professional Id: {{appointment.professional_id}}</li>
-    <li>Service Id: {{appointment.service_id}}</li>
-    <li>Slot: {{appointment.slot}}</li>
-    <li>Venue: {{appointment.venue}}</li>
-  </ul>
-{% endfor %}
+<form action="" method="POST">
+  {{form.hidden_tag()}}  
+  <fieldset>
+    <label for="client_report">Enter New client report</label>
+    {{form.client_report (class="form-field", label= "username", value=current_user.username)}}
+    <label for="professional_report">Enter New professional report</label>
+    {{form.professional_report (class="form-field", label= "professional_report")}}
+  </fieldset>
+  {{form.submit (class=button)}}
+</form>
 
   
 {% endblock %}

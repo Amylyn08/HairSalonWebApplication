@@ -37,6 +37,7 @@
     <li>Client report: {{report.client_report}}</li>
     <li>Professional report: {{report.slot}}</li>
   </ul>
+  <button type = "button"> <a href ="{{url_for('report_bp.edit_report', report_id = report.report_id)}}">Update report </a></button>
 {% endfor %}
 
   

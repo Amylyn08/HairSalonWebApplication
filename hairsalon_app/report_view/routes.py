@@ -1,6 +1,6 @@
 from flask import Blueprint, flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
-from hairsalon_app.report_view.forms import ReportForm
+from hairsalon_app.report_view.forms import ReportForm, ReportEdit
 from hairsalon_app.appointment_view.appointment import Appointment
 from hairsalon_app.qdb.database import Database
 
@@ -30,6 +30,17 @@ def all_reports(): #the id is the one for the note
         return render_template("all_reports.html", context = all_reports)
         
     return redirect(url_for("report_bp.create_report"))
+
+#route to create report
+@report_bp.route('/edit_report/<int:report_id>', methods=['POST', 'GET'])
+def edit_report(report_id):
+    form = ReportEdit() 
+    if form.validate_on_submit():
+        db.edit_report(report_id, form.client_report.data, form.professional_report.data)
+        flash('Report sent', 'success')
+        return redirect(url_for('report_bp.edit_report', report_id = report_id))
+    flash('Invalid Inputs.' 'error')
+    return render_template('edit_report.html', form=form)
 
 # #route for all reports
 # @report_bp.route("/all_appointments", methods=['GET'])

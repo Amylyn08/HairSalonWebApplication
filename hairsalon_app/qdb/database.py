@@ -374,6 +374,19 @@ class Database():
                 self.__connection.commit()
         except Exception as e:
             print (f'The following error occured: {e}')
+            
+    def edit_report(self, report_id, new_client_report, new_professional_report):
+        '''  method to edit existing report in database'''
+        try:
+            with self.__connection.cursor() as cursor:
+                sql = f'''UPDATE salon_report
+                            SET client_report = :client_report, professional_report = :professional_report
+                            WHERE report_id = :report_id'''
+                info = {'report_id' : report_id, 'client_report': new_client_report, 'professional_report': new_professional_report}
+                cursor.execute(sql, info)
+                self.__connection.commit()
+        except Exception as e:
+            print (f'The following error occured: {e}')
 
     def get_all_reports(self):
         ''' method to list all reports '''

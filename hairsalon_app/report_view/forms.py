@@ -14,3 +14,8 @@ class ReportForm(FlaskForm):
     professional_report = StringField('professional_report', validators = [DataRequired()])
     member_type = SelectField('member_type', choices=[('0', '0'), ('1', '1')], validators = [DataRequired()])
     submit = SubmitField("Send report")
+    
+class ReportEdit(FlaskForm):
+    client_report =  StringField('client_report', validators = [DataRequired()])
+    professional_report = StringField('professional_report', validators = [DataRequired()])
+    submit = SubmitField("Edit report")
