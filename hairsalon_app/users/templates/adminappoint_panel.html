@@ -1,0 +1,35 @@
+{% extends 'base.html'%}
+{% block content_when_login %}
+<p>Hey {{current_user.username}}</p>
+<li>Profile</li>
+<li><a href="{{url_for('users_bp.logout')}}">Logout</a></li>
+<li><a>My reports</a></li>
+<li><a href="{{url_for('appointment_bp.my_appointments', username=current_user.username)}}">My Appointments</a></li>
+<li><a href="{{url_for('appointment_bp.create_appointment')}}">Create Appointment</a></li>
+{% endblock content_when_login %}
+{% block content_main_pannel %}
+<h2>Admin Pannel APPOINT</h2>
+<div class="admin_pannel">
+    <div id="Appointments-list">
+        <table class="admin-table">
+            <tr>
+                <th>ID</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Client ID</th>
+                <th>Employee ID</th>
+            </tr>
+            {% for app in appointments %}
+            <tr>
+                <td>{{app.appointment_id}}</td>
+                <td>{{app.status}}</td>
+                <td>{{app.client_id}}</td>
+                <td>{{app.professional_id}}</td>
+                <td></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <!-- also includes reports inside -->
+</div>
+{% endblock content_main_pannel %}

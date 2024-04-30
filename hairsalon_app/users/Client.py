@@ -11,3 +11,8 @@ class Client:
 
     def __str__(self):
        return f"User: {self.username}, Full name : {self.full_name}" 
+    
+    def __eq__(self, other):
+        if not isinstance(other,Client):
+            return False
+        return (self.username == other.username)
