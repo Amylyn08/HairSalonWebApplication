@@ -38,7 +38,7 @@ def edit_report(report_id):
     if form.validate_on_submit():
         db.edit_report(report_id, form.client_report.data, form.professional_report.data)
         flash('Report sent', 'success')
-        return redirect(url_for('report_bp.edit_report', report_id = report_id))
+        return redirect(url_for('report_bp.all_reports'))
     flash('Invalid Inputs.' 'error')
     return render_template('edit_report.html', form=form)
 
