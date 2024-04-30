@@ -4,6 +4,7 @@ import oracledb
 from hairsalon_app.appointment_view.appointment import Appointment
 from hairsalon_app.users.Member import Member
 from hairsalon_app.users.Professional import Profesionnal
+from hairsalon_app.report_view.report import Report
 import pdb
 
 #from hairsalon_app.users.Client import Client
@@ -373,6 +374,22 @@ class Database():
                 self.__connection.commit()
         except Exception as e:
             print (f'The following error occured: {e}')
+
+    def get_all_reports(self):
+        ''' method to list all reports '''
+        reports = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_report'
+                fetch = c.execute(sql).fetchall()
+                print(len(fetch))
+                for record in fetch:
+                    print(record)
+                    reports.append(Report(record[0], record[1], record[2],record[3], record[4], record[5], record[6]))
+        except Exception as e:
+            print(e)
+        
+        return reports
 
     def get_all_services(self):
         service_names = []

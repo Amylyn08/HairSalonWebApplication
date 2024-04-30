@@ -20,16 +20,16 @@ def create_report():
     flash('Invalid Inputs.' 'error')
     return render_template('report.html', form=form)
 
-# #route for all appointments
-# @report_bp.route("/all_appointments", methods=['GET'])
-# def all_appointments(): #the id is the one for the note
-#     #get apps from db
-#     all_appointments = db.get_all_appointments()
+#route for all reports
+@report_bp.route("/all_reports/", methods=['GET'])
+def all_reports(): #the id is the one for the note
+    #get reports from db
+    all_reports = db.get_all_reports()
      
-#     if (len(all_appointments)!= 0):
-#         return render_template("all_appointments.html", context = all_appointments)
+    if (len(all_reports)!= 0):
+        return render_template("all_reports.html", context = all_reports)
         
-#     return redirect(url_for("appointment_bp.create_appointment"))
+    return redirect(url_for("report_bp.create_report"))
 
 # #route for all reports
 # @report_bp.route("/all_appointments", methods=['GET'])
