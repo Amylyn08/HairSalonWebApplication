@@ -119,7 +119,9 @@ def login():
     if form.validate_on_submit():
         user_exists = db.get_member(username=form.username.data)
         if user_exists:
-            
+            if user_exists.is_active == 1:
+                flash('Your account has been deactivated by the admin. Please contact us.')
+                return redirect('main_bp.home')
             b = Bcrypt()
             password_hashed = user_exists.password
             if b.check_password_hash(password_hashed, form.password.data):

@@ -8,3 +8,6 @@ class User(UserMixin):
     
     def get_id(self):
         return self.username
+    
+    def set_active_status(self, is_active):
+        self.is_active = is_active

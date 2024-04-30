@@ -38,7 +38,7 @@
                 <td>{{ client.id }}</td> <!-- Assuming client's ID is stored in a field called 'id' -->
                 <td>{{ client.username }}</td>
                 <td>{{ client.full_name }}</td>
-                {% if current_user.is_active %}
+                {% if client.is_active == 0 %}
                 <td class="access">
                     <form action="{{ url_for('users_bp.deactivate_user', username=client.username) }}" method="post">
                         <input type="hidden" name="user_id" value="{{ client.id }}"> <!-- Hidden input field to store user's ID -->
@@ -47,7 +47,8 @@
                 </td>
                 {% else %}
                 <td class="access deactivated">
-                    <form action="{{ url_for('users_bp.reactivate_user', username=client.username) }}" method="post">                        <input type="submit" value="Deactivated">
+                    <form action="{{ url_for('users_bp.reactivate_user', username=client.username) }}" method="post">                        
+                        <input type="submit" value="Deactivated">
                     </form>
                 </td>
                 {% endif %}
