@@ -274,7 +274,28 @@ class Database():
         except Exception as e:
             print(f'Error retrieving member: {e}')
             return None
-
+        
+    def deactivate_member(self, username):
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''UPDATE salon_user SET is_active = 1 WHERE username = :username'''
+                cursor.execute(qry, username=username)
+        except Exception as e:
+            print(f'Error updating member: {e}')
+    
+    def reactivate_member(self, username):
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''UPDATE salon_user SET is_active = 0 WHERE username = :username'''
+                cursor.execute(qry, username=username)
+        except Exception as e:
+            print(f'Error updating member: {e}')
+    
+    def flag_member(self, username):
+        try:
+        
+        except Exception as e:
+            print(f'An error has occured: {e}')
     
     #Selects client based on the username                
     # def get_client_user(self, username):

@@ -38,7 +38,7 @@
                 <td>{{ client.id }}</td> <!-- Assuming client's ID is stored in a field called 'id' -->
                 <td>{{ client.username }}</td>
                 <td>{{ client.full_name }}</td>
-                {% if client.is_active == 0 %}
+                {% if client.is_active[0] == 0 %}
                 <td class="access">
                     <form action="{{ url_for('users_bp.deactivate_user', username=client.username) }}" method="post">
                         <input type="hidden" name="user_id" value="{{ client.id }}"> <!-- Hidden input field to store user's ID -->
@@ -53,7 +53,11 @@
                 </td>
                 {% endif %}
                 <td><img src="{{ url_for('static', filename='images/user-pics/' + client.user_image) }}" alt="Profile picture of user"></td>
-                <td>{{ client.status }}</td>
+                <td class="flag">
+                    <form actopm="{{url_for('users')}}">
+
+                    </form>
+                </td>
             </tr>
             {% endfor %}
             
@@ -75,7 +79,7 @@
                 <td>{{employee.user_id}}</td>
                 <td>{{employee.username}}</td>
                 <td>{{employee.full_name}}</td>    
-                {% if current_user.is_active %}
+                {% if employee.is_active[0] == 0 %}
                 <td class="access">
                     <form action="{{ url_for('users_bp.deactivate_user', username=employee.username) }}" method="post">
                         <input type="submit" value="Activated">
@@ -87,7 +91,6 @@
                         <input type="submit" value="Deactivated">
                     </form>
                 </td>
-                
                 {% endif %}
                 <td><img src="{{ url_for('static', filename='images/user-pics/' + employee.user_image) }}" alt="Profile picture of user"></td>
                 <td>{{employee.status}}</td>

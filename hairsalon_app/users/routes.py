@@ -1,6 +1,6 @@
 #Name : Iana Feniuc
 #Section : 01
-from flask import Blueprint, current_app, flash, url_for, redirect, render_template
+from flask import Blueprint, abort, current_app, flash, url_for, redirect, render_template
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from hairsalon_app.qdb.database import Database
 from flask_bcrypt import Bcrypt
@@ -119,13 +119,13 @@ def login():
     if form.validate_on_submit():
         user_exists = db.get_member(username=form.username.data)
         if user_exists:
-            if user_exists.is_active == 1:
-                flash('Your account has been deactivated by the admin. Please contact us.')
-                return redirect('main_bp.home')
+            if user_exists.is_active[0] == 1:
+                flash('Your account has been deactivated by the admin. Please contact us.', 'error')
+                return redirect(url_for('main_bp.home'))
             b = Bcrypt()
             password_hashed = user_exists.password
             if b.check_password_hash(password_hashed, form.password.data):
-                user = User(username=form.username.data)
+                user = User(username=user_exists.username)
                 login_user(user)
                 flash(f'Success: Logged in as {form.username.data}', 'success')
                 return redirect(url_for('main_bp.member_home'))
@@ -141,17 +141,21 @@ def logout():
     flash("You have been logged out successfully", "success")
     return redirect(url_for('main_bp.home'))
 
-@users_bp.route('/deactivate/', methods=['GET','POST'])
+@users_bp.route('/deactivate/<string:username>', methods=['GET','POST'])
 def deactivate_user(username):
     user = load_user(username)
     user.is_active = False
-    flash(f'User {current_user.username} has been deactivated','success')
+    db.deactivate_member(username=username)
+    flash(f'User {username} has been deactivated','success')
+    abort(204)
 
-@users_bp.route('/reactivate/', methods=['GET','POST'])
+@users_bp.route('/reactivate/<string:username>', methods=['GET','POST'])
 def reactivate_user(username):
     user = load_user(username)
     user.is_active = True
-    flash(f'User {current_user.username} has been reactivated','success')
+    db.reactivate_member(username=username)
+    flash(f'User {username} has been reactivated','success')
+    abort(204)
 
     
 #loading user from login_manager
