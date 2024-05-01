@@ -101,3 +101,4 @@ INSERT INTO salon_appointment (client_id, professional_id, service_id, slot, ven
 INSERT INTO salon_user(username, full_name, email, user_image ,password_hashed, phone_number, address, age) 
 VALUES('iana_life','Iana Feniuc','ianafeniuc@gmail.com','user.png','sjkdhuvb','514-567-1567','2135 Boul Russeau',19);
 
+UPDATE salon_user SET is_active=0 WHERE username = 'iana_life'

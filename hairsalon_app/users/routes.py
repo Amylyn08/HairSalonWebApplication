@@ -141,27 +141,31 @@ def logout():
     flash("You have been logged out successfully", "success")
     return redirect(url_for('main_bp.home'))
 
-@users_bp.route('/deactivate/<string:username>', methods=['GET','POST'])
-def deactivate_user(username):
-    user = load_user(username)
-    user.is_active = False
-    db.deactivate_member(username=username)
-    flash(f'User {username} has been deactivated','success')
-    abort(204)
-
-@users_bp.route('/reactivate/<string:username>', methods=['GET','POST'])
-def reactivate_user(username):
-    user = load_user(username)
-    user.is_active = True
-    db.reactivate_member(username=username)
-    flash(f'User {username} has been reactivated','success')
-    abort(204)
-
+@users_bp.route('/toggle_active/<string:username>/', methods=['POST'])
+def toggle_active_user(username):
+    active = db.get_active(username=username)
+    if active == 0:
+        active = 1
+        flash(f'User {username} has been deactivated', 'success')
+    else:
+        active = 0
+        flash(f'User {username} has been activated', 'success')
     
-#loading user from login_manager
-@login_manager.user_loader
-def load_user(username):
-    return User(username)
+    db.set_active(username=username, active=active)
+    return render_template('adminsuper_panel.html')
+
+
+@users_bp.route('/flag/<string:username>', methods=['GET','POST'])
+def flag_user(username):
+    db.flag_member(username)
+    flash(f'User {username} has been flagged','success')
+    abort(204)
+
+@users_bp.route('/unflag/<string:username>', methods=['GET','POST'])
+def unflag_user(username):
+    db.unflag_member(username)
+    flash(f'User {username} has been unflagged','success')
+    abort(204)
 
 def save_file(form_file):
     random_file_name  = secrets.token_hex(8)

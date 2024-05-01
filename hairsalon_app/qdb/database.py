@@ -274,26 +274,41 @@ class Database():
         except Exception as e:
             print(f'Error retrieving member: {e}')
             return None
-        
-    def deactivate_member(self, username):
+    
+    def get_active(self, username):
         try:
             with self.__connection.cursor() as cursor:
-                qry = '''UPDATE salon_user SET is_active = 1 WHERE username = :username'''
+                qry = '''SELECT is_active FROM salon_user WHERE username = :username'''
                 cursor.execute(qry, username=username)
+                row = cursor.fetchone()
+                if row:
+                    active = row[0]
+                    return active
+        except Exception as e:
+            print(f'Error retrieving member: {e}')
+
+    def set_active(self, username, active):
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''UPDATE salon_user SET is_active=:active WHERE username = :username'''
+                cursor.execute(qry, username=username, active=active)
         except Exception as e:
             print(f'Error updating member: {e}')
     
-    def reactivate_member(self, username):
-        try:
-            with self.__connection.cursor() as cursor:
-                qry = '''UPDATE salon_user SET is_active = 0 WHERE username = :username'''
-                cursor.execute(qry, username=username)
-        except Exception as e:
-            print(f'Error updating member: {e}')
     
     def flag_member(self, username):
         try:
-        
+            with self.__connection.cursor() as cursor:
+                qry = '''UPDATE salon_user SET status = 1 WHERE username = :username'''
+                cursor.execute(qry, username=username)
+        except Exception as e:
+            print(f'An error has occured: {e}')
+    
+    def unflag_member(self, username): 
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''UPDATE salon_user SET status = 0 WHERE username = :username'''
+                cursor.execute(qry, username=username)
         except Exception as e:
             print(f'An error has occured: {e}')
     
