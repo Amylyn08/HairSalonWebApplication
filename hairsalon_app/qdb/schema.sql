@@ -102,3 +102,9 @@ INSERT INTO salon_user(username, full_name, email, user_image ,password_hashed, 
 VALUES('iana_life','Iana Feniuc','ianafeniuc@gmail.com','user.png','sjkdhuvb','514-567-1567','2135 Boul Russeau',19);
 
 UPDATE salon_user SET is_active=0 WHERE username = 'iana_life'
+
+NSERT INTO salon_appointment (client_id, professional_id, service_id, slot, venue, date_appointment) 
+                            VALUES ((SELECT user_id FROM salon_user WHERE username = 'nasr'), 
+                                    (SELECT user_id FROM salon_user WHERE username = 'RidaPro'), 
+                                    (SELECT service_id FROM salon_service WHERE service_name = 'Trimming'), 
+                                    :slot, :venue, :date_appointment)

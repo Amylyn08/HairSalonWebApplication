@@ -16,36 +16,32 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Intercept form submissions
-    document.querySelectorAll('.access form').forEach(form => {
-        form.addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent default form submission behavior
+    document.querySelectorAll('.access').forEach(td =>{
+        td.addEventListener('click', function(e){
+            const buttonAnchor = td.querySelector('button').querySelector('a');
 
-            const td = form.parentElement;
-            const button = form.querySelector('input[type="submit"]');
-
-            // Toggle button value and class
-            if (button.value === 'Activated') {
-                button.value = 'Deactivated';
-                td.classList.remove('access');
-                td.classList.add('access', 'deactivated');
-            } else {
-                button.value = 'Activated';
-                td.classList.remove('access', 'deactivated');
-                td.classList.add('access');
+            if(buttonAnchor.textContent == 'Activated'){
+                buttonAnchor.textContent = 'Deactivated';
+                td.classList.add('deactivated');
             }
+            else{
+                buttonAnchor.textContent = 'Activated';
+                td.classList.remove('deactivated');
+            }
+        })
+    })
 
-            // Submit the form asynchronously
-            fetch(form.action, {
-                method: 'POST',
-                body: new FormData(form)
-            }).then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-            }).catch(error => {
-                console.error('Error submitting form:', error);
-            });
+    document.querySelectorAll('.flag').forEach(td =>{
+        td.addEventListener('click', function(e){
+            const buttonAnchor = td.querySelector('button').querySelector('a');
+            if(buttonAnchor.textContent == 'Unflagged'){
+                buttonAnchor.textContent = 'Flagged';
+                td.classList.add('flagged');
+            }
+            else{
+                buttonAnchor.textContent = 'Unflagged';
+                td.classList.remove('flagged');
+            }
         });
     });
 });

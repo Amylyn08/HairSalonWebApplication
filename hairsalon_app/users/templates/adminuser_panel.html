@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 {% block content_css %}
+<link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/admin_panel.css')}}">
 <script src="{{url_for('users_bp.static', filename='js/admin_panel.js')}}"></script>
 {% endblock content_css %}
 {% block content_when_login %}
@@ -36,14 +37,14 @@
                 <td>{{ client.full_name }}</td>
                 {% if client.is_active[0] == 0 %}
                 <td class="access">
-                    <form action="{{ url_for('users_bp.deactivate_user', username=client.username) }}" method="post">
+                    <form action="{{ url_for('users_bp.toggle_active_user', username=client.username) }}" method="post">
                         <input type="hidden" name="user_id" value="{{ client.id }}"> <!-- Hidden input field to store user's ID -->
                         <input type="submit" value="Activated">
                     </form>
                 </td>
                 {% else %}
                 <td class="access deactivated">
-                    <form action="{{ url_for('users_bp.reactivate_user', username=client.username) }}" method="post">                        
+                    <form action="{{ url_for('users_bp.toggle_active_user', username=client.username) }}" method="post">                        
                         <input type="submit" value="Deactivated">
                     </form>
                 </td>
@@ -71,13 +72,13 @@
                 <td>{{employee.full_name}}</td>    
                 {% if employee.is_active[0] == 0 %}
                 <td class="access">
-                    <form action="{{ url_for('users_bp.deactivate_user', username=employee.username) }}" method="post">
+                    <form action="{{ url_for('users_bp.toggle_active_user', username=employee.username) }}" method="post">
                         <input type="submit" value="Activated">
                     </form>
                 </td>
                 {% else %}
                 <td class="access deactivated">
-                    <form action="{{ url_for('users_bp.reactivate_user', username=employee.username) }}" method="post">
+                    <form action="{{ url_for('users_bp.toggle_active_user', username=employee.username) }}" method="post">
                         <input type="submit" value="Deactivated">
                     </form>
                 </td>

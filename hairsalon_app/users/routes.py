@@ -1,6 +1,6 @@
 #Name : Iana Feniuc
 #Section : 01
-from flask import Blueprint, abort, current_app, flash, url_for, redirect, render_template
+from flask import Blueprint, abort, current_app, flash, make_response, url_for, redirect, render_template
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from hairsalon_app.qdb.database import Database
 from flask_bcrypt import Bcrypt
@@ -141,7 +141,7 @@ def logout():
     flash("You have been logged out successfully", "success")
     return redirect(url_for('main_bp.home'))
 
-@users_bp.route('/toggle_active/<string:username>/', methods=['POST'])
+@users_bp.route('/toggle_active/<string:username>/', methods=['GET','POST'])
 def toggle_active_user(username):
     active = db.get_active(username=username)
     if active == 0:
@@ -152,20 +152,19 @@ def toggle_active_user(username):
         flash(f'User {username} has been activated', 'success')
     
     db.set_active(username=username, active=active)
-    return render_template('adminsuper_panel.html')
+    return redirect(url_for('users_bp.adminsuper_pannel'))
 
-
-@users_bp.route('/flag/<string:username>', methods=['GET','POST'])
-def flag_user(username):
-    db.flag_member(username)
-    flash(f'User {username} has been flagged','success')
-    abort(204)
-
-@users_bp.route('/unflag/<string:username>', methods=['GET','POST'])
-def unflag_user(username):
-    db.unflag_member(username)
-    flash(f'User {username} has been unflagged','success')
-    abort(204)
+@users_bp.route('/toggle_flag/<string:username>/', methods=['GET','POST'])
+def toggle_flag(username):
+    flag = db.get_flag(username=username)
+    if flag == 0:
+        flag = 1
+        flash(f'User {username} has been flagged', 'success')
+    else:
+        flag = 0
+        flash(f'User {username} has been unflagged', 'success')
+    db.set_flag(username=username, status=flag)
+    return make_response({}, 204)
 
 def save_file(form_file):
     random_file_name  = secrets.token_hex(8)

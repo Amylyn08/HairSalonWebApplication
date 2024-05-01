@@ -40,35 +40,33 @@
                 <td>{{ client.full_name }}</td>
                 {% if client.is_active[0] == 0 %}
                 <td class="access">
-                    <form action="{{ url_for('users_bp.toggle_active_user', username=client.username) }}" method="post">
-                        <input type="hidden" name="user_id" value="{{ client.id }}"> <!-- Hidden input field to store user's ID -->
-                        <input type="submit" value="Activated">
-                    </form>
+                    <button>
+                        <a href="{{url_for('users_bp.toggle_active_user', username=client.username)}}">Activated</a>
+                    </button>
                 </td>
                 {% else %}
                 <td class="access deactivated">
-                    <form action="{{ url_for('users_bp.toggle_active_user', username=client.username) }}" method="post">                        
-                        <input type="submit" value="Deactivated">
-                    </form>
+                    <button>
+                        <a href="{{url_for('users_bp.toggle_active_user', username=client.username)}}">Deactivated</a>
+                    </button>
                 </td>
                 {% endif %}
                 <td><img src="{{ url_for('static', filename='images/user-pics/' + client.user_image) }}" alt="Profile picture of user"></td>
-                {% if client.status == 0%}
+                {% if client.status == 0 %}
                 <td class="flag">
-                    <form action="{{ url_for('users_bp.flag_user', username=client.username) }}" method="post">
-                        <input type="submit" value="Unflagged">
-                    </form>
+                    <button>
+                        <a href="{{url_for('users_bp.toggle_flag', username=client.username)}}">Unflagged</a>
+                    </button>
                 </td>
                 {% else %}
-                <td class="flagged">
-                    <form action="{{ url_for('users_bp.unflag_user', username=client.username) }}" method="post">
-                        <input type="submit" value="Flagged">
-                    </form>
+                <td class="flag flagged"> 
+                    <button>
+                        <a href="{{url_for('users_bp.toggle_flag', username=client.username)}}">Flagged</a>
+                    </button>
                 </td>
                 {% endif %}
             </tr>
             {% endfor %}
-            
         </table>
     </div>
     <div id="Employees-list" class="content">
@@ -80,7 +78,7 @@
                 <th>Full Name</th>
                 <th>Active</th>
                 <th>Picture</th>
-                <th class="flag">Flag</th>
+                <th>Flag</th>
             </tr>
             {% for employee in employees %}
             <tr>
@@ -101,7 +99,19 @@
                 </td>
                 {% endif %}
                 <td><img src="{{ url_for('static', filename='images/user-pics/' + employee.user_image) }}" alt="Profile picture of user"></td>
-                <td>{{employee.status}}</td>
+                {% if employee.status == 0 %}
+                <td class="flag">
+                    <form action="{{ url_for('users_bp.toggle_flag', username=employee.username) }}" method="post">
+                        <input type="submit" value="Unflagged">
+                    </form>
+                </td>
+                {% else %}
+                <td class="flag flagged">
+                    <form action="{{ url_for('users_bp.toggle_flag', username=employee.username) }}" method="post">
+                        <input type="submit" value="Flagged">
+                    </form>
+                </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </table>

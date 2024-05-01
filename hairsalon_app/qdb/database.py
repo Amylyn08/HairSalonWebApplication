@@ -295,6 +295,27 @@ class Database():
         except Exception as e:
             print(f'Error updating member: {e}')
     
+    def get_flag(self, username):
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''SELECT status FROM salon_user WHERE username = :username'''
+                cursor.execute(qry, username=username)
+                row = cursor.fetchone()
+                if row:
+                    flag = row[0]
+                    return flag
+                else:
+                    return None
+        except Exception as e:
+            print(f'Error retrieving member: {e}')
+            
+    def set_flag(self, username, status):
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''UPDATE salon_user SET status=:status WHERE username = :username'''
+                cursor.execute(qry, username=username, status=status)
+        except Exception as e:
+            print(f'Error updating member: {e}')
     
     def flag_member(self, username):
         try:
