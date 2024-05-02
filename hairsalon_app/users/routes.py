@@ -127,9 +127,11 @@ def login():
             if b.check_password_hash(password_hashed, form.password.data):
                 user = User(username=user_exists.username)
                 login_user(user)
+                if user_exists.status == 1:
+                    flash('Your account has been flagged. You are actions are being monitored.', 'info')
                 flash(f'Success: Logged in as {form.username.data}', 'success')
                 return redirect(url_for('main_bp.member_home'))
-    flash ('Invalid password or username. Retry', 'error')        
+        flash ('Invalid password or username. Retry', 'error')        
     return render_template('login.html', form=form)
 
 

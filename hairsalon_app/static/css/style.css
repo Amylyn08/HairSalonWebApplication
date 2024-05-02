@@ -6,9 +6,9 @@ html, body, ul, ol, li, h1, h2, h3, p, form, input, textarea, button {
 }
 
 /* Set box-sizing property to border-box for all elements */
-*, *::before, *::after {
+/* *, *::before, *::after {
     box-sizing: border-box;
-}
+} */
 
 /* Body styles */
 body {
@@ -69,6 +69,17 @@ body {
     max-width: 500px;
 } 
 
+#side-pannel, #main-pannel {
+    border: 4px double gray;
+    padding: 20px;
+    border-radius: 10px; /* Adjust the border radius as needed */
+}
+
+
+nav {
+    background-color: #333;
+    color: #fff;
+}
 
 nav ul {
     list-style-type: none;
@@ -77,10 +88,9 @@ nav ul {
     display: flex;
 }
 
-
 nav ul li {
-    display: flex;
     margin-right: 20px;
+    transition: transform 0.3s ease; /* Add transition effect */
 }
 
 nav ul li:last-child {
@@ -91,6 +101,16 @@ nav ul li a {
     color: #fff;
     text-decoration: none;
 }
+
+/* Add hover effect */
+nav ul li:hover {
+    transform: translateY(-3px); /* Move the item up slightly on hover */
+}
+
+nav ul li:hover a {
+    color: yellow; /* Change text color on hover */
+}
+
 
 /* Session info styles */
 #session-info p {
@@ -106,6 +126,20 @@ main {
 #side-pannel {
     flex: 1;
     padding: 20px;
+    position: relative; /* Set position to relative */
+}
+
+#flash-errors {
+    position: absolute; /* Set position to absolute */
+    bottom: 0; /* Stick to the bottom */
+    left: 0; /* Align to the left */
+    width: 100%; /* Occupy full width */
+}
+
+#flash-errors ul {
+    list-style: none; /* Remove default list styles */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
 }
 
 #main-pannel {
@@ -123,3 +157,14 @@ footer {
     margin-top: auto; /* Push the footer to the bottom */
 }
 
+.success{
+    background-color: rgb(76, 163, 76);;
+}
+
+.error{
+    background-color: rgb(196, 76, 76);;
+}
+
+.info{
+    background-color: rgb(207, 207, 67);
+}
