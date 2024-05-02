@@ -102,19 +102,6 @@ INSERT INTO salon_appointment (client_id, professional_id, service_id, slot, ven
                                     (SELECT service_id FROM salon_service WHERE service_name = 'Trimming'), 
                                     '10-11', '1', SYSDATE);
 
-<<<<<<< HEAD
-INSERT INTO Salon_report(appointment_id, date_report, member_type, title, client_report, professional_report)
-    VALUES  (1, SYSDATE, 0, 'title', 'very good job', 'nice client');
-
-INSERT INTO Salon_report(appointment_id, date_report, member_type, title, client_report, professional_report)
-    VALUES  (2, SYSDATE, 0, 'title', 'not good job', 'bad client');
-
-SELECT user_type,username,full_name, email, user_image, password_hashed, phone_number,address,age FROM salon_user WHERE user_type='client';
-
-SELECT username FROM SALON_USER WHERE user_type LIKE 'admin%';
-
-COMMIT;
-=======
 ---Insert Valuesfor user member
 INSERT INTO salon_user(username, full_name, email, user_image ,password_hashed, phone_number, address, age) 
 VALUES('iana_life','Iana Feniuc','ianafeniuc@gmail.com','user.png','sjkdhuvb','514-567-1567','2135 Boul Russeau',19);
@@ -126,4 +113,3 @@ NSERT INTO salon_appointment (client_id, professional_id, service_id, slot, venu
                                     (SELECT user_id FROM salon_user WHERE username = 'RidaPro'), 
                                     (SELECT service_id FROM salon_service WHERE service_name = 'Trimming'), 
                                     :slot, :venue, :date_appointment)
->>>>>>> 3216419e8140690645e5ee1154dd48ca59743335
