@@ -16,4 +16,32 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    document.querySelectorAll('.access').forEach(td =>{
+        td.addEventListener('click', function(e){
+            const buttonAnchor = td.querySelector('button').querySelector('a');
+
+            if(buttonAnchor.textContent == 'Activated'){
+                buttonAnchor.textContent = 'Deactivated';
+                td.classList.add('deactivated');
+            }
+            else{
+                buttonAnchor.textContent = 'Activated';
+                td.classList.remove('deactivated');
+            }
+        })
+    })
+
+    document.querySelectorAll('.flag').forEach(td =>{
+        td.addEventListener('click', function(e){
+            const buttonAnchor = td.querySelector('button').querySelector('a');
+            if(buttonAnchor.textContent == 'Unflagged'){
+                buttonAnchor.textContent = 'Flagged';
+                td.classList.add('flagged');
+            }
+            else{
+                buttonAnchor.textContent = 'Unflagged';
+                td.classList.remove('flagged');
+            }
+        });
+    });
 });

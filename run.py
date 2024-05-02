@@ -1,4 +1,4 @@
-from hairsalon_app._init_ import create_app
+from hairsalon_app.__init__ import create_app
 
 app = create_app()
 

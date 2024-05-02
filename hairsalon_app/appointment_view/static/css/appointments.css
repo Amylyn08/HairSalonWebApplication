@@ -1,0 +1,53 @@
+.appointment-box {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
+  border: 4px double #ccc; /* Add border around appointment boxes */
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+/* Style for individual grid items */
+.grid1,
+.grid2,
+.grid3,
+.grid4 {
+  border: 1px solid #ccc; /* Add border around each grid item */
+}
+
+/* Center the content within each grid item */
+.grid1,
+.grid2,
+.grid3,
+.grid4 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Container for specific appointment details */
+.specific-app-box {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-rows: 25% 25% 25% 25%;
+  gap: 5px;
+  border: 2px solid #ccc;
+  padding: 20px;
+}
+.specific-grid1,
+.specific-grid2,
+.specific-grid3,
+.specific-grid4,
+.specific-grid5,
+.specific-grid6,
+.specific-grid7,
+.specific-grid8{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: 1px solid #ccc; /* Add border around each grid item */
+}
+
+

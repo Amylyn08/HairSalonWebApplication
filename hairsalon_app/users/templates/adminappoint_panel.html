@@ -1,4 +1,7 @@
 {% extends 'base.html'%}
+{% block content_css %}
+<link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/admin_panel.css')}}">
+{% endblock content_css %}
 {% block content_when_login %}
 <p>Hey {{current_user.username}}</p>
 <li>Profile<a href="{{url_for('users_bp.profile', username=current_user.username)}}"></a></li>

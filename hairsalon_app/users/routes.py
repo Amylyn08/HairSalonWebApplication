@@ -1,7 +1,7 @@
 #Name : Iana Feniuc
 #Section : 01
-from flask import Blueprint, current_app, flash, url_for, redirect, render_template
-from flask_login import login_required, login_user, logout_user
+from flask import Blueprint, abort, current_app, flash, make_response, url_for, redirect, render_template
+from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from hairsalon_app.qdb.database import Database
 from flask_bcrypt import Bcrypt
 import secrets
@@ -13,6 +13,7 @@ from hairsalon_app.users.User import User
 from hairsalon_app.users.forms import LoginForm, NewUserForm, UpdatePasswordForm, UpdateImageForm
 #Create an instance of Database
 db = Database()
+login_manager = LoginManager()
 
 #Create a blueprint
 users_bp = Blueprint("users_bp",__name__,template_folder='templates', static_folder='static', static_url_path='/users/static')
@@ -34,7 +35,7 @@ def adminsuper_pannel():
     pro_list = db.get_list_pros()
     app_list = db.get_all_appointments()
 
-    return render_template('adminsuper_panel.html', clients=client_list, employees=pro_list, appointments=app_list,)
+    return render_template('adminsuper_panel.html', clients=client_list, employees=pro_list, appointments=app_list)
 
 @users_bp.route('/adminuser-pannel/')
 def adminuser_pannel():
@@ -91,14 +92,19 @@ def login():
     if form.validate_on_submit():
         user_exists = db.get_member(username=form.username.data)
         if user_exists:
+            if user_exists.is_active[0] == 1:
+                flash('Your account has been deactivated by the admin. Please contact us.', 'error')
+                return redirect(url_for('main_bp.home'))
             b = Bcrypt()
             password_hashed = user_exists.password
             if b.check_password_hash(password_hashed, form.password.data):
-                user = User(username=form.username.data)
+                user = User(username=user_exists.username)
                 login_user(user)
+                if user_exists.status == 1:
+                    flash('Your account has been flagged. You are actions are being monitored.', 'info')
                 flash(f'Success: Logged in as {form.username.data}', 'success')
                 return redirect(url_for('main_bp.member_home'))
-    flash ('Invalid password or username. Retry', 'error')        
+        flash ('Invalid password or username. Retry', 'error')        
     return render_template('login.html', form=form)
 
 #route to profile
@@ -148,6 +154,30 @@ def logout():
     flash("You have been logged out successfully", "success")
     return redirect(url_for('main_bp.home'))
 
+@users_bp.route('/toggle_active/<string:username>/', methods=['GET','POST'])
+def toggle_active_user(username):
+    active = db.get_active(username=username)
+    if active == 0:
+        active = 1
+        flash(f'User {username} has been deactivated', 'success')
+    else:
+        active = 0
+        flash(f'User {username} has been activated', 'success')
+    
+    db.set_active(username=username, active=active)
+    return redirect(url_for('users_bp.adminsuper_pannel'))
+
+@users_bp.route('/toggle_flag/<string:username>/', methods=['GET','POST'])
+def toggle_flag(username):
+    flag = db.get_flag(username=username)
+    if flag == 0:
+        flag = 1
+        flash(f'User {username} has been flagged', 'success')
+    else:
+        flag = 0
+        flash(f'User {username} has been unflagged', 'success')
+    db.set_flag(username=username, status=flag)
+    return make_response({}, 204)
 
 
 def save_file(form_file):

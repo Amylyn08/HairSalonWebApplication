@@ -35,8 +35,8 @@ def create_app(config = ConfigProd):
 
     #loading user from login_manager
     @login_manager.user_loader
-    def load_user(user_id):
-        return User(user_id)
+    def load_user(username):
+        return User(username)
     
     #unauthorized function from login_manager.
     @login_manager.unauthorized_handler

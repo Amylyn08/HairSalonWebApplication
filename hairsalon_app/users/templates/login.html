@@ -6,9 +6,9 @@
 <p>Some content..</p>
 {% endblock content_side_pannel %}
 {% block content_main_pannel %}
-<h2>Login</h2>
 <div id="login-div">
     <form method="POST" action="">
+        <h2>Login</h2>
         {{form.hidden_tag()}}
         <fieldset>
             {{form.username(class='form-field', placeholder='Username')}}
@@ -16,5 +16,9 @@
         </fieldset>
         {{form.submit(class='button')}}
     </form>
+    <div class="register-link">
+        <a href="{{url_for('users_bp.register')}}">Don't have an account?</a>
+    </div>
 </div>
+
 {% endblock content_main_pannel %}
