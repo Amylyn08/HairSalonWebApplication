@@ -3,6 +3,7 @@ import os
 import oracledb  
 from hairsalon_app.appointment_view.appointment import Appointment
 from hairsalon_app.users.Member import Member
+from hairsalon_app.report_view.report import Report
 import pdb
 
 
@@ -451,6 +452,23 @@ class Database():
             with self.__connection.cursor() as c:
                 sql = f'SELECT * FROM salon_report'
                 fetch = c.execute(sql).fetchall()
+                print(len(fetch))
+                for record in fetch:
+                    print(record)
+                    reports.append(Report(record[0], record[1], record[2],record[3], record[4], record[5], record[6]))
+        except Exception as e:
+            print(e)
+        
+        return reports
+    
+    def get_appointment_reports(self, appointment_id):
+        ''' method to list all reports of a specific appointment'''
+        reports = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_report WHERE appointment_id = :appointment_id'
+                info = {'apppointment_id' : appointment_id}
+                fetch = c.execute(sql, info).fetchall()
                 print(len(fetch))
                 for record in fetch:
                     print(record)
