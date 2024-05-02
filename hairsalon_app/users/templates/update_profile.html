@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content_css %}
+<link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/update.css')}}">
+{% endblock content_css %}
+{% block content_side_pannel %}
+<div>
+<div id="image_div">
+    <img src="{{ url_for('static', filename='images/user-pics/' + users.user_image) }}" alt="Profile picture of user">
+    {% block image_update%}
+        <button type="button"> <a href="{{url_for('users_bp.edit_image', username=users.username)}}">Upload New Image</a> </button>
+    {% endblock image_update %}
+</div>
+</div>
+{% endblock %}
+{% block content_main_pannel %}
+<h2>Updating profile ...</h2>
+<div>
+    <form action="" method="POST" enctype="multipart/form-data" novalidate>
+        {{ form.hidden_tag() }}
+        <fieldset>
+            {{form.old_password(class='form-field', placeholder='Old Password')}}
+            {{form.new_password(class='form-field', placeholder='New password')}}
+        {{form.submit(class='button')}}
+    </form>
+</div>
+{% endblock content_main_pannel %}

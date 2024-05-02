@@ -37,14 +37,18 @@ def create_app(config = ConfigProd):
 
     #loading user from login_manager
     @login_manager.user_loader
-    def load_user(user_id):
-        return User(user_id)
+    def load_user(username):
+        return User(username)
     
     #unauthorized function from login_manager.
     @login_manager.unauthorized_handler
     def unauthorized():
         flash("Please login before", 'error')
+<<<<<<< HEAD:hairsalon_app/_init_.py
         return redirect(url_for('main_bp.home'))
+=======
+        return redirect(url_for('users_bp.login'))
+>>>>>>> 3216419e8140690645e5ee1154dd48ca59743335:hairsalon_app/__init__.py
     
     # Define error handler for 404 error
     @app.errorhandler(404)

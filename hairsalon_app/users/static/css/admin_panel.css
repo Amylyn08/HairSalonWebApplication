@@ -5,3 +5,136 @@
 .content.active {
     display: block;
 }
+
+.access {
+    background-color: rgb(105, 201, 105);
+}
+
+.deactivated {
+    background-color: rgb(228, 80, 80);
+}
+
+.flag {
+    background-color: rgb(105, 201, 105);
+}
+
+.flagged {
+    background-color: rgb(235, 183, 86);
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 12px;
+    text-align: left;
+}
+
+.admin-table th {
+    background-color: #f2f2f2;
+    border-bottom: 2px solid #ccc;
+}
+
+.admin-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.admin-table tr:hover {
+    background-color: #f0f0f0;
+}
+
+.admin-table .access button,
+.admin-table .flag button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.admin-table .access button:hover,
+.admin-table .flag button:hover {
+    background-color: #0056b3;
+}
+
+.admin-table .access.deactivated button {
+    background-color: #dc3545;
+}
+
+.admin-table .access.deactivated button:hover {
+    background-color: #c82333;
+}
+
+.admin-table img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.admin-table .flagged button {
+    background-color: #ffc107;
+}
+
+.admin-table .flagged button:hover {
+    background-color: #e0a800;
+}
+
+#adminnav-menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+#adminnav-menu li {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+#adminnav-menu li:hover {
+    background-color: #f0f0f0;
+}
+
+#adminnav-menu li.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+button {
+    background-color: transparent;
+    cursor: pointer;
+
+}
+
+.custom-link {
+    /* Remove underline and inherit color from parent */
+    text-decoration: none;
+    color: white;
+}
+
+.custom-link:hover {
+    /* Add hover effect */
+    text-decoration: underline;
+}
+
+.app-link{
+    text-decoration: none;
+    color: black;
+    border: solid gray 2px;
+    padding: 5px;
+}
+
+.app-link:hover{
+    background-color: rgb(177, 177, 177);
+}

@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% block content_css %}
+<link rel="stylesheet" href="{{url_for('appointment_bp.static', filename='css/appointments.css')}}">
+
+{% endblock content_css %}
 {% block content_when_login %}
 <p>Hey {{current_user.username}}</p>
 <li>Profile</li>
@@ -21,16 +25,21 @@
 <h2>My appointments</h2>
 
 {% for appointment in context %}
-  <ul>
-    <li>Id: {{appointment.appointment_id}}</li>
-    <li>Date: {{appointment.date_appointment}}</li>
-    <li>Status: {{appointment.status}}</li>
-    <li>Client id: {{appointment.client_id}}</li>
-    <li>Professional Id: {{appointment.professional_id}}</li>
-    <li>Service Id: {{appointment.service_id}}</li>
-    <li>Slot: {{appointment.slot}}</li>
-    <li>Venue: {{appointment.venue}}</li>
-  </ul>
+  <div class="appointment-box">
+    <div class="grid1">
+      <p>Date:</p> {{ appointment.date_appointment }}
+    </div>
+    <div class="grid3">
+      <p>Client ID:</p> {{ appointment.client_id }}
+    </div>
+    <div class="grid4">
+      <p>Professional ID:</p> {{ appointment.professional_id }}
+    </div>
+    <div class="grid2">
+      <p>Service ID:</p> {{ appointment.service_id }}
+    </div>
+    <a href="{{url_for('appointment_bp.specific_appointment', appointment_id=appointment.appointment_id)}}">View Details / Modify</a>
+  </div>
 {% endfor %}
 
   

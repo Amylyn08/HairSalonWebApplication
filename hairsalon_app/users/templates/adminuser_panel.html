@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 {% block content_css %}
+<link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/admin_panel.css')}}">
 <script src="{{url_for('users_bp.static', filename='js/admin_panel.js')}}"></script>
 {% endblock content_css %}
 {% block content_when_login %}
@@ -31,11 +32,36 @@
             </tr>
             {% for client in clients %}
             <tr>
-                <td>ID here</td>
-                <td>{{client.username}}</td>
-                <td>{{client.full_name}}</td>    
-                <td class="account-active">Deactivate</td>
+                <td>{{ client.id }}</td> <!-- Assuming client's ID is stored in a field called 'id' -->
+                <td>{{ client.username }}</td>
+                <td>{{ client.full_name }}</td>
+                {% if client.is_active[0] == 0 %}
+                <td class="access">
+                    <button>
+                        <a class="custom-link" href="{{url_for('users_bp.toggle_active_user', username=client.username)}}">Activated</a>
+                    </button>
+                </td>
+                {% else %}
+                <td class="access deactivated">
+                    <button>
+                        <a  class="custom-link" href="{{url_for('users_bp.toggle_active_user', username=client.username)}}">Deactivated</a>
+                    </button>
+                </td>
+                {% endif %}
                 <td><img src="{{ url_for('static', filename='images/user-pics/' + client.user_image) }}" alt="Profile picture of user"></td>
+                {% if client.status == 0 %}
+                <td class="flag">
+                    <button>
+                        <a class="custom-link" href="{{url_for('users_bp.toggle_flag', username=client.username)}}">Unflagged</a>
+                    </button>
+                </td>
+                {% else %}
+                <td class="flag flagged"> 
+                    <button>
+                        <a class="custom-link" href="{{url_for('users_bp.toggle_flag', username=client.username)}}">Flagged</a>
+                    </button>
+                </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </table>
@@ -52,11 +78,36 @@
             </tr>
             {% for employee in employees %}
             <tr>
-                <td>ID here</td>
+                <td>{{employee.user_id}}</td>
                 <td>{{employee.username}}</td>
                 <td>{{employee.full_name}}</td>    
-                <td class="active">Deactivate</td>
-                <td><img src="{{url_for('static', filename='images/user-pics/{{employee.user_image}}')}}" alt="Profile picture of user"></td>
+                {% if employee.is_active[0] == 0 %}
+                <td class="access">
+                    <button>
+                        <a class="custom-link" href="{{url_for('users_bp.toggle_active_user', username=employee.username)}}">Activated</a>
+                    </button>
+                </td>
+                {% else %}
+                <td class="access deactivated">
+                    <button>
+                        <a class="custom-link" href="{{url_for('users_bp.toggle_active_user', username=employee.username)}}">Deactivated</a>
+                    </button>
+                </td> 
+                {% endif %}
+                <td><img src="{{ url_for('static', filename='images/user-pics/' + employee.user_image) }}" alt="Profile picture of user"></td>
+                {% if employee.status == 0 %}
+                <td class="flag">
+                    <button>
+                        <a class="custom-link" href="{{url_for('users_bp.toggle_flag', username=employee.username)}}">Unflagged</a>
+                    </button>
+                </td>
+                {% else %}
+                <td class="flag flagged">
+                    <button>
+                        <a class="custom-link" href="{{url_for('users_bp.toggle_flag', username=employee.username)}}">Flagged</a>
+                    </button>
+                </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </table>

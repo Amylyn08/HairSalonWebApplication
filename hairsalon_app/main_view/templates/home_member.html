@@ -3,10 +3,9 @@
 <p>This is a hair salon service application for 420 Final Project...</p>
 {% endblock %}
 {% block content_when_login %}
-<p>Hey {{current_user.username}}</p>
-<li>Profile</li>
+<!-- <p>Hey {{current_user.username}}</p> -->
+<li> <a href="{{url_for('users_bp.profile', username=current_user.username )}}">Profile <img class="icon" src="{{url_for('static', filename='images/icon.webp')}}" alt="Profile icon."></a></li>
 <li><a href="{{url_for('users_bp.logout')}}">Logout</a></li>
-<li><a>My reports</a></li>
 <li><a href="{{url_for('appointment_bp.my_appointments', username=current_user.username)}}">My Appointments</a></li>
 <li><a href="{{url_for('appointment_bp.create_appointment')}}">Create Appointment</a></li>
 {% if current_user.username == 'user_manager1' %}
@@ -24,6 +23,6 @@
 <h4>Shedule An Appointment </h4>
     <p>(514) 928-2935</p>
     <p>Saloon.appointments@gmail.com</p>
-    <a href=""><buton>Make Appointment</buton></a>
+    <a href="{{url_for('appointment_bp.create_appointment')}}"><buton>Make Appointment</buton></a>
 </div>
 {% endblock %}

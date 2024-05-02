@@ -3,13 +3,9 @@ import os
 import oracledb  
 from hairsalon_app.appointment_view.appointment import Appointment
 from hairsalon_app.users.Member import Member
-from hairsalon_app.users.Professional import Profesionnal
-from hairsalon_app.report_view.report import Report
 import pdb
 
-#from hairsalon_app.users.Client import Client
 
-#from hairsalon_app.users.Professional import Profesionnal
 
 class Database():
      
@@ -100,33 +96,20 @@ class Database():
 
 
 # ---------Iana
-#Get the list of professionals
-#     def get_users_professional(self):
-#         '''Returns all client objects in a list'''
-#         list_professionals = []
-#         try:
-#             with self.get_cursor() as cur:
-#                 qry = f" select * from salon_proffesional"
-#                 r = cur.execute(qry).fetchall()
-#                 for professional in r:
-#                     list_professionals.append(Profesionnal(professional[3],professional[4],professional[5],professional[6],professional[7],professional[8],professional[9],professional[10],professional[11],professional[12]))
-#         except Exception as e:
-#             print(e)
-#         return list_professionals 
+# Get the list of user
+    def get_users(self):
+        '''Returns all users objects in a list'''
+        list_users = []
+        try:
+            with self.get_cursor() as cur:
+                qry = f" select * from salon_user"
+                users = cur.execute(qry).fetchall()
+                for user in users:
+                    list_users.append(Member(user[2],user[3],user[4],user[5],user[6],user[7],user[8],user[9],user[10],user[11],user[12],user[13]))
+        except Exception as e:
+            print(e)
+        return list_users 
     
-# #Get the list of clients
-#     def get_users_clients(self):
-#         '''Returns all profesionnal objects in a list'''
-#         list_clients = []
-#         try:
-#             with self.get_cursor() as cur:
-#                 qry = f" select * from salon_client"
-#                 r = cur.execute(qry).fetchall()
-#                 for client in r:
-#                     list_clients.append(Client(client[3],client[4],client[5],client[6],client[7],client[8],client[9],client[10]))
-#         except Exception as e:
-#             print(e)
-#         return list_clients 
 #Add a new user
     #Add a new client
 
@@ -161,7 +144,9 @@ class Database():
     def get_list_pros(self):
         try:
             with self.__connection.cursor() as cursor:
-                qry = '''SELECT user_type,
+                qry = '''SELECT user_id,
+                                is_active,
+                                user_type,
                                 status,
                                 username,
                                 full_name, 
@@ -187,7 +172,9 @@ class Database():
     def get_list_clients(self):
         try:
             with self.__connection.cursor() as cursor:
-                qry = '''SELECT user_type,
+                qry = '''SELECT user_id,
+                                is_active,
+                                user_type,
                                 status,
                                 username,
                                 full_name, 
@@ -242,10 +229,37 @@ class Database():
     #     except Exception as e:
     #         print(f'The following error occured: {e}')
 
+    # Iana code
+    def update_password(self,username, new_password):
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''UPDATE salon_user
+                        SET password_hashed = :new_password
+                            WHERE username = :username'''
+                cursor.execute(qry,username=username,new_password=new_password)
+                self.__connection.commit()
+        except Exception as e:
+            print(f'Error updating member: {e}')
+    
+    def update_image(self,username, user_image):
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''UPDATE salon_user
+                        SET user_image = :user_image,
+                            WHERE username = :username'''
+                cursor.execute(qry,username=username,user_image=user_image)
+                self.__connection.commit()
+        except Exception as e:
+            print(f'Error updating member: {e}')
+    
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    
     def get_member(self, username):
         try:
             with self.__connection.cursor() as cursor:
-                qry = '''SELECT user_type,
+                qry = '''SELECT user_id,
+                                is_active,
+                                user_type,
                                 status,
                                 username,
                                 full_name, 
@@ -269,7 +283,49 @@ class Database():
         except Exception as e:
             print(f'Error retrieving member: {e}')
             return None
+    
+    def get_active(self, username):
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''SELECT is_active FROM salon_user WHERE username = :username'''
+                cursor.execute(qry, username=username)
+                row = cursor.fetchone()
+                if row:
+                    active = row[0]
+                    return active
+        except Exception as e:
+            print(f'Error retrieving member: {e}')
 
+    def set_active(self, username, active):
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''UPDATE salon_user SET is_active=:active WHERE username = :username'''
+                cursor.execute(qry, username=username, active=active)
+        except Exception as e:
+            print(f'Error updating member: {e}')
+    
+    def get_flag(self, username):
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''SELECT status FROM salon_user WHERE username = :username'''
+                cursor.execute(qry, username=username)
+                row = cursor.fetchone()
+                if row:
+                    flag = row[0]
+                    return flag
+                else:
+                    return None
+        except Exception as e:
+            print(f'Error retrieving member: {e}')
+            
+    def set_flag(self, username, status):
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''UPDATE salon_user SET status=:status WHERE username = :username'''
+                cursor.execute(qry, username=username, status=status)
+        except Exception as e:
+            print(f'Error updating member: {e}')
+    
     
     #Selects client based on the username                
     # def get_client_user(self, username):
@@ -424,6 +480,15 @@ class Database():
         except Exception as e:
             # Handle exceptions
             print(e)
+    def get_appointment(self, appointment_id):
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_appointment WHERE appointment_id = :appointment_id'
+                info = {'appointment_id': appointment_id}
+                fetch = c.execute(sql, info).fetchone()
+                return Appointment(fetch[0], fetch[1], fetch[2],fetch[3], fetch[4], fetch[5], fetch[6], fetch[7], fetch[8])
+        except Exception as e:
+            print(e)
 
 
 
@@ -442,4 +507,5 @@ database = Database()
 # 2.	Call run_sql_script on da1tabase.sql  if the script (database.py) is run in isolation.
 
 if __name__ == '__main__':
-    database.run_sql_script('schemasql')
+    database.run_sql_script('schema.sql')
+    database.update_profile("Michelle_BelHair", "michel.png","12345678")
