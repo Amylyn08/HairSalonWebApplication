@@ -399,7 +399,7 @@ class Database():
             print(e)
 
 
-# add new address to database
+# add new appointment to database
     def add_new_appointment(self, username, professional, service, venue, slot, date):
         '''  method to schedule a new appointment, data coming fro a user input form'''
         try:
@@ -415,6 +415,71 @@ class Database():
         except Exception as e:
             print (f'The following error occured: {e}')
 
+# add new report to database
+    def add_new_report(self, appointment_id, title, client_report, professional_report, member_type):
+        '''  method to schedule a new appointment, data coming fro a user input form'''
+        try:
+            with self.__connection.cursor() as cursor:
+                sql = f'''INSERT INTO salon_report (appointment_id, title, client_report, professional_report, member_type) 
+                            VALUES (:appointment_id, 
+                                    :title, 
+                                    :client_report, 
+                                    :professional_report, :member_type)'''
+                info = {'appointment_id' : appointment_id, 'title': title, 'client_report': client_report, 'professional_report': professional_report, 'member_type': member_type}
+                cursor.execute(sql, info)
+                self.__connection.commit()
+        except Exception as e:
+            print (f'The following error occured: {e}')
+            
+    def edit_report(self, report_id, new_client_report, new_professional_report):
+        '''  method to edit existing report in database'''
+        try:
+            with self.__connection.cursor() as cursor:
+                sql = f'''UPDATE salon_report
+                            SET client_report = :client_report, professional_report = :professional_report
+                            WHERE report_id = :report_id'''
+                info = {'report_id' : report_id, 'client_report': new_client_report, 'professional_report': new_professional_report}
+                cursor.execute(sql, info)
+                self.__connection.commit()
+        except Exception as e:
+            print (f'The following error occured: {e}')
+
+    def get_all_reports(self):
+        ''' method to list all reports '''
+        reports = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_report'
+                fetch = c.execute(sql).fetchall()
+                print(len(fetch))
+                for record in fetch:
+                    print(record)
+                    reports.append(Report(record[0], record[1], record[2],record[3], record[4], record[5], record[6]))
+        except Exception as e:
+            print(e)
+        
+        return reports
+
+    def get_all_services(self):
+        service_names = []
+        try:
+            with self.__connection.cursor() as c:
+                qry = '''
+                    SELECT
+                        service_name
+                    FROM
+                        salon_service
+                '''
+                c.execute()
+                services = c.fetchall()
+                for service in services:
+                    service_names.append(service)
+
+                # Process appointments as needed
+                return services
+        except Exception as e:
+            # Handle exceptions
+            print(e)
     def get_appointment(self, appointment_id):
         try:
             with self.__connection.cursor() as c:
