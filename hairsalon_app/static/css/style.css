@@ -50,6 +50,10 @@ body {
     display: flex;
  }
 
+ #left-nav li{
+    text-decoration: none;
+ }
+
 #logo{
     height: auto;
     width: auto;
@@ -138,7 +142,7 @@ main {
     margin: 0; /* Remove margin */
 }
 
-#main-pannel {
+  #main-pannel {
     flex: 3;
     padding: 20px;
     justify-content: center;

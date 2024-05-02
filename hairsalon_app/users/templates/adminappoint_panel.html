@@ -4,7 +4,7 @@
 {% endblock content_css %}
 {% block content_when_login %}
 <p>Hey {{current_user.username}}</p>
-<li>Profile</li>
+<li>Profile<a href="{{url_for('users_bp.profile', username=current_user.username)}}"></a></li>
 <li><a href="{{url_for('users_bp.logout')}}">Logout</a></li>
 <li><a>My reports</a></li>
 <li><a href="{{url_for('appointment_bp.my_appointments', username=current_user.username)}}">My Appointments</a></li>

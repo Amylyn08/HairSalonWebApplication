@@ -1,0 +1,14 @@
+{% extends 'update_profile.html'%}
+{% block image_update%}
+<form action="" method="POST" enctype="multipart/form-data" novalidate>
+    {{ form.hidden_tag() }}
+    <fieldset>
+        {{ form.user_image(class='form-field', placeholder='Upload New Photo') }}
+        {{form.submit(class='button')}}
+</form>
+{% endblock image_update %}
+
+{% block content_main_pannel %}
+    <div></div>
+{% endblock content_main_pannel %}
+
