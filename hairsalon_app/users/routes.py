@@ -55,7 +55,10 @@ def register():
         flash('Passwords do not match!', 'error')
     elif form.validate_on_submit():
         # Check if this user already exists
-        file_name = save_file(form_file=form.user_image.data)
+        if form.user_image.data:
+            file_name = save_file(form_file=form.user_image.data)
+        else:
+            file_name = 'default.png'
         member_exists = db.get_member(username=form.username.data)
         if not member_exists:
             b = Bcrypt()
