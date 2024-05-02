@@ -25,7 +25,14 @@
 {% endblock content_when_login %}
 {% block content_side_pannel %}
 <h3>Reports for Appointment ID: {{appointment.appointment_id}} </h3>
-<!-- add a for loop iterating through -->
+{% for report in reports %}
+    <ul>
+        <li>{{report.id}}</li>
+        <li>{{appointment.id}}</li>
+        <li>{{client_report.id}}</li>
+        <li>{{professional_report.id}}</li>
+    </ul>
+{% endfor %}
 {% endblock content_side_pannel %}
 {% block content_main_pannel %}
     <h2>Appointment ID: {{appointment.appointment_id}}</h2>

@@ -478,6 +478,22 @@ class Database():
         
         return reports
 
+    def get_report_by_id(self, report_id):
+        ''' method to retrieve report by its id'''
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_report WHERE report_id = :report_id'
+                info = {'report_id' : report_id}
+                fetch = c.execute(sql, info).fetchone()
+                print(len(fetch))
+                for record in fetch:
+                    print(record)
+                    return (Report(record[0], record[1], record[2],record[3], record[4], record[5], record[6]))
+        except Exception as e:
+            print(e)
+        
+        return None
+
     def get_all_services(self):
         service_names = []
         try:
