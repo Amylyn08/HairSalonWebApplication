@@ -38,24 +38,35 @@
                 <td>{{ client.id }}</td> <!-- Assuming client's ID is stored in a field called 'id' -->
                 <td>{{ client.username }}</td>
                 <td>{{ client.full_name }}</td>
-                {% if current_user.is_active %}
+                {% if client.is_active[0] == 0 %}
                 <td class="access">
-                    <form action="{{ url_for('users_bp.deactivate_user', username=client.username) }}" method="post">
-                        <input type="hidden" name="user_id" value="{{ client.id }}"> <!-- Hidden input field to store user's ID -->
-                        <input type="submit" value="Activated">
-                    </form>
+                    <button>
+                        <a href="{{url_for('users_bp.toggle_active_user', username=client.username)}}">Activated</a>
+                    </button>
                 </td>
                 {% else %}
                 <td class="access deactivated">
-                    <form action="{{ url_for('users_bp.reactivate_user', username=client.username) }}" method="post">                        <input type="submit" value="Deactivated">
-                    </form>
+                    <button>
+                        <a class="custom-link" href="{{url_for('users_bp.toggle_active_user', username=client.username)}}">Deactivated</a>
+                    </button>
                 </td>
                 {% endif %}
                 <td><img src="{{ url_for('static', filename='images/user-pics/' + client.user_image) }}" alt="Profile picture of user"></td>
-                <td>{{ client.status }}</td>
+                {% if client.status == 0 %}
+                <td class="flag">
+                    <button>
+                        <a class="custom-link" href="{{url_for('users_bp.toggle_flag', username=client.username)}}">Unflagged</a>
+                    </button>
+                </td>
+                {% else %}
+                <td class="flag flagged"> 
+                    <button>
+                        <a class="custom-link" href="{{url_for('users_bp.toggle_flag', username=client.username)}}">Flagged</a>
+                    </button>
+                </td>
+                {% endif %}
             </tr>
             {% endfor %}
-            
         </table>
     </div>
     <div id="Employees-list" class="content">
@@ -67,29 +78,40 @@
                 <th>Full Name</th>
                 <th>Active</th>
                 <th>Picture</th>
-                <th class="flag">Flag</th>
+                <th>Flag</th>
             </tr>
             {% for employee in employees %}
             <tr>
                 <td>{{employee.user_id}}</td>
                 <td>{{employee.username}}</td>
                 <td>{{employee.full_name}}</td>    
-                {% if current_user.is_active %}
+                {% if employee.is_active[0] == 0 %}
                 <td class="access">
-                    <form action="{{ url_for('users_bp.deactivate_user', username=employee.username) }}" method="post">
-                        <input type="submit" value="Activated">
-                    </form>
+                    <button>
+                        <a class="custom-link" href="{{url_for('users_bp.toggle_active_user', username=employee.username)}}">Activated</a>
+                    </button>
                 </td>
                 {% else %}
                 <td class="access deactivated">
-                    <form action="{{ url_for('users_bp.reactivate_user', username=employee.username) }}" method="post">
-                        <input type="submit" value="Deactivated">
-                    </form>
+                    <button>
+                        <a class="custom-link" href="{{url_for('users_bp.toggle_active_user', username=employee.username)}}">Deactivated</a>
+                    </button>
                 </td>
-                
                 {% endif %}
                 <td><img src="{{ url_for('static', filename='images/user-pics/' + employee.user_image) }}" alt="Profile picture of user"></td>
-                <td>{{employee.status}}</td>
+                {% if employee.status == 0 %}
+                <td class="flag">
+                    <button>
+                        <a class="custom-link" href="{{url_for('users_bp.toggle_flag', username=employee.username)}}">Unflagged</a>
+                    </button>
+                </td>
+                {% else %}
+                <td class="flag flagged">
+                    <button>
+                        <a class="custom-link" href="{{url_for('users_bp.toggle_flag', username=employee.username)}}">Flagged</a>
+                    </button>
+                </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </table>
@@ -103,14 +125,16 @@
                 <th>Date</th>
                 <th>Client ID</th>
                 <th>Employee ID</th>
+                <th>View Details / Modify</th>
             </tr>
             {% for app in appointments %}
             <tr>
                 <td>{{app.appointment_id}}</td>
                 <td>{{app.status}}</td>
+                <td>{{app.date_appointment}}</td>
                 <td>{{app.client_id}}</td>
                 <td>{{app.professional_id}}</td>
-                <td></td>
+                <td><a class="app-link" href="{{url_for('appointment_bp.specific_appointment', appointment_id=app.appointment_id)}}">Details</a></td>
             </tr>
             {% endfor %}
         </table>

@@ -1,6 +1,6 @@
 #Name : Iana Feniuc
 #Section : 01
-from flask import Blueprint, current_app, flash, url_for, redirect, render_template
+from flask import Blueprint, abort, current_app, flash, make_response, url_for, redirect, render_template
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from hairsalon_app.qdb.database import Database
 from flask_bcrypt import Bcrypt
@@ -119,15 +119,19 @@ def login():
     if form.validate_on_submit():
         user_exists = db.get_member(username=form.username.data)
         if user_exists:
-            
+            if user_exists.is_active[0] == 1:
+                flash('Your account has been deactivated by the admin. Please contact us.', 'error')
+                return redirect(url_for('main_bp.home'))
             b = Bcrypt()
             password_hashed = user_exists.password
             if b.check_password_hash(password_hashed, form.password.data):
-                user = User(username=form.username.data)
+                user = User(username=user_exists.username)
                 login_user(user)
+                if user_exists.status == 1:
+                    flash('Your account has been flagged. You are actions are being monitored.', 'info')
                 flash(f'Success: Logged in as {form.username.data}', 'success')
                 return redirect(url_for('main_bp.member_home'))
-    flash ('Invalid password or username. Retry', 'error')        
+        flash ('Invalid password or username. Retry', 'error')        
     return render_template('login.html', form=form)
 
 
@@ -139,23 +143,30 @@ def logout():
     flash("You have been logged out successfully", "success")
     return redirect(url_for('main_bp.home'))
 
-@users_bp.route('/deactivate/', methods=['GET','POST'])
-def deactivate_user(username):
-    user = load_user(username)
-    user.is_active = False
-    flash(f'User {current_user.username} has been deactivated','success')
-
-@users_bp.route('/reactivate/', methods=['GET','POST'])
-def reactivate_user(username):
-    user = load_user(username)
-    user.is_active = True
-    flash(f'User {current_user.username} has been reactivated','success')
-
+@users_bp.route('/toggle_active/<string:username>/', methods=['GET','POST'])
+def toggle_active_user(username):
+    active = db.get_active(username=username)
+    if active == 0:
+        active = 1
+        flash(f'User {username} has been deactivated', 'success')
+    else:
+        active = 0
+        flash(f'User {username} has been activated', 'success')
     
-#loading user from login_manager
-@login_manager.user_loader
-def load_user(username):
-    return User(username)
+    db.set_active(username=username, active=active)
+    return redirect(url_for('users_bp.adminsuper_pannel'))
+
+@users_bp.route('/toggle_flag/<string:username>/', methods=['GET','POST'])
+def toggle_flag(username):
+    flag = db.get_flag(username=username)
+    if flag == 0:
+        flag = 1
+        flash(f'User {username} has been flagged', 'success')
+    else:
+        flag = 0
+        flash(f'User {username} has been unflagged', 'success')
+    db.set_flag(username=username, status=flag)
+    return make_response({}, 204)
 
 def save_file(form_file):
     random_file_name  = secrets.token_hex(8)
