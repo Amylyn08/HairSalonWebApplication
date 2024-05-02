@@ -3,12 +3,9 @@ import os
 import oracledb  
 from hairsalon_app.appointment_view.appointment import Appointment
 from hairsalon_app.users.Member import Member
-from hairsalon_app.users.Professional import Profesionnal
 import pdb
 
-#from hairsalon_app.users.Client import Client
 
-#from hairsalon_app.users.Professional import Profesionnal
 
 class Database():
      
@@ -113,19 +110,6 @@ class Database():
             print(e)
         return list_users 
     
-# #Get the list of clients
-#     def get_users_clients(self):
-#         '''Returns all profesionnal objects in a list'''
-#         list_clients = []
-#         try:
-#             with self.get_cursor() as cur:
-#                 qry = f" select * from salon_client"
-#                 r = cur.execute(qry).fetchall()
-#                 for client in r:
-#                     list_clients.append(Client(client[3],client[4],client[5],client[6],client[7],client[8],client[9],client[10]))
-#         except Exception as e:
-#             print(e)
-#         return list_clients 
 #Add a new user
     #Add a new client
 
@@ -240,18 +224,31 @@ class Database():
     #             return client_list
     #     except Exception as e:
     #         print(f'The following error occured: {e}')
-    def update_profile(self,username, user_image, new_password):
+
+    # Iana code
+    def update_password(self,username, new_password):
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''UPDATE salon_user
+                        SET password_hashed = :new_password
+                            WHERE username = :username'''
+                cursor.execute(qry,username=username,new_password=new_password)
+                self.__connection.commit()
+        except Exception as e:
+            print(f'Error updating member: {e}')
+    
+    def update_image(self,username, user_image):
         try:
             with self.__connection.cursor() as cursor:
                 qry = '''UPDATE salon_user
                         SET user_image = :user_image,
-                            password_hashed = :new_password
                             WHERE username = :username'''
-                cursor.execute(qry, username=username, user_image=user_image, new_password=new_password)
+                cursor.execute(qry,username=username,user_image=user_image)
+                self.__connection.commit()
         except Exception as e:
             print(f'Error updating member: {e}')
     
-
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     
     def get_member(self, username):
         try:
@@ -390,3 +387,4 @@ database = Database()
 
 if __name__ == '__main__':
     database.run_sql_script('schema.sql')
+    database.update_profile("Michelle_BelHair", "michel.png","12345678")

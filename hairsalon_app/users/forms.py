@@ -10,7 +10,7 @@ class NewUserForm(FlaskForm):
     email = EmailField('email', validators=[DataRequired(), Email()])
     password = PasswordField('password', validators=[DataRequired()])
     confirm_password = PasswordField('confirm_password', validators=[DataRequired(), EqualTo('password')])
-    user_image = FileField('user_image', validators=[FileAllowed(['png', 'jpg', 'jpeg'])])
+    user_image = FileField('user_image', validators=[FileAllowed(['png', 'jpg', 'jpeg', 'webp'])])
     phone_number = TelField('phone_number', validators=[DataRequired()])
     address = StringField('address', validators=[DataRequired()])
     age = IntegerField('age', validators=[DataRequired(), NumberRange(min=0)])
@@ -23,10 +23,13 @@ class LoginForm(FlaskForm):
     password = PasswordField('password', validators=[DataRequired()])
     submit = SubmitField('Login')
 
-class UpdateUserForm(FlaskForm):
+class UpdatePasswordForm(FlaskForm):
     old_password = PasswordField('password', validators=[DataRequired()])
-    new_password = PasswordField('confirm_password', validators=[DataRequired(), EqualTo('password')])
-    user_image = FileField('user_image', validators=[FileAllowed(['png', 'jpg', 'jpeg'])])
-    submit = SubmitField('Register')
+    new_password = PasswordField('confirm_password', validators=[DataRequired()])
+    submit = SubmitField('Update Password')
+
+class UpdateImageForm(FlaskForm):
+    user_image = FileField('user_image', validators=[FileAllowed(['png', 'jpg', 'jpeg', 'webp'])])
+    submit = SubmitField('Update Image')
 
     
