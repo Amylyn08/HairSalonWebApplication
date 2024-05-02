@@ -49,3 +49,12 @@ def all_appointments(): #the id is the one for the note
         return render_template("all_appointments.html", context = all_appointments)
         
     return redirect(url_for("appointment_bp.create_appointment"))
+
+@appointment_bp.route("/appointment/<int:appointment_id>", methods=['GET'])
+@login_required
+def specific_appointment(appointment_id):
+    appointment = db.get_appointment(appointment_id)
+    if appointment is None:
+        flash('Appointment not found', 'error')
+        return redirect(url_for("appointment_bp.all_appointments"))
+    return render_template("specific_appointment.html", appointment = appointment)

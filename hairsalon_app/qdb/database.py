@@ -317,21 +317,6 @@ class Database():
         except Exception as e:
             print(f'Error updating member: {e}')
     
-    def flag_member(self, username):
-        try:
-            with self.__connection.cursor() as cursor:
-                qry = '''UPDATE salon_user SET status = 1 WHERE username = :username'''
-                cursor.execute(qry, username=username)
-        except Exception as e:
-            print(f'An error has occured: {e}')
-    
-    def unflag_member(self, username): 
-        try:
-            with self.__connection.cursor() as cursor:
-                qry = '''UPDATE salon_user SET status = 0 WHERE username = :username'''
-                cursor.execute(qry, username=username)
-        except Exception as e:
-            print(f'An error has occured: {e}')
     
     #Selects client based on the username                
     # def get_client_user(self, username):
@@ -421,7 +406,15 @@ class Database():
         except Exception as e:
             print (f'The following error occured: {e}')
 
-
+    def get_appointment(self, appointment_id):
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_appointment WHERE appointment_id = :appointment_id'
+                info = {'appointment_id': appointment_id}
+                fetch = c.execute(sql, info).fetchone()
+                return Appointment(fetch[0], fetch[1], fetch[2],fetch[3], fetch[4], fetch[5], fetch[6], fetch[7], fetch[8])
+        except Exception as e:
+            print(e)
 
 
 
