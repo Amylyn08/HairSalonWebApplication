@@ -32,20 +32,12 @@
         <p>Date: {{report.date_report}}</p>
     </div>
     <div class="rdiv2">
-        <p>Client: {{client.client_report}}</p>
+        <p>Client: {{report.client_report}}</p>
     </div>
     <div class="rdiv3">
-        <p>Professional: {{professional.professional_report}}</p>
+        <p>Professional: {{report.professional_report}}</p>
     </div>
 </div>
-{% endfor %}
-{% for report in reports %}
-    <ul>
-        <li>{{report.id}}</li>
-        <li>{{appointment.id}}</li>
-        <li>{{client_report.id}}</li>
-        <li>{{professional_report.id}}</li>
-    </ul>
 {% endfor %}
 <button>
     <a href="{{url_for('report_bp.create_report', appointment_id=appointment.appointment_id)}}">Create Report</a>

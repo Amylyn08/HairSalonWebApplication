@@ -352,9 +352,7 @@ class Database():
                 sql = f'SELECT * FROM salon_appointment INNER JOIN salon_user ON salon_appointment.client_id = salon_user.user_id WHERE username = :username'
                 info = {'username':username}
                 fetch = c.execute(sql, info).fetchall()
-                print(len(fetch))
                 for record in fetch:
-                    print(record)
                     appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
         except Exception as e:
             print(e)
@@ -368,9 +366,7 @@ class Database():
             with self.__connection.cursor() as c:
                 sql = f'SELECT * FROM salon_appointment'
                 fetch = c.execute(sql).fetchall()
-                print(len(fetch))
                 for record in fetch:
-                    print(record)
                     appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
         except Exception as e:
             print(e)
@@ -464,21 +460,19 @@ class Database():
     
     def get_appointment_reports(self, appointment_id):
         ''' method to list all reports of a specific appointment'''
-        reports = []
         try:
             with self.__connection.cursor() as c:
                 sql = f'SELECT * FROM salon_report WHERE appointment_id = :appointment_id'
-                info = {'apppointment_id' : appointment_id}
-                fetch = c.execute(sql, info).fetchall()
-                print(len(fetch))
-                for record in fetch:
-                    print(record)
-                    reports.append(Report(record[0], record[1], record[2],record[3], record[4], record[5], record[6]))
+                info = {'appointment_id' : appointment_id}
+                c.execute(sql, info)
+                rows = c.fetchall()
+                reports = []
+                for report in rows:
+                    reports.append(Report(*report))
+            return reports      
         except Exception as e:
-            print(e)
+            print(f'The following exception occured: {e}')
         
-        return reports
-
     def get_report_by_id(self, report_id):
         ''' method to retrieve report by its id'''
         try:

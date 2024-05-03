@@ -58,4 +58,4 @@ def specific_appointment(appointment_id):
     if appointment is None:
         flash('Appointment not found', 'error')
         return redirect(url_for("appointment_bp.all_appointments"))
-    return render_template("specific_appointment.html", appointment = appointment, report = reports)
+    return render_template("specific_appointment.html", appointment = appointment, reports = reports)
