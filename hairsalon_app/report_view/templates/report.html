@@ -24,10 +24,18 @@
     <fieldset>
       <label for="title">Title</label>
       {{form.title (class="form-field", label = "title")}}
-      <label for="client_report">Client's report</label>
-      {{form.client_report (class="form-field", label = "client_report")}}
-      <label for="professional_report">Professional's report</label>
-      {{form.professional_report (class="form-field", label = "professional_report")}}
+      {% if current_user.user_type == 'client' %}
+        <label for="client_report">Client's report</label>
+        {{form.client_report (class="form-field", placeholder = "Client's report")}}
+      {% elif current_user.user_type == 'professional' %}
+        <label for="professional_report">Professional's report</label>
+        {{form.professional_report (class="form-field", placeholder = "Professional's report")}}
+      {% else %}
+        <label for="client_report">Client's report</label>
+        {{form.client_report (class="form-field", placeholder = "Client's report")}}
+        <label for="professional_report">Professional's report</label>
+        {{form.professional_report (class="form-field", placeholder = "Professional's report")}}
+      {% endif %}
     </fieldset>
     {{form.submit (class=button)}}
   </form>

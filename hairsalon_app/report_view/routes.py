@@ -14,9 +14,9 @@ db = Database()
 def create_report(appointment_id):
     form = ReportForm() 
     if form.validate_on_submit():
-        db.add_new_report(appointment_id, form.title.data, form.client_report.data, form.professional_report.data)
+        db.add_new_report(current_user.user_id, appointment_id, form.title.data, form.client_report.data, form.professional_report.data)
         flash('Report sent', 'success')
-        return redirect(url_for('report_bp.create_report'))
+        return redirect(url_for('appointment_bp.specific_appointment', appointment_id=appointment_id))
     flash('Invalid Inputs.' 'error')
     return render_template('report.html', form=form)
 
