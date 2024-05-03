@@ -1,6 +1,6 @@
 #Name : Iana Feniuc
 #Section : 01
-from flask import Blueprint, abort, current_app, flash, make_response, url_for, redirect, render_template
+from flask import Blueprint, abort, current_app, flash, make_response, url_for, redirect, render_template,request
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from hairsalon_app.qdb.database import Database
 from flask_bcrypt import Bcrypt
@@ -10,7 +10,7 @@ from PIL import Image
 
 from hairsalon_app.users.Member import Member
 from hairsalon_app.users.User import User
-from hairsalon_app.users.forms import LoginForm, NewUserForm, UpdatePasswordForm, UpdateImageForm
+from hairsalon_app.users.forms import LoginForm, NewUserForm, UpdateProfileForm, UpdateImageForm
 #Create an instance of Database
 db = Database()
 login_manager = LoginManager()
@@ -118,35 +118,49 @@ def profile(username):
     return render_template('Profile.html', users=user)
 
 @users_bp.route('/profile/edit/<username>/', methods=['GET', 'POST'])
-def edit_password(username):
-    form = UpdatePasswordForm()
+def edit_profile(username):
+    form1 = UpdateImageForm()
+    form = UpdateProfileForm()
     user = db.get_member(username=username)
-    if form.validate_on_submit():
-        b = Bcrypt()
-        #hashed_old_pass = b.generate_password_hash(form.old_password.data).decode('utf-8')
-        if b.check_password_hash(user.password, form.old_password.data):
-            b = Bcrypt()
-            hashed_new_pass = b.generate_password_hash(form.new_password.data).decode('utf-8')
-            db.update_password(username=user.username,new_password= hashed_new_pass)
-            flash('Successful update!','success')
-            redirect(url_for('users_bp.profile', username=user.username))
+    if request.method == 'POST':
+        full_name = form.full_name.data if form.full_name.data else user.full_name
+        email = form.email.data if form.email.data else user.email
+        phone_number = form.phone_number.data if form.phone_number.data else user.phone_number
+        address = form.address.data if form.address.data else user.address
+        # Handle user_image file upload
+        if form1.user_image.data:
+            file_name = save_file(form1.user_image.data)  
         else:
-            flash('Please input the information correctly!','error')
-    return render_template('update_profile.html', form=form, users=user)
-
-@users_bp.route('/profile/editimage/<username>/', methods=['GET', 'POST'])
-
-def edit_image(username):
-    form = UpdateImageForm()
-    user = db.get_member(username=username)
-    if form.validate_on_submit():
-        file_name = save_file(form_file=form.user_image.data)
-        db.update_image(username=user.username, user_image=file_name)
+            file_name = user.user_image
+        if form.new_password.data and form.new_password.data :
+            b = Bcrypt()
+            if b.check_password_hash(user.password, form.old_password.data):
+                b = Bcrypt()
+                hashed_new_pass = b.generate_password_hash(form.new_password.data).decode('utf-8')
+                password = hashed_new_pass
+            else:
+                flash('You inputed the wrong password for you account.Please input the information correctly!','error')
+                password = user.password
+        else:
+            password = user.password
+        db.update_profile(username=user.username,new_password= password, full_name=full_name, email=email,  phone_number=phone_number, address=address, user_image=file_name)
         flash('Successful update!','success')
-        redirect(url_for('users_bp.profile', username=user.username))
-    else:
-        flash('Please input the information correctly!','error')
-    return render_template('image_update.html', form=form, users=user)
+        return redirect(url_for('users_bp.profile', username=user.username))
+    return render_template('update_profile.html', form=form, form1=form1, users=user)
+
+
+# @users_bp.route('/profile/editimage/<username>/', methods=['GET', 'POST'])
+# def edit_image(username):
+#     form = UpdateImageForm()
+#     user = db.get_member(username=username)
+#     if form.validate_on_submit():
+#         file_name = save_file(form_file=form.user_image.data)
+#         db.update_image(username=user.username, user_image=file_name)
+#         flash('Successful update!','success')
+#         return redirect(url_for('users_bp.profile', username=user.username))
+#     else:
+#         flash('Please input the information correctly!','error')
+#     return render_template('image_update.html', form=form, users=user)
         
 
 #route for and function for logout.
