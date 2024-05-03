@@ -135,7 +135,6 @@ def edit_password(username):
     return render_template('update_profile.html', form=form, users=user)
 
 @users_bp.route('/profile/editimage/<username>/', methods=['GET', 'POST'])
-
 def edit_image(username):
     form = UpdateImageForm()
     user = db.get_member(username=username)
