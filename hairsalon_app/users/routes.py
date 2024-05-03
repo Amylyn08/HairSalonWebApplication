@@ -101,7 +101,7 @@ def login():
             b = Bcrypt()
             password_hashed = user_exists.password
             if b.check_password_hash(password_hashed, form.password.data):
-                user = User(username=user_exists.username, user_id=user_exists.user_id,user_type=user_exists.user_type)
+                user = User(username=user_exists.username)
                 login_user(user)
                 if user_exists.status == 1:
                     flash('Your account has been flagged. You are actions are being monitored.', 'info')

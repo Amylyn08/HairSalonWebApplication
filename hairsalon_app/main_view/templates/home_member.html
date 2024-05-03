@@ -15,6 +15,7 @@
 {% elif current_user.username == 'nasr' %}
 <li><a href="{{ url_for('users_bp.adminsuper_pannel') }}">Admin Panel</a></li>
 {% endif %}
+<li> My reports <img class="icon" src="{{url_for('static', filename='images/Report2.webp')}}" alt="Rapport icon."></li>
 {% endblock content_when_login %}
 {% block content_main_pannel %}
 <h2>Welcome Home</h2>

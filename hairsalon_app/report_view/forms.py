@@ -8,11 +8,9 @@ db = Database()
 
 #form to add report to a specific appointment
 class ReportForm(FlaskForm):
-    appointment_id = IntegerField('appointment_id', validators=[DataRequired()])
-    title = StringField('title', validators = [DataRequired()])
-    client_report =  StringField('client_report', validators = [DataRequired()])
-    professional_report = StringField('professional_report', validators = [DataRequired()])
-    member_type = SelectField('member_type', choices=[('0', '0'), ('1', '1')], validators = [DataRequired()])
+    title = StringField('title', validators = [DataRequired(), Length(max=20)])
+    client_report =  StringField('client_report', validators = [Length(max=100)])
+    professional_report = StringField('professional_report', validators = [Length(max=100)])
     submit = SubmitField("Send report")
     
 class ReportEdit(FlaskForm):

@@ -2,6 +2,7 @@ from flask import Flask, flash, redirect, render_template, url_for
 from flask import *
 from flask_login import LoginManager
 from hairsalon_app.config import ConfigProd
+from hairsalon_app.qdb.database import Database
 from hairsalon_app.users.User import User
 
        
@@ -11,6 +12,7 @@ def create_app(config = ConfigProd):
     app = Flask(__name__)
     app.config.from_object(config)
 
+    db = Database()
     #import your blueprints here
     # ex) from smt.smt.smt... import smt..
     from hairsalon_app.main_view.routes import main_bp
@@ -26,10 +28,6 @@ def create_app(config = ConfigProd):
     app.register_blueprint(users_bp)
     app.register_blueprint(report_bp)
 
-    login_manager = LoginManager()
-    login_manager.init_app(app)
-    login_manager.login_view = 'login'
-
     #creating login manager
     login_manager = LoginManager()
     login_manager.init_app(app)
@@ -38,7 +36,7 @@ def create_app(config = ConfigProd):
     #loading user from login_manager
     @login_manager.user_loader
     def load_user(username):
-        return User(username)
+        return db.get_member(username=username)
     
     #unauthorized function from login_manager.
     @login_manager.unauthorized_handler

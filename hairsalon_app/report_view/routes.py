@@ -10,11 +10,11 @@ db = Database()
 
 
 #route to create report
-@report_bp.route('/report/', methods=['POST', 'GET'])
-def create_report():
+@report_bp.route('/report/<int:appointment_id>/', methods=['POST', 'GET'])
+def create_report(appointment_id):
     form = ReportForm() 
     if form.validate_on_submit():
-        db.add_new_report(form.appointment_id.data, form.title.data, form.client_report.data, form.professional_report.data, form.member_type.data)
+        db.add_new_report(appointment_id, form.title.data, form.client_report.data, form.professional_report.data)
         flash('Report sent', 'success')
         return redirect(url_for('report_bp.create_report'))
     flash('Invalid Inputs.' 'error')

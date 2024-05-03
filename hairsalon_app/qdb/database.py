@@ -253,7 +253,7 @@ class Database():
         except Exception as e:
             print(f'Error updating member: {e}')
     
-#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
     
     def get_member(self, username):
         try:

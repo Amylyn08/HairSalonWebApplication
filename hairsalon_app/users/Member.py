@@ -1,4 +1,7 @@
-class Member:
+from flask_login import UserMixin
+
+
+class Member(UserMixin):
     def __init__(self,user_id, is_active, user_type, status, username, full_name, email, user_image,password, phone, address, age, speciality, payrate):
         self.user_id = user_id
         self.is_active = is_active,
@@ -17,3 +20,11 @@ class Member:
 
     def __str__(self):
        return f"User: {self.username}, Full name : {self.full_name}"
+    
+    @property
+    def is_active(self):
+        return self._is_active
+    
+    @is_active.setter
+    def is_active(self, value):
+        self._is_active = value

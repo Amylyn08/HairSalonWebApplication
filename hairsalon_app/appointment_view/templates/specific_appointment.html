@@ -26,6 +26,20 @@
 {% block content_side_pannel %}
 <h3>Reports for Appointment ID: {{appointment.appointment_id}} </h3>
 {% for report in reports %}
+<div clas="report-div">
+    <h5>{{report.title}}</h5>
+    <div class="rdiv1">
+        <p>Date: {{report.date_report}}</p>
+    </div>
+    <div class="rdiv2">
+        <p>Client: {{client.client_report}}</p>
+    </div>
+    <div class="rdiv3">
+        <p>Professional: {{professional.professional_report}}</p>
+    </div>
+</div>
+{% endfor %}
+{% for report in reports %}
     <ul>
         <li>{{report.id}}</li>
         <li>{{appointment.id}}</li>
@@ -33,6 +47,9 @@
         <li>{{professional_report.id}}</li>
     </ul>
 {% endfor %}
+<button>
+    <a href="{{url_for('report_bp.create_report', appointment_id=appointment.appointment_id)}}">Create Report</a>
+</button>
 {% endblock content_side_pannel %}
 {% block content_main_pannel %}
     <h2>Appointment ID: {{appointment.appointment_id}}</h2>
