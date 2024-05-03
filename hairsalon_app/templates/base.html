@@ -50,10 +50,11 @@
         </div> 
     </nav>
     <main>
-        {% block content_side_pannel %}
         <div id="side-pannel">
+        {% block content_side_pannel %}
              <!-- In the respective templates, override this block to add content for your view.  --> 
-            {% endblock %} 
+        {% endblock content_side_pannel %}         
+
             <section id="flash-errors">
                 {% if get_flashed_messages() %}
                 <ul>
