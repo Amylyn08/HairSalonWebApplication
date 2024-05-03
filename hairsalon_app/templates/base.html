@@ -44,15 +44,15 @@
                         <a href="{{url_for('appointment_bp.all_appointments')}}">Appointments</a>
                         <img class="icon" src="{{url_for('static', filename='images/appointment3.webp')}}" alt="Appointement icon.">
                     </li>
-                    <li>My Reports <img class="icon" src="{{url_for('static', filename='images/Report2.webp')}}" alt="Rapport icon."></li>
+                    <li> My reports <img class="icon" src="{{url_for('static', filename='images/Report2.webp')}}" alt="Rapport icon."></li>
                 </ul>
             </nav>
         </div> 
     </nav>
     <main>
+        {% block content_side_pannel %}
         <div id="side-pannel">
-            {% block content_side_pannel %}
-             <!-- In the respective templates, override this block to add content for your view.  -->
+             <!-- In the respective templates, override this block to add content for your view.  --> 
             {% endblock %} 
             <section id="flash-errors">
                 {% if get_flashed_messages() %}
