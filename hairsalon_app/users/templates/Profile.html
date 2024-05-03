@@ -23,5 +23,7 @@
         <p> Address :{{users.address}} </p><br>
         <p> Email: {{users.email}} </p><br>
         <p> Age: {{users.age}} </p>
-   <button type="button"> <a href="{{url_for('users_bp.edit_password', username=users.username)}}">Update profile</a> </button>
+   <button type="button"> <a href="{{url_for('users_bp.edit_profile', username=users.username)}}">Update profile</a> </button>
+
+
 {% endblock %}
