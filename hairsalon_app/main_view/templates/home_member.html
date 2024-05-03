@@ -6,7 +6,7 @@
 <!-- <p>Hey {{current_user.username}}</p> -->
 <li> <a href="{{url_for('users_bp.profile', username=current_user.username )}}">Profile <img class="icon" src="{{url_for('static', filename='images/icon.webp')}}" alt="Profile icon."></a></li>
 <li><a href="{{url_for('users_bp.logout')}}">Logout</a></li>
-<li><a href="{{url_for('appointment_bp.my_appointments', username=current_user.username)}}">My Appointments</a></li>
+<li><a href="{{url_for('appointment_bp.my_appointments', user_id=current_user.user_id)}}">My Appointments</a></li>
 <li><a href="{{url_for('appointment_bp.create_appointment')}}">Create Appointment</a></li>
 {% if current_user.username == 'user_manager1' %}
 <li><a href="{{ url_for('users_bp.adminuser_pannel') }}">Admin Panel</a></li>

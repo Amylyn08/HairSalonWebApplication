@@ -34,14 +34,14 @@ def all_reports(): #the id is the one for the note
 #route to create report
 @report_bp.route('/edit_report/<int:report_id>', methods=['POST', 'GET'])
 def edit_report(report_id):
-    if current_user.user_id == db.get_report_by_id(report_id).user_id:
-        form = ReportEdit() 
-        if form.validate_on_submit():
-            db.edit_report(report_id, form.client_report.data, form.professional_report.data)
-            flash('Report sent', 'success')
-            return redirect(url_for('report_bp.all_reports'))
+    report = db.get_report_by_id(report_id=report_id)
+    form = ReportEdit() 
+    if form.validate_on_submit():
+        db.edit_report(report_id, form.client_report.data, form.professional_report.data)
+        flash('Report sent', 'success')
+        return redirect(url_for('appointment_bp.specific_appointment', appointment_id=report.appointment_id))
     flash('Invalid Inputs.' 'error')
-    return render_template('edit_report.html', form=form)
+    return render_template('edit_report.html', form=form, report=report)
 
 # #route for all reports
 # @report_bp.route("/all_appointments", methods=['GET'])

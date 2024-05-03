@@ -28,11 +28,11 @@ def create_appointment():
     return render_template('appointment.html', form=form)
 
 #route for user's appointments
-@appointment_bp.route("/my_appointments/<string:username>", methods=['GET'])
+@appointment_bp.route("/my_appointments/<int:user_id>", methods=['GET'])
 @login_required
-def my_appointments(username):
+def my_appointments(user_id):
     #get apps from db
-    my_appointments = db.get_my_appointments(username)
+    my_appointments = db.get_my_appointments(user_id)
      
     if (len(my_appointments)!= 0):
         return render_template("my_appointments.html", context = my_appointments)

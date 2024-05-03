@@ -8,7 +8,7 @@
         <li>Profile</li>
         <li><a href="{{ url_for('users_bp.logout') }}">Logout</a></li>
         <li><a>My reports</a></li>
-        <li><a href="{{ url_for('appointment_bp.my_appointments', username=current_user.username) }}">My Appointments</a></li>
+        <li><a href="{{url_for('appointment_bp.my_appointments', user_id=current_user.user_id)}}">My Appointments</a></li>
         <li><a href="{{ url_for('appointment_bp.create_appointment') }}">Create Appointment</a></li>
     {% else %}
         {# Use the default content_when_login if the user is not logged in #}
@@ -38,10 +38,19 @@
         <p>Professional: {{report.professional_report}}</p>
     </div>
 </div>
+{% if appointment.client_id == current_user.user_id or appointment.professional_id == current_user.user_id %}
+    <button>
+        <a href="{{url_for('report_bp.edit_report', report_id=report.report_id)}}">Edit Report</a>
+    </button>
+{% endif %}
 {% endfor %}
-<button>
-    <a href="{{url_for('report_bp.create_report', appointment_id=appointment.appointment_id)}}">Create Report</a>
-</button>
+{% if appointment.client_id == current_user.user_id or
+    appointment.professional_id == current_user.user_id and
+    reports is none %}
+    <button>
+        <a href="{{url_for('report_bp.create_report', appointment_id=appointment.appointment_id)}}">Create Report</a>
+    </button>
+{% endif %}
 {% endblock content_side_pannel %}
 {% block content_main_pannel %}
     <h2>Appointment ID: {{appointment.appointment_id}}</h2>

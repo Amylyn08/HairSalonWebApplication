@@ -14,6 +14,7 @@ class ReportForm(FlaskForm):
     submit = SubmitField("Send report")
     
 class ReportEdit(FlaskForm):
-    client_report =  StringField('client_report', validators = [DataRequired()])
-    professional_report = StringField('professional_report', validators = [DataRequired()])
+    title = StringField('title', validators = [DataRequired(), Length(max=20)])
+    client_report =  StringField('client_report', validators = [Length(max=100)])
+    professional_report = StringField('professional_report', validators = [Length(max=100)])
     submit = SubmitField("Edit report")

@@ -271,3 +271,7 @@ WHERE
     USERNAME = 'nasr';
 
 SELECT * FROM salon_report WHERE appointment_id = 8;
+
+ SELECT * 
+                    FROM SALON_APPOINTMENT 
+                    WHERE CLIENT_ID = :user_id OR PROFESSIONAL_ID = 9;

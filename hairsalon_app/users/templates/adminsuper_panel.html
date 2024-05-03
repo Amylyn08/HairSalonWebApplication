@@ -8,7 +8,7 @@
 <li>Profile</li>
 <li><a href="{{url_for('users_bp.logout')}}">Logout</a></li>
 <li><a>My reports</a></li>
-<li><a href="{{url_for('appointment_bp.my_appointments', username=current_user.username)}}">My Appointments</a></li>
+<li><a href="{{url_for('appointment_bp.my_appointments', user_id=current_user.user_id)}}">My Appointments</a></li>
 <li><a href="{{url_for('appointment_bp.create_appointment')}}">Create Appointment</a></li>
 {% endblock content_when_login %}
 {% block content_main_pannel %}

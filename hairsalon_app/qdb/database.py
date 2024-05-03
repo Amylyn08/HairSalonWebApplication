@@ -344,16 +344,19 @@ class Database():
 
 # ---------Darina
 
-    def get_my_appointments(self, username):
+    def get_my_appointments(self, user_id):
         ''' method to list all appointments of a given client '''
         appointments = []
         try:
             with self.__connection.cursor() as c:
-                sql = f'SELECT * FROM salon_appointment INNER JOIN salon_user ON salon_appointment.client_id = salon_user.user_id WHERE username = :username'
-                info = {'username':username}
-                fetch = c.execute(sql, info).fetchall()
-                for record in fetch:
-                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                sql = f'SELECT * FROM salon_appointment WHERE client_id = :user_id OR professional_id = :user_id'
+                info = {'user_id': user_id}
+                c.execute(sql, info)
+                rows = c.fetchall()
+                appointments = []
+                for app in rows:
+                    appointments.append(Appointment(*app))
+            return appointments
         except Exception as e:
             print(e)
         
@@ -479,15 +482,16 @@ class Database():
             with self.__connection.cursor() as c:
                 sql = f'SELECT * FROM salon_report WHERE report_id = :report_id'
                 info = {'report_id' : report_id}
-                fetch = c.execute(sql, info).fetchone()
-                print(len(fetch))
-                for record in fetch:
-                    print(record)
-                    return (Report(record[0], record[1], record[2],record[3], record[4], record[5], record[6]))
+                c.execute(sql, info)
+                row = c.fetchone()
+                if row:
+                    report = Report(*row)
+                    return report
+                else:
+                    return None
         except Exception as e:
-            print(e)
-        
-        return None
+            print(f"The followning exception occured: {e}")
+                
 
     def get_all_services(self):
         service_names = []
