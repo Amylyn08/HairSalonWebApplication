@@ -23,13 +23,16 @@ class LoginForm(FlaskForm):
     password = PasswordField('password', validators=[DataRequired()])
     submit = SubmitField('Login')
 
-class UpdatePasswordForm(FlaskForm):
-    old_password = PasswordField('password', validators=[DataRequired()])
-    new_password = PasswordField('confirm_password', validators=[DataRequired()])
-    submit = SubmitField('Update Password')
+class UpdateProfileForm(FlaskForm):
+    full_name = StringField('full_name')
+    old_password = PasswordField('password')
+    new_password = PasswordField('confirm_password')
+    email = EmailField('email', validators=[Email()])
+    phone_number = TelField('phone_number')
+    address = StringField('address')
+    submit = SubmitField('Update info')
 
 class UpdateImageForm(FlaskForm):
     user_image = FileField('user_image', validators=[FileAllowed(['png', 'jpg', 'jpeg', 'webp'])])
-    submit = SubmitField('Update Image')
-
+    submit = SubmitField('Update image')
     

@@ -230,27 +230,32 @@ class Database():
     #         print(f'The following error occured: {e}')
 
     # Iana code
-    def update_password(self,username, new_password):
+    def update_profile(self,username, new_password, full_name, email, phone_number, address, user_image):
         try:
             with self.__connection.cursor() as cursor:
                 qry = '''UPDATE salon_user
-                        SET password_hashed = :new_password
-                            WHERE username = :username'''
-                cursor.execute(qry,username=username,new_password=new_password)
+                        SET password_hashed = :new_password,
+                            full_name = :full_name,
+                            email = :email,
+                            phone_number = :phone_number,
+                            address = :address,
+                            user_image = :user_image
+                        WHERE username = :username'''
+                cursor.execute(qry,username=username,new_password=new_password,full_name=full_name,email=email,phone_number=phone_number,address=address,user_image=user_image)
                 self.__connection.commit()
         except Exception as e:
             print(f'Error updating member: {e}')
     
-    def update_image(self,username, user_image):
-        try:
-            with self.__connection.cursor() as cursor:
-                qry = '''UPDATE salon_user
-                        SET user_image = :user_image,
-                            WHERE username = :username'''
-                cursor.execute(qry,username=username,user_image=user_image)
-                self.__connection.commit()
-        except Exception as e:
-            print(f'Error updating member: {e}')
+    # def update_image(self,username, user_image):
+    #     try:
+    #         with self.__connection.cursor() as cursor:
+    #             qry = '''UPDATE salon_user
+    #                     SET user_image = :user_image
+    #                         WHERE username = :username'''
+    #             cursor.execute(qry,username=username,user_image=user_image)
+    #             self.__connection.commit()
+    #     except Exception as e:
+    #         print(f'Error updating member: {e}')
     
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     
@@ -508,4 +513,4 @@ database = Database()
 
 if __name__ == '__main__':
     database.run_sql_script('schema.sql')
-    database.update_profile("Michelle_BelHair", "michel.png","12345678")
+    database.update_image("liliana2020", "michel.png")

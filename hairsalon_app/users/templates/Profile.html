@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'home_member.html' %}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/profile.css')}}">
 {% endblock content_css %}
@@ -21,7 +21,7 @@
         <p> Age: {{users.age}} </p>
 
      
-   <button type="button"> <a href="{{url_for('users_bp.edit_password', username=users.username)}}">Update profile</a> </button>
+   <button type="button"> <a href="{{url_for('users_bp.edit_profile', username=users.username)}}">Update profile</a> </button>
 
 
 {% endblock %}
