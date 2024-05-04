@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
-{% block content_side_pannel %}
-<p>This is a hair salon service application for 420 Final Project...</p>
-{% endblock %}
 {% block content_when_login %}
-<!-- <p>Hey {{current_user.username}}</p> -->
-<li> <a href="{{url_for('users_bp.profile', username=current_user.username )}}">Profile <img class="icon" src="{{url_for('static', filename='images/icon.webp')}}" alt="Profile icon."></a></li>
+<p>Hey {{current_user.username}}</p>
+<li>Profile</li>
 <li><a href="{{url_for('users_bp.logout')}}">Logout</a></li>
+<li><a>My reports</a></li>
 <li><a href="{{url_for('appointment_bp.my_appointments', username=current_user.username)}}">My Appointments</a></li>
 <li><a href="{{url_for('appointment_bp.create_appointment')}}">Create Appointment</a></li>
 {% if current_user.username == 'user_manager1' %}
@@ -16,13 +14,22 @@
 <li><a href="{{ url_for('users_bp.adminsuper_pannel') }}">Admin Panel</a></li>
 {% endif %}
 {% endblock content_when_login %}
+{% block content_side_pannel %}
+<p>This is a hair salon service application for 420 Final Project...</p>
+{% endblock %}
 {% block content_main_pannel %}
-<h2>Welcome Home</h2>
-<img id="home_image" src="{{url_for('static', filename='images/logo.jpg')}}" alt="Hair salon logo with scissors and comb.">
-<div id="schedule-with-us">
-<h4>Shedule An Appointment </h4>
-    <p>(514) 928-2935</p>
-    <p>Saloon.appointments@gmail.com</p>
-    <a href="{{url_for('appointment_bp.create_appointment')}}"><buton>Make Appointment</buton></a>
-</div>
+<h2>Edit report</h2>
+
+<form action="" method="POST">
+  {{form.hidden_tag()}}  
+  <fieldset>
+    <label for="client_report">Enter New client report</label>
+    {{form.client_report (class="form-field", label= "username", value=current_user.username)}}
+    <label for="professional_report">Enter New professional report</label>
+    {{form.professional_report (class="form-field", label= "professional_report")}}
+  </fieldset>
+  {{form.submit (class=button)}}
+</form>
+
+  
 {% endblock %}

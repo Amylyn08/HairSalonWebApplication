@@ -6,7 +6,7 @@ from hairsalon_app.qdb.database import Database
 import datetime
 
 
-appointment_bp = Blueprint('appointment_bp', __name__, template_folder='templates')
+appointment_bp = Blueprint('appointment_bp', __name__, template_folder='templates', static_folder='static', static_url_path='/appointment_view/static')
 db = Database()
 
 
@@ -68,3 +68,11 @@ def edit_appointment(appointment_id):
     flash('Invalid Inputs.' 'error')
     return render_template('edit_appointment.html', form=form, appointment = appointment)
 
+@appointment_bp.route("/appointment/<int:appointment_id>", methods=['GET'])
+@login_required
+def specific_appointment(appointment_id):
+    appointment = db.get_appointment(appointment_id)
+    if appointment is None:
+        flash('Appointment not found', 'error')
+        return redirect(url_for("appointment_bp.all_appointments"))
+    return render_template("specific_appointment.html", appointment = appointment)

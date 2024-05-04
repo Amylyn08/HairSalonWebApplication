@@ -16,6 +16,7 @@ def create_app(config = ConfigProd):
     from hairsalon_app.main_view.routes import main_bp
     from hairsalon_app.appointment_view.routes import appointment_bp
     from hairsalon_app.users.routes import users_bp
+    from hairsalon_app.report_view.routes import report_bp
 
 # ---------
     #Register your blueprints here
@@ -23,6 +24,7 @@ def create_app(config = ConfigProd):
     app.register_blueprint(appointment_bp)
     app.register_blueprint(main_bp)
     app.register_blueprint(users_bp)
+    app.register_blueprint(report_bp)
 
     login_manager = LoginManager()
     login_manager.init_app(app)
@@ -35,14 +37,14 @@ def create_app(config = ConfigProd):
 
     #loading user from login_manager
     @login_manager.user_loader
-    def load_user(user_id):
-        return User(user_id)
+    def load_user(username):
+        return User(username)
     
     #unauthorized function from login_manager.
     @login_manager.unauthorized_handler
     def unauthorized():
         flash("Please login before", 'error')
-        return redirect(url_for('main.login'))
+        return redirect(url_for('users_bp.login'))
     
     # Define error handler for 404 error
     @app.errorhandler(404)

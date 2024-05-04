@@ -1,0 +1,27 @@
+{% extends 'home_member.html' %}
+{% block content_css %}
+<link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/profile.css')}}">
+{% endblock content_css %}
+{% block content_when_login %}
+<li>My profile <img class="icon" src="{{url_for('static', filename='images/icon.webp')}}" alt="Profile icon."></li>
+<li> Logout </li>
+{% endblock %}
+{% block content_side_pannel %}
+<img src="{{ url_for('static', filename='images/user-pics/' + users.user_image) }}" alt="Profile picture of user">
+{% endblock %}
+{% block content_main_pannel %}  
+        <h3> {{users.full_name}} </h3>
+        <h4> {{users.username}}</h5>
+        {% if users.user_type == 'professional' %}
+            <h5> Speciality: {{ users.specialty}} </h5>
+        {% endif %}
+        <p> User Type: {{ users.user_type}} </p><br>
+        <p> Address :{{users.address}} </p><br>
+        <p> Email: {{users.email}} </p><br>
+        <p> Age: {{users.age}} </p>
+
+     
+   <button type="button"> <a href="{{url_for('users_bp.edit_profile', username=users.username)}}">Update profile</a> </button>
+
+
+{% endblock %}
