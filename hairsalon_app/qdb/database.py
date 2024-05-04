@@ -322,9 +322,34 @@ class Database():
         except Exception as e:
             print (f'The following error occured: {e}')
 
+#delete appointment from database
+    def cancel_appointment(self, appointment_id):
+        '''  method to delete appointment from the database'''
+        try:
+            with self.__connection.cursor() as cursor:
+                sql = f'''UPDATE salon_appointment SET status = "cancelled" WHERE appointment_id = :appointment_id'''
+                info = {'appointment_id' : appointment_id}
+                cursor.execute(sql, info)
+                self.__connection.commit()
+        except Exception as e:
+            print (f'The following error occured: {e}')        
 
-
-
+#get appointment from id
+    def get_appointment_by_id(self, appointment_id):
+        ''' method to retrieve appointment by its id'''
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_appointment WHERE appointment_id = :appointment_id'
+                info = {'appointment_id' : appointment_id}
+                c.execute(sql, info)
+                row = c.fetchone()
+                if row:
+                    appointment = Appointment(*row)
+                    return appointment
+                else:
+                    return None
+        except Exception as e:
+            print(f"The followning exception occured: {e}")
 
 
 #----------END of work area -----------

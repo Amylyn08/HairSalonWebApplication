@@ -13,7 +13,12 @@ class AppointmentForm(FlaskForm):
     username = StringField('username', validators = [DataRequired()], render_kw={'readonly' : True})
     venue =  SelectField('venue', choices=[('1', '1'), ('2', '2'), ('3', '3')], validators = [DataRequired()]) #to change
     date = DateField('date', validators = [DataRequired()])
-    slot = SelectField('time', choices=[('1', '10-11'), ('2', '11-12'), ('3', '12-13')], validators = [DataRequired()])
+    slot = SelectField('time', choices=[('1', '10-11'), ('2', '11-12'), ('3', '12-13'), ('4', '13-14'), ('5', '14-15'), ('6', '15-16'), ('7', '16-17')], validators = [DataRequired()])
     professional = SelectField('professional', choices=choices, validators = [DataRequired()]) #to change
     service = SelectField('service', choices=[('Trimming', 'Trimming')], validators = [DataRequired()]) #to change
     submit = SubmitField("Reserve")
+
+class AppointmentEditForm(FlaskForm):
+    date = DateField('date', validators = [DataRequired()])
+    slot = SelectField('time', choices=[('1', '10-11'), ('2', '11-12'), ('3', '12-13'), ('4', '13-14'), ('5', '14-15'), ('6', '15-16'), ('7', '16-17')], validators = [DataRequired()])
+    submit = SubmitField("Edit")

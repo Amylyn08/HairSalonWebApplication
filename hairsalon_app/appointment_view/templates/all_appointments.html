@@ -16,6 +16,7 @@
     <li>Slot: {{appointment.slot}}</li>
     <li>Venue: {{appointment.venue}}</li>
   </ul>
+  <button type = "button"> <a href ="{{url_for('appointment_bp.edit_appointment', appointment_id = appointment.appointment_id)}}">Edit appointment </a></button>
 {% endfor %}
 
   
