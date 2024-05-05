@@ -3,8 +3,8 @@
 <p>This is a hair salon service application for 420 Final Project...</p>
 {% endblock %}
 {% block content_when_login %}
-<!-- <p>Hey {{current_user.username}}</p> -->
-<li> <a href="{{url_for('users_bp.profile', username=current_user.username )}}">Profile <img class="icon" src="{{url_for('static', filename='images/icon.webp')}}" alt="Profile icon."></a></li>
+<li>Hey {{current_user.username}}</li>
+<li> <a href="{{url_for('users_bp.profile', username=current_user.username )}}">Profile</a> <img class="icon" src="{{url_for('static', filename='images/icon.webp')}}" alt="Profile icon."></li>
 <li><a href="{{url_for('users_bp.logout')}}">Logout</a></li>
 <li><a href="{{url_for('appointment_bp.my_appointments', user_id=current_user.user_id)}}">My Appointments</a></li>
 <li><a href="{{url_for('appointment_bp.create_appointment')}}">Create Appointment</a></li>
@@ -15,7 +15,6 @@
 {% elif current_user.username == 'nasr' %}
 <li><a href="{{ url_for('users_bp.adminsuper_pannel') }}">Admin Panel</a></li>
 {% endif %}
-<li> My reports <img class="icon" src="{{url_for('static', filename='images/Report2.webp')}}" alt="Rapport icon."></li>
 {% endblock content_when_login %}
 {% block content_main_pannel %}
 <h2>Welcome Home</h2>
