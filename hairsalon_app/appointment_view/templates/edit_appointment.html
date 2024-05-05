@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content_side_pannel %}
+<p>This is a hair salon service application for 420 Final Project...</p>
+{% endblock %}
+{% block content_main_pannel %}
+<h2>Edit your appointment</h2>
+<form action="" method="POST">
+    {{form.hidden_tag()}}  
+    <fieldset>
+      <label for="date">Date</label>
+      {{form.date (class="form-field", label= "date")}}
+      <label for="slot">Time slot</label>
+      {{form.slot (class="form-field", label = "slot", value = appointment.slot)}}
+      <label for="service">Service</label>
+      {{form.service (class="form-field", label = "service", value = appointment.service)}}
+      <label for="status">Status</label>
+      {{form.status (class="form-field", label = "status", value = appointment.status)}}
+    </fieldset>
+    {{form.submit (class=button)}}
+  </form>
+  
+{% endblock %}

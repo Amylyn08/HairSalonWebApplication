@@ -420,6 +420,34 @@ class Database():
         except Exception as e:
             print (f'The following error occured: {e}')
 
+#edit appointment from database
+    def edit_appointment(self, appointment_id, status, date_appointment, service):
+        '''  method to edit appointment from the database'''
+        try:
+            with self.__connection.cursor() as cursor:
+                sql = f'''UPDATE salon_appointment SET status = :status, date_appointment = :date_appointment,  service_id = (SELECT service_id FROM salon_service WHERE service_name = :service) WHERE appointment_id = :appointment_id'''
+                info = {'appointment_id' : appointment_id, 'status' : status, 'date_appointment' : date_appointment, 'service' : service}
+                cursor.execute(sql, info)
+                self.__connection.commit()
+        except Exception as e:
+            print (f'The following error occured: {e}')        
+
+#get appointment from id
+    def get_appointment_by_id(self, appointment_id):
+        ''' method to retrieve appointment by its id'''
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_appointment WHERE appointment_id = :appointment_id'
+                info = {'appointment_id' : appointment_id}
+                c.execute(sql, info)
+                row = c.fetchone()
+                if row:
+                    appointment = Appointment(*row)
+                    return appointment
+                else:
+                    return None
+        except Exception as e:
+            print(f"The followning exception occured: {e}")
 # add new report to database
     def add_new_report(self, appointment_id, title, client_report, professional_report, member_type):
         '''  method to schedule a new appointment, data coming fro a user input form'''
@@ -494,8 +522,6 @@ class Database():
                 return Appointment(fetch[0], fetch[1], fetch[2],fetch[3], fetch[4], fetch[5], fetch[6], fetch[7], fetch[8])
         except Exception as e:
             print(e)
-
-
 
 
 #----------END of work area -----------

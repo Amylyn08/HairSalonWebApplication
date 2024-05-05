@@ -1,8 +1,9 @@
 from flask import Blueprint, flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
-from hairsalon_app.appointment_view.forms import AppointmentForm
+from hairsalon_app.appointment_view.forms import AppointmentForm, AppointmentEditForm
 from hairsalon_app.appointment_view.appointment import Appointment
 from hairsalon_app.qdb.database import Database
+import datetime
 
 
 appointment_bp = Blueprint('appointment_bp', __name__, template_folder='templates', static_folder='static', static_url_path='/appointment_view/static')
@@ -49,6 +50,23 @@ def all_appointments(): #the id is the one for the note
         return render_template("all_appointments.html", context = all_appointments)
         
     return redirect(url_for("appointment_bp.create_appointment"))
+
+#route to edit appointment
+@appointment_bp.route("/edit_appointment/<int:appointment_id>", methods=['POST', 'GET'])
+def edit_appointment(appointment_id):
+    form = AppointmentEditForm()
+    appointment = db.get_appointment_by_id(appointment_id)
+    form.date.data = appointment.date_appointment
+    form.slot.data = appointment.slot
+
+    if form.validate_on_submit():
+        if True:
+            db.edit_appointment(appointment_id, form.status.data, form.date.data, form.service.data, )
+            flash('Appointment edited', 'success')
+            return redirect(url_for('appointment_bp.edit_appointment', appointment_id=appointment_id))
+        
+    flash('Invalid Inputs.' 'error')
+    return render_template('edit_appointment.html', form=form, appointment = appointment)
 
 @appointment_bp.route("/appointment/<int:appointment_id>", methods=['GET'])
 @login_required
