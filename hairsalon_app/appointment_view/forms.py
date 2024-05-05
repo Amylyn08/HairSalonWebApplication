@@ -6,9 +6,9 @@ from hairsalon_app.qdb.database import Database
 
 db = Database()
 
-# pros_list = db.get_list_pros()
-# choices = [(pro.username, pro.username) for pro in pros_list]
-#form to add Owner
+pros_list = db.get_list_pros()
+choices = [(pro.username, pro.username) for pro in pros_list]
+# form to add Owner
 class AppointmentForm(FlaskForm):
     username = StringField('username', validators = [DataRequired()], render_kw={'readonly' : True})
     venue =  SelectField('venue', choices=[('1', '1'), ('2', '2'), ('3', '3')], validators = [DataRequired()]) #to change

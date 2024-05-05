@@ -8,24 +8,18 @@
     {% block content_css %}{% endblock content_css %}
 </head>
 <body>
-    <nav id="nav1"> 
-        <ul >
-            <li> CALL US    •    514 -928 -2935</li>  
-        </ul> 
-        <ul >
-            <li><img class="icon" src="{{url_for('static', filename='images/phone2.webp')}}" alt="Phone icon."></li>
-        </ul>
-    </nav>
-    <nav id="nav2">
+    <nav id="nav-main">
         <div id ="left-nav">
-            <h3>Saloon</h3>
+            <li id="saloon-header">
+                <h3>Saloon</h3>
+                <img id="logo" src="{{ url_for('static', filename='images/logo1.png') }}" alt="logo for web">
+            </li>            
             {% if current_user.is_authenticated %}
             <li><a href="{{url_for('main_bp.member_home')}}">Home</a></li>
             {% else %}
             <li><a href="{{url_for('main_bp.home')}}">Home</a></li>
             {% endif %}
-            <li>About</li>
-            <img id="logo" src="{{url_for('static', filename='images/CutHair.webp')}}" alt="Guy cuts his hair.">
+            <li>About Us</li>
         </div>
         <div id="right-nav">
             <nav>
@@ -33,27 +27,24 @@
                     {% block content_when_login %}
                     <li> 
                         <a href="{{url_for('users_bp.login')}}">Login</a>
-                        <img class='icon' src='{{url_for("static", filename="images/login.png")}}'alt="Login logo with key and man">
                     </li>
                     <li>
                         <a href="{{ url_for('users_bp.register') }}">Register</a>
-                        <img class="icon" src="{{ url_for('static', filename='images/register.webp') }}" alt="Register icon.">
                     </li>
-                    {% endblock %}
                     <li> 
                         <a href="{{url_for('appointment_bp.all_appointments')}}">Appointments</a>
-                        <img class="icon" src="{{url_for('static', filename='images/appointment3.webp')}}" alt="Appointement icon.">
                     </li>
-                    <li> My reports <img class="icon" src="{{url_for('static', filename='images/Report2.webp')}}" alt="Rapport icon."></li>
+                    {% endblock %}
                 </ul>
             </nav>
         </div> 
     </nav>
     <main>
-        {% block content_side_pannel %}
         <div id="side-pannel">
+        {% block content_side_pannel %}
              <!-- In the respective templates, override this block to add content for your view.  --> 
-            {% endblock %} 
+        {% endblock content_side_pannel %}         
+
             <section id="flash-errors">
                 {% if get_flashed_messages() %}
                 <ul>

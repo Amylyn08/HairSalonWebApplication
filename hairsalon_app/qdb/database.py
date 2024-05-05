@@ -3,6 +3,7 @@ import os
 import oracledb  
 from hairsalon_app.appointment_view.appointment import Appointment
 from hairsalon_app.users.Member import Member
+from hairsalon_app.report_view.report import Report
 import pdb
 
 
@@ -169,6 +170,34 @@ class Database():
         except Exception as e:
             print(f'Error retrieving member: {e}')
 
+    def get_all_users(self):
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''SELECT user_id,
+                                is_active,
+                                user_type,
+                                status,
+                                username,
+                                full_name, 
+                                email, 
+                                user_image, 
+                                password_hashed, 
+                                phone_number,
+                                address,
+                                age,
+                                pay_rate, 
+                                specialty
+                        FROM salon_user
+                         WHERE user_type NOT IN ('admin_super', 'client') '''
+                cursor.execute(qry)
+                rows = cursor.fetchall()
+                users_list = []
+                for user in rows:
+                    users_list.append(Member(*user))
+                return users_list
+        except Exception as e:
+            print(f'Error retrieving member: {e}')
+
     def get_list_clients(self):
         try:
             with self.__connection.cursor() as cursor:
@@ -257,7 +286,7 @@ class Database():
     #     except Exception as e:
     #         print(f'Error updating member: {e}')
     
-#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
     
     def get_member(self, username):
         try:
@@ -348,18 +377,19 @@ class Database():
 
 # ---------Darina
 
-    def get_my_appointments(self, username):
+    def get_my_appointments(self, user_id):
         ''' method to list all appointments of a given client '''
         appointments = []
         try:
             with self.__connection.cursor() as c:
-                sql = f'SELECT * FROM salon_appointment INNER JOIN salon_user ON salon_appointment.client_id = salon_user.user_id WHERE username = :username'
-                info = {'username':username}
-                fetch = c.execute(sql, info).fetchall()
-                print(len(fetch))
-                for record in fetch:
-                    print(record)
-                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                sql = f'SELECT * FROM salon_appointment WHERE client_id = :user_id OR professional_id = :user_id'
+                info = {'user_id': user_id}
+                c.execute(sql, info)
+                rows = c.fetchall()
+                appointments = []
+                for app in rows:
+                    appointments.append(Appointment(*app))
+            return appointments
         except Exception as e:
             print(e)
         
@@ -372,9 +402,7 @@ class Database():
             with self.__connection.cursor() as c:
                 sql = f'SELECT * FROM salon_appointment'
                 fetch = c.execute(sql).fetchall()
-                print(len(fetch))
                 for record in fetch:
-                    print(record)
                     appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
         except Exception as e:
             print(e)
@@ -449,16 +477,17 @@ class Database():
         except Exception as e:
             print(f"The followning exception occured: {e}")
 # add new report to database
-    def add_new_report(self, appointment_id, title, client_report, professional_report, member_type):
+    def add_new_report(self,user_id, appointment_id, title, client_report, professional_report):
         '''  method to schedule a new appointment, data coming fro a user input form'''
         try:
             with self.__connection.cursor() as cursor:
-                sql = f'''INSERT INTO salon_report (appointment_id, title, client_report, professional_report, member_type) 
-                            VALUES (:appointment_id, 
+                sql = f'''INSERT INTO salon_report (user_id, appointment_id, title, client_report, professional_report) 
+                            VALUES (:user_id,
+                                    :appointment_id, 
                                     :title, 
                                     :client_report, 
-                                    :professional_report, :member_type)'''
-                info = {'appointment_id' : appointment_id, 'title': title, 'client_report': client_report, 'professional_report': professional_report, 'member_type': member_type}
+                                    :professional_report)'''
+                info = {'user_id': user_id,'appointment_id' : appointment_id, 'title': title, 'client_report': client_report, 'professional_report': professional_report}
                 cursor.execute(sql, info)
                 self.__connection.commit()
         except Exception as e:
@@ -492,6 +521,38 @@ class Database():
             print(e)
         
         return reports
+    
+    def get_appointment_reports(self, appointment_id):
+        ''' method to list all reports of a specific appointment'''
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_report WHERE appointment_id = :appointment_id'
+                info = {'appointment_id' : appointment_id}
+                c.execute(sql, info)
+                rows = c.fetchall()
+                reports = []
+                for report in rows:
+                    reports.append(Report(*report))
+            return reports      
+        except Exception as e:
+            print(f'The following exception occured: {e}')
+        
+    def get_report_by_id(self, report_id):
+        ''' method to retrieve report by its id'''
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_report WHERE report_id = :report_id'
+                info = {'report_id' : report_id}
+                c.execute(sql, info)
+                row = c.fetchone()
+                if row:
+                    report = Report(*row)
+                    return report
+                else:
+                    return None
+        except Exception as e:
+            print(f"The followning exception occured: {e}")
+                
 
     def get_all_services(self):
         service_names = []

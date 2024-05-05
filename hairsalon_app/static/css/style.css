@@ -20,45 +20,45 @@ body {
     min-height: 100vh; /* Ensure the body fills the viewport height */
 }
 /* h3{
-    font-style: oblique;
+   font-size: 30px;;
 } */
-
-#nav1{
-    font-weight: 600;
-    font-style: oblique;
-    padding-left: 10px;
-    /* text-decoration: none; */
-    color: yellow;
-    background-color: #333 ;
-    display: flex;
-    justify-content: center;
-    text-decoration: underline;
-}
 
 
 /* Navigation styles */
-#nav2 {
+#nav-main {
     background-color: #333;
     color: #fff;
-    padding: 10px;
+    padding: 20px 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     text-decoration: none;
+    list-style: none;
 }
  #left-nav{
     display: flex;
+    gap: 3em;
  }
 
- #left-nav li{
+ #left-nav li a{
+    text-decoration: none;
+    list-style: none;
+    color: white;
     text-decoration: none;
  }
 
+ #left-nav li:hover {
+    transform: translateY(-3px); /* Scale the hovered item */
+}
+
+#left-nav li a:hover {
+    color: rgb(136, 95, 76); /* Change text color on hover */
+}
+
 #logo{
-    height: auto;
-    width: auto;
-    max-height: 25px; 
-    max-width: 45px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
 }
 .icon{
     height: auto;
@@ -66,6 +66,15 @@ body {
     max-height: 25px; 
     max-width: 40px;
 }
+#saloon-header {
+    display: flex;
+    align-items: center;
+}
+
+#saloon-header h3 {
+    margin-right: 10px; /* Adjust as needed for spacing */
+}
+
 #home_image{
     height: auto;
     width: auto;
@@ -108,7 +117,7 @@ nav ul li:hover {
 }
 
 nav ul li:hover a {
-    color: yellow; /* Change text color on hover */
+    color: rgb(136, 95, 76); /* Change text color on hover */
 }
 
 
@@ -121,7 +130,10 @@ nav ul li:hover a {
 main {
     display: flex;
     flex: 1;
+    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: calc(100vh - 170px); /* Adjust the height as needed */
 }
+
 
 #side-pannel {
     flex: 1;
@@ -168,4 +180,53 @@ footer {
 
 .info{
     background-color: rgb(207, 207, 67);
+}
+
+/* Dropdown menu styles */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-menu li {
+    padding: 10px;
+}
+
+.dropdown-menu{
+    color: black;
+    text-decoration: none;
+}
+
+.dropdown-menu li:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.dropdown-toggle img {
+    margin-left: 5px;
+    width: 20px; /* Adjust as needed */
+    height: 20px; /* Adjust as needed */
+    border-radius: 50%;
+}
+
+.dropdown-toggle .caret {
+    margin-left: 5px;
 }

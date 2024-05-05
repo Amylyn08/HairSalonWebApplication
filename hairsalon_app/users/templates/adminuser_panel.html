@@ -1,16 +1,8 @@
-{% extends 'base.html'%}
+{% extends 'home_member.html'%}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/admin_panel.css')}}">
 <script src="{{url_for('users_bp.static', filename='js/admin_panel.js')}}"></script>
 {% endblock content_css %}
-{% block content_when_login %}
-<p>Hey {{current_user.username}}</p>
-<li>Profile</li>
-<li><a href="{{url_for('users_bp.logout')}}">Logout</a></li>
-<li><a>My reports</a></li>
-<li><a href="{{url_for('appointment_bp.my_appointments', username=current_user.username)}}">My Appointments</a></li>
-<li><a href="{{url_for('appointment_bp.create_appointment')}}">Create Appointment</a></li>
-{% endblock content_when_login %}
 {% block content_main_pannel %}
 <h2>Admin Pannel USER</h2>
 <div class="admin_pannel">
@@ -29,6 +21,7 @@
                 <th>Full Name</th>
                 <th>Active</th>
                 <th>Picture</th>
+                <th>Flag</th>
             </tr>
             {% for client in clients %}
             <tr>
@@ -38,13 +31,13 @@
                 {% if client.is_active[0] == 0 %}
                 <td class="access">
                     <button>
-                        <a class="custom-link" href="{{url_for('users_bp.toggle_active_user', username=client.username)}}">Activated</a>
+                        <a href="{{url_for('users_bp.toggle_active_user', username=client.username)}}">Activated</a>
                     </button>
                 </td>
                 {% else %}
                 <td class="access deactivated">
                     <button>
-                        <a  class="custom-link" href="{{url_for('users_bp.toggle_active_user', username=client.username)}}">Deactivated</a>
+                        <a class="custom-link" href="{{url_for('users_bp.toggle_active_user', username=client.username)}}">Deactivated</a>
                     </button>
                 </td>
                 {% endif %}
@@ -75,6 +68,7 @@
                 <th>Full Name</th>
                 <th>Active</th>
                 <th>Picture</th>
+                <th>Flag</th>
             </tr>
             {% for employee in employees %}
             <tr>
@@ -92,7 +86,7 @@
                     <button>
                         <a class="custom-link" href="{{url_for('users_bp.toggle_active_user', username=employee.username)}}">Deactivated</a>
                     </button>
-                </td> 
+                </td>
                 {% endif %}
                 <td><img src="{{ url_for('static', filename='images/user-pics/' + employee.user_image) }}" alt="Profile picture of user"></td>
                 {% if employee.status == 0 %}

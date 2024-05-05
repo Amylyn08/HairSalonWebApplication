@@ -32,7 +32,7 @@ def user_list_client():
 @users_bp.route('/adminsuper-pannel/')
 def adminsuper_pannel():
     client_list = db.get_list_clients()
-    pro_list = db.get_list_pros()
+    pro_list = db.get_all_users()
     app_list = db.get_all_appointments()
 
     return render_template('adminsuper_panel.html', clients=client_list, employees=pro_list, appointments=app_list)

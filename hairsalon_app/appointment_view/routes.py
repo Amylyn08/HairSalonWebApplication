@@ -29,11 +29,11 @@ def create_appointment():
     return render_template('appointment.html', form=form)
 
 #route for user's appointments
-@appointment_bp.route("/my_appointments/<string:username>", methods=['GET'])
+@appointment_bp.route("/my_appointments/<int:user_id>", methods=['GET'])
 @login_required
-def my_appointments(username):
+def my_appointments(user_id):
     #get apps from db
-    my_appointments = db.get_my_appointments(username)
+    my_appointments = db.get_my_appointments(user_id)
      
     if (len(my_appointments)!= 0):
         return render_template("my_appointments.html", context = my_appointments)
@@ -72,7 +72,8 @@ def edit_appointment(appointment_id):
 @login_required
 def specific_appointment(appointment_id):
     appointment = db.get_appointment(appointment_id)
+    reports = db.get_appointment_reports(appointment_id)
     if appointment is None:
         flash('Appointment not found', 'error')
         return redirect(url_for("appointment_bp.all_appointments"))
-    return render_template("specific_appointment.html", appointment = appointment)
+    return render_template("specific_appointment.html", appointment = appointment, reports = reports)

@@ -4,7 +4,7 @@
 <li>Profile</li>
 <li><a href="{{url_for('users_bp.logout')}}">Logout</a></li>
 <li><a>My reports</a></li>
-<li><a href="{{url_for('appointment_bp.my_appointments', username=current_user.username)}}">My Appointments</a></li>
+<li><a href="{{url_for('appointment_bp.my_appointments', user_id=current_user.user_id)}}">My Appointments</a></li>
 <li><a href="{{url_for('appointment_bp.create_appointment')}}">Create Appointment</a></li>
 {% if current_user.username == 'user_manager1' %}
 <li><a href="{{ url_for('users_bp.adminuser_pannel') }}">Admin Panel</a></li>
@@ -22,16 +22,20 @@
 <form action="" method="POST">
     {{form.hidden_tag()}}  
     <fieldset>
-      <label for="appointment_id">Enter appointment id</label>
-      {{form.appointment_id (class="form-field", label= "appointment_id")}}
-      <label for="member_type">Member type</label>
-      {{form.member_type (class="form-field", label= "member_type")}}
       <label for="title">Title</label>
       {{form.title (class="form-field", label = "title")}}
-      <label for="client_report">Client's report</label>
-      {{form.client_report (class="form-field", label = "client_report")}}
-      <label for="professional_report">Professional's report</label>
-      {{form.professional_report (class="form-field", label = "professional_report")}}
+      {% if current_user.user_type == 'client' %}
+        <label for="client_report">Client's report</label>
+        {{form.client_report (class="form-field", placeholder = "Client's report")}}
+      {% elif current_user.user_type == 'professional' %}
+        <label for="professional_report">Professional's report</label>
+        {{form.professional_report (class="form-field", placeholder = "Professional's report")}}
+      {% else %}
+        <label for="client_report">Client's report</label>
+        {{form.client_report (class="form-field", placeholder = "Client's report")}}
+        <label for="professional_report">Professional's report</label>
+        {{form.professional_report (class="form-field", placeholder = "Professional's report")}}
+      {% endif %}
     </fieldset>
     {{form.submit (class=button)}}
   </form>

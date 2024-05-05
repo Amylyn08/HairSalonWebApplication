@@ -1,15 +1,7 @@
-{% extends 'base.html'%}
+{% extends 'home_member.html'%}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/admin_panel.css')}}">
 {% endblock content_css %}
-{% block content_when_login %}
-<p>Hey {{current_user.username}}</p>
-<li>Profile<a href="{{url_for('users_bp.profile', username=current_user.username)}}"></a></li>
-<li><a href="{{url_for('users_bp.logout')}}">Logout</a></li>
-<li><a>My reports</a></li>
-<li><a href="{{url_for('appointment_bp.my_appointments', username=current_user.username)}}">My Appointments</a></li>
-<li><a href="{{url_for('appointment_bp.create_appointment')}}">Create Appointment</a></li>
-{% endblock content_when_login %}
 {% block content_main_pannel %}
 <h2>Admin Pannel APPOINT</h2>
 <div class="admin_pannel">
@@ -21,14 +13,16 @@
                 <th>Date</th>
                 <th>Client ID</th>
                 <th>Employee ID</th>
+                <th>View Details / Modify</th>
             </tr>
             {% for app in appointments %}
             <tr>
                 <td>{{app.appointment_id}}</td>
                 <td>{{app.status}}</td>
+                <td>{{app.date_appointment}}</td>
                 <td>{{app.client_id}}</td>
                 <td>{{app.professional_id}}</td>
-                <td></td>
+                <td><a class="app-link" href="{{url_for('appointment_bp.specific_appointment', appointment_id=app.appointment_id)}}">Details</a></td>
             </tr>
             {% endfor %}
         </table>
