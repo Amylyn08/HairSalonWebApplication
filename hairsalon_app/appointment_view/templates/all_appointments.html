@@ -1,4 +1,8 @@
-{% extends 'home_member.html' %}
+{% if current_user.is_authenticated %}
+  {% extends 'home_member.html' %}
+{% else %}
+  {% extends 'base.html' %}
+{% endif %}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('appointment_bp.static', filename='css/appointments.css')}}">
 {% endblock %}
@@ -25,6 +29,5 @@
     </div>
     <a href="{{url_for('appointment_bp.specific_appointment', appointment_id=appointment.appointment_id)}}">View Details / Modify</a>
   </div>
-  <button type = "button"> <a href ="{{url_for('appointment_bp.edit_appointment', appointment_id = appointment.appointment_id)}}">Edit appointment </a></button>
 {% endfor %}
 {% endblock %}

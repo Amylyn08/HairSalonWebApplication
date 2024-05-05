@@ -24,7 +24,7 @@ def create_appointment():
                                    slot=form.slot.data,
                                    date=form.date.data)
         flash('Appointment scheduled', 'success')
-        return redirect(url_for('appointment_bp.my_appointments', username=current_user.username))
+        return redirect(url_for('appointment_bp.my_appointments', user_id=current_user.user_id))
     flash('Invalid Inputs.' 'error')
     return render_template('appointment.html', form=form)
 
@@ -76,4 +76,9 @@ def specific_appointment(appointment_id):
     if appointment is None:
         flash('Appointment not found', 'error')
         return redirect(url_for("appointment_bp.all_appointments"))
-    return render_template("specific_appointment.html", appointment = appointment, reports = reports)
+    return render_template("specific_appointment.html", 
+                           appointment = appointment,
+                            reports = reports,
+                            reports_length = len(reports))
+
+

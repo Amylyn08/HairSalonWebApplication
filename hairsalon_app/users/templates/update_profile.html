@@ -2,14 +2,6 @@
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/update.css')}}">
 {% endblock content_css %}
-{% block content_when_login %}
-<p>Hey {{current_user.username}}</p>
-<li><a href="{{url_for('users_bp.profile', username=users.username)}}">Profile</a></li>
-<li><a href="{{url_for('users_bp.logout')}}">Logout</a></li>
-<li><a>My reports</a></li>
-<li><a href="{{url_for('appointment_bp.my_appointments', user_id=current_user.user_id)}}">My Appointments</a></li>
-<li><a href="{{url_for('appointment_bp.create_appointment')}}">Create Appointment</a></li>
-{% endblock content_when_login %}
 {% block content_side_pannel %}
 <div>
     <div id="image_div">

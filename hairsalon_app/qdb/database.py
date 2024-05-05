@@ -553,6 +553,14 @@ class Database():
         except Exception as e:
             print(f"The followning exception occured: {e}")
                 
+    def delete_report(self, report_id):
+        try:
+            with self.__connection.cursor() as cursor:
+                sql = f'DELETE FROM salon_report WHERE report_id = :report_id'
+                info = {'report_id' : report_id}
+                cursor.execute(sql, info)
+        except Exception as e:
+            print (f'The following error occured: {e}')
 
     def get_all_services(self):
         service_names = []
