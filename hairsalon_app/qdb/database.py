@@ -170,6 +170,34 @@ class Database():
         except Exception as e:
             print(f'Error retrieving member: {e}')
 
+    def get_all_users(self):
+        try:
+            with self.__connection.cursor() as cursor:
+                qry = '''SELECT user_id,
+                                is_active,
+                                user_type,
+                                status,
+                                username,
+                                full_name, 
+                                email, 
+                                user_image, 
+                                password_hashed, 
+                                phone_number,
+                                address,
+                                age,
+                                pay_rate, 
+                                specialty
+                        FROM salon_user
+                         WHERE user_type NOT IN ('admin_super', 'client') '''
+                cursor.execute(qry)
+                rows = cursor.fetchall()
+                users_list = []
+                for user in rows:
+                    users_list.append(Member(*user))
+                return users_list
+        except Exception as e:
+            print(f'Error retrieving member: {e}')
+
     def get_list_clients(self):
         try:
             with self.__connection.cursor() as cursor:
