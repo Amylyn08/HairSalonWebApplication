@@ -56,12 +56,12 @@ def all_appointments(): #the id is the one for the note
 def edit_appointment(appointment_id):
     form = AppointmentEditForm()
     appointment = db.get_appointment_by_id(appointment_id)
-    form.date.data = appointment.date_appointment.date()
+    form.date.data = appointment.date_appointment
     form.slot.data = appointment.slot
 
     if form.validate_on_submit():
-        if current_user.user_id == appointment.appointment_id:
-            db.edit_appointment(appointment_id)
+        if True:
+            db.edit_appointment(appointment_id, form.status.data, form.date.data, form.service.data, )
             flash('Appointment edited', 'success')
             return redirect(url_for('appointment_bp.edit_appointment', appointment_id=appointment_id))
         

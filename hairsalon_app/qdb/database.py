@@ -420,13 +420,13 @@ class Database():
         except Exception as e:
             print (f'The following error occured: {e}')
 
-#delete appointment from database
-    def cancel_appointment(self, appointment_id):
-        '''  method to delete appointment from the database'''
+#edit appointment from database
+    def edit_appointment(self, appointment_id, status, date_appointment, service):
+        '''  method to edit appointment from the database'''
         try:
             with self.__connection.cursor() as cursor:
-                sql = f'''UPDATE salon_appointment SET status = "cancelled" WHERE appointment_id = :appointment_id'''
-                info = {'appointment_id' : appointment_id}
+                sql = f'''UPDATE salon_appointment SET status = :status, date_appointment = :date_appointment,  service_id = (SELECT service_id FROM salon_service WHERE service_name = :service) WHERE appointment_id = :appointment_id'''
+                info = {'appointment_id' : appointment_id, 'status' : status, 'date_appointment' : date_appointment, 'service' : service}
                 cursor.execute(sql, info)
                 self.__connection.commit()
         except Exception as e:
