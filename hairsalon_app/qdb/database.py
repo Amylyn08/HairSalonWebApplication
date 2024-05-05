@@ -275,6 +275,38 @@ class Database():
         except Exception as e:
             print(f'Error updating member: {e}')
     
+    def update_profile_admin(self, user_type, username, full_name, new_password, email,
+                         phone_number, address, age, speciality, pay_rate, user_image):
+        try:
+            with self.__connection.cursor as c:
+                qry = '''UPDATE salon_user
+                        SET user_type = :user_type,
+                            username = :username,
+                            full_name = :full_name,
+                            password_hashed = :new_password,
+                            email = :email,
+                            phone_number = :phone_number,
+                            address = :address,
+                            age = :age,
+                            specialty = :speciality,
+                            pay_rate = :pay_rate,
+                            user_image = :user_image'''  # Added a comma after :pay_rate
+
+                info = {'user_type': user_type,
+                        'username': username,
+                        'full_name': full_name,
+                        'new_password': new_password,
+                        'email': email,
+                        'phone_number': phone_number,
+                        'address': address,
+                        'age': age,
+                        'speciality': speciality,
+                        'pay_rate': pay_rate,
+                        'user_image': user_image} 
+                c.execute(qry, info)
+        except Exception as e:
+            print(f'The following error occured: {e}')
+    
     # def update_image(self,username, user_image):
     #     try:
     #         with self.__connection.cursor() as cursor:

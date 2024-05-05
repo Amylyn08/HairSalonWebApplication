@@ -32,6 +32,19 @@ class UpdateProfileForm(FlaskForm):
     address = StringField('address')
     submit = SubmitField('Update info')
 
+class UpdateProfileAdminForm(FlaskForm):
+    user_type = StringField('user_type')
+    username = StringField('username')
+    full_name = StringField('full_name')
+    new_password = PasswordField('confirm_password')
+    email = EmailField('email', validators=[Email()])
+    phone_number = TelField('phone_number')
+    address = StringField('address')
+    age = IntegerField('age')
+    speciality = StringField('specialty')
+    pay_rate = IntegerField('pay_rate')
+    submit = SubmitField('Update info')
+
 class UpdateImageForm(FlaskForm):
     user_image = FileField('user_image', validators=[FileAllowed(['png', 'jpg', 'jpeg', 'webp'])])
     submit = SubmitField('Update image')

@@ -1,12 +1,62 @@
-#image_div {
+/* #image_div {
     width: 80%;
     height: 80%;
     text-align: center;
     margin: 20px;
     background-color: antiquewhite;
 
-  }
+  } */
+
+  /* CSS for the outer container */
+#image_div {
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  background-color: antiquewhite;
+}
+
+/* CSS for the profile image */
+#image_div img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%; /* Makes the image round */
+  margin-bottom: 20px;
+}
+
 img{
     max-width: 80%;
     max-height: 80%;
+}
+
+/* CSS for the form container */
+
+/* CSS for form labels */
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* CSS for form fields */
+.form-field {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* CSS for form submit button */
+.button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #45a049;
 }
