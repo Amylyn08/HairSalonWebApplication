@@ -10,13 +10,16 @@
 <body>
     <nav id="nav-main">
         <div id ="left-nav">
-            <h3>Saloon</h3>
+            <li id="saloon-header">
+                <h3>Saloon</h3>
+                <img id="logo" src="{{ url_for('static', filename='images/logo1.png') }}" alt="logo for web">
+            </li>            
             {% if current_user.is_authenticated %}
             <li><a href="{{url_for('main_bp.member_home')}}">Home</a></li>
             {% else %}
             <li><a href="{{url_for('main_bp.home')}}">Home</a></li>
             {% endif %}
-            <li>About</li>
+            <li>About Us</li>
         </div>
         <div id="right-nav">
             <nav>
