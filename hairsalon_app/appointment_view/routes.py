@@ -42,20 +42,21 @@ def my_appointments(user_id):
 
 #route for all appointments
 @appointment_bp.route("/all_appointments/", methods=['GET'])
-@appointment_bp.route("/all_appointments/<string:sortbydate>", methods=['GET'])
 def all_appointments(sortbydate = None): #the id is the one for the note
     #get apps from db
-    all_appointments = db.get_all_appointments()
-     
-    if (sortbydate == "sortbydate"):
-        all_appointments = db.get_all_appointments_date_desc()
-        return render_template("all_appointments.html", context = all_appointments)
-     
-    elif (len(all_appointments)!= 0 and sortbydate == "sortbydate"):
+    all_appointments = db.get_all_appointments()     
+    if (len(all_appointments)!= 0 and sortbydate == "sortbydate"):
         return render_template("all_appointments.html", context = all_appointments)
         
     return redirect(url_for("appointment_bp.create_appointment"))
 
+@appointment_bp.route("/all_appointments/sorted/<string: sorted_by>/", methods=['GET', 'POST'])
+def sort_appointments(sorted_by):
+        if sorted_by == 'Date':
+            all_appointments = db.get_all_appointments_date_desc()
+        if sorted_by == 'Slot':
+            pass
+        return render_template("all_appointments.html", context = all_appointments)
 #route to edit appointment
 @appointment_bp.route("/edit_appointment/<int:appointment_id>", methods=['POST', 'GET'])
 def edit_appointment(appointment_id):
