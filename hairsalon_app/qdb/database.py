@@ -424,6 +424,62 @@ class Database():
         
         return appointments
     
+    def get_all_appointments_pending(self):
+        ''' method to list all appointments that are pending'''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f"SELECT * FROM salon_appointment WHERE status = 'pending'"
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+        except Exception as e:
+            print(e)
+        
+        return appointments
+    
+    def get_all_appointments_approved(self):
+        ''' method to list all appointments that are approved'''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f"SELECT * FROM salon_appointment WHERE status = 'approved'"
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+        except Exception as e:
+            print(e)
+        
+        return appointments
+    
+    def get_all_appointments_completed(self):
+        ''' method to list all appointments that are completed'''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f"SELECT * FROM salon_appointment WHERE status = 'completed'"
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+        except Exception as e:
+            print(e)
+        
+        return appointments
+    
+    def get_all_appointments_cancelled(self):
+        ''' method to list all appointments that are cancelled'''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f"SELECT * FROM salon_appointment WHERE status = 'cancelled'"
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+        except Exception as e:
+            print(e)
+        
+        return appointments
+    
     def get_all_appointments_fullname_asc(self):
         ''' method to list all appointments by full name ASC'''
         appointments = []
@@ -457,7 +513,7 @@ class Database():
         appointments = []
         try:
             with self.__connection.cursor() as c:
-                sql = f'SELECT * FROM salon_appointment INNER JOIN salon_user ON salon_user.user_id = salon_appointment.professional_id ORDER BY full_name ASC;'
+                sql = f'SELECT * FROM salon_appointment INNER JOIN salon_user ON salon_user.user_id = salon_appointment.professional_id ORDER BY full_name ASC'
                 fetch = c.execute(sql).fetchall()
                 for record in fetch:
                     appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
@@ -471,7 +527,7 @@ class Database():
         appointments = []
         try:
             with self.__connection.cursor() as c:
-                sql = f'SELECT * FROM salon_appointment INNER JOIN salon_user ON salon_user.user_id = salon_appointment.client_id ORDER BY full_name ASC;'
+                sql = f'SELECT * FROM salon_appointment INNER JOIN salon_user ON salon_user.user_id = salon_appointment.client_id ORDER BY full_name ASC'
                 fetch = c.execute(sql).fetchall()
                 for record in fetch:
                     appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
