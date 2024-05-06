@@ -50,12 +50,12 @@ def all_appointments(sortbydate = None): #the id is the one for the note
         
     return redirect(url_for("appointment_bp.create_appointment"))
 
-@appointment_bp.route("/all_appointments/sorted/<string: sorted_by>/", methods=['GET', 'POST'])
+@appointment_bp.route("/all_appointments/sorted/<string:sorted_by>/", methods=['GET', 'POST'])
 def sort_appointments(sorted_by):
-        if sorted_by == 'Date':
+        if sorted_by == 'date':
             all_appointments = db.get_all_appointments_date_desc()
-        if sorted_by == 'Slot':
-            pass
+        if sorted_by == 'fullname':
+            all_appointments = db.get_all_appointments_fullname_asc();
         return render_template("all_appointments.html", context = all_appointments)
 #route to edit appointment
 @appointment_bp.route("/edit_appointment/<int:appointment_id>", methods=['POST', 'GET'])

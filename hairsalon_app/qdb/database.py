@@ -107,7 +107,6 @@ class Database():
                 users = cur.execute(qry).fetchall()
                 for user in users:
                     list_users.append(Member(user[2],user[3],user[4],user[5],user[6],user[7],user[8],user[9],user[10],user[11],user[12],user[13]))
-                self.__connection.close()
         except Exception as e:
             print(e)
         return list_users 
@@ -124,7 +123,6 @@ class Database():
                 
                 cur.execute(qry, username=username, full_name=full_name, email=email, user_image=user_image,
                                     password=password, phone=phone, address=address, age=age )
-            self.__connection.close()
         except Exception as e:
                 print(f'The following error occured: {e}')
     #Add a new proffesional
@@ -170,7 +168,6 @@ class Database():
                 for pro in rows:
                     pros_list.append(Member(*pro))
                 return pros_list
-            self.__connection.close()
         except Exception as e:
             print(f'Error retrieving member: {e}')
 
@@ -199,7 +196,6 @@ class Database():
                 for user in rows:
                     users_list.append(Member(*user))
                 return users_list
-            self.__connection.close()
         except Exception as e:
             print(f'Error retrieving member: {e}')
 
@@ -228,7 +224,6 @@ class Database():
                 for client in rows:
                     clients_list.append(Member(*client))
                 return clients_list
-            self.__connection.close()
         except Exception as e:
             print(f'Error retrieving member: {e}')
 
@@ -239,7 +234,6 @@ class Database():
                 c.execute(qry)
                 names = c.fetchall()
                 return names
-            self.__connection.close()
         except Exception as e:
             print(f'Error retrieving member: {e}')
 
@@ -279,7 +273,6 @@ class Database():
                         WHERE username = :username'''
                 cursor.execute(qry,username=username,new_password=new_password,full_name=full_name,email=email,phone_number=phone_number,address=address,user_image=user_image)
                 self.__connection.commit()
-            self.__connection.close()
         except Exception as e:
             print(f'Error updating member: {e}')
     
@@ -322,7 +315,6 @@ class Database():
                     return member
                 else:
                     return None
-            self.__connection.close()
         except Exception as e:
             print(f'Error retrieving member: {e}')
             return None
@@ -336,7 +328,6 @@ class Database():
                 if row:
                     active = row[0]
                     return active
-            self.__connection.close()
         except Exception as e:
             print(f'Error retrieving member: {e}')
 
@@ -345,7 +336,6 @@ class Database():
             with self.__connection.cursor() as cursor:
                 qry = '''UPDATE salon_user SET is_active=:active WHERE username = :username'''
                 cursor.execute(qry, username=username, active=active)
-            self.__connection.close()
         except Exception as e:
             print(f'Error updating member: {e}')
     
@@ -357,10 +347,8 @@ class Database():
                 row = cursor.fetchone()
                 if row:
                     flag = row[0]
-                    self.__connection.close()
                     return flag
                 else:
-                    self.__connection.close()
                     return None
         except Exception as e:
             print(f'Error retrieving member: {e}')
@@ -370,7 +358,6 @@ class Database():
             with self.__connection.cursor() as cursor:
                 qry = '''UPDATE salon_user SET status=:status WHERE username = :username'''
                 cursor.execute(qry, username=username, status=status)
-            self.__connection.close()
         except Exception as e:
             print(f'Error updating member: {e}')
     
@@ -403,7 +390,6 @@ class Database():
                 appointments = []
                 for app in rows:
                     appointments.append(Appointment(*app))
-            self.__connection.close()
             return appointments
         except Exception as e:
             print(e)
@@ -419,7 +405,6 @@ class Database():
                 fetch = c.execute(sql).fetchall()
                 for record in fetch:
                     appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
-                self.__connection.close()
         except Exception as e:
             print(e)
         
@@ -434,7 +419,6 @@ class Database():
                 fetch = c.execute(sql).fetchall()
                 for record in fetch:
                     appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
-                self.__connection.close()
         except Exception as e:
             print(e)
         
@@ -449,7 +433,6 @@ class Database():
                 fetch = c.execute(sql).fetchall()
                 for record in fetch:
                     appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
-                self.__connection.close()
         except Exception as e:
             print(e)
         
@@ -472,7 +455,6 @@ class Database():
                 c.execute(qry, {"date": date, "username": username})
                 appointments = c.fetchall()
                 # Process appointments as needed
-                self.__connection.close()
                 return appointments
         except Exception as e:
             # Handle exceptions
@@ -492,7 +474,6 @@ class Database():
                 info = {'username' : username, 'professional': professional, 'service': service, 'slot': slot, 'venue': venue, 'date_appointment': date}
                 cursor.execute(sql, info)
                 self.__connection.commit()
-                self.__connection.close()
         except Exception as e:
             print (f'The following error occured: {e}')
 
@@ -505,7 +486,6 @@ class Database():
                 info = {'appointment_id' : appointment_id, 'status' : status, 'date_appointment' : date_appointment, 'service' : service}
                 cursor.execute(sql, info)
                 self.__connection.commit()
-                self.__connection.close()
 
         except Exception as e:
             print (f'The following error occured: {e}')        
@@ -524,7 +504,6 @@ class Database():
                     self.__connection.close()
                     return appointment
                 else:
-                    self.__connection.close()   
                     return None
         except Exception as e:
             print(f"The followning exception occured: {e}")
@@ -542,7 +521,6 @@ class Database():
                 info = {'user_id': user_id,'appointment_id' : appointment_id, 'title': title, 'client_report': client_report, 'professional_report': professional_report}
                 cursor.execute(sql, info)
                 self.__connection.commit()
-                self.__connection.close()
         except Exception as e:
             print (f'The following error occured: {e}')
             
@@ -556,7 +534,6 @@ class Database():
                 info = {'report_id' : report_id, 'client_report': new_client_report, 'professional_report': new_professional_report}
                 cursor.execute(sql, info)
                 self.__connection.commit()
-                self.__connection.close()
         except Exception as e:
             print (f'The following error occured: {e}')
 
@@ -571,7 +548,6 @@ class Database():
                 for record in fetch:
                     print(record)
                     reports.append(Report(record[0], record[1], record[2],record[3], record[4], record[5], record[6]))
-                self.__connection.close()
         except Exception as e:
             print(e)
         
@@ -588,7 +564,6 @@ class Database():
                 reports = []
                 for report in rows:
                     reports.append(Report(*report))
-            self.__connection.close()
             return reports      
         except Exception as e:
             print(f'The following exception occured: {e}')
@@ -603,10 +578,8 @@ class Database():
                 row = c.fetchone()
                 if row:
                     report = Report(*row)
-                    self.__connection.close()
                     return report
                 else:
-                    self.__connection.close()
                     return None
         except Exception as e:
             print(f"The followning exception occured: {e}")
@@ -617,7 +590,6 @@ class Database():
                 sql = f'DELETE FROM salon_report WHERE report_id = :report_id'
                 info = {'report_id' : report_id}
                 cursor.execute(sql, info)
-            self.__connection.close()
         except Exception as e:
             print (f'The following error occured: {e}')
 
@@ -637,7 +609,6 @@ class Database():
                     service_names.append(service)
 
                 # Process appointments as needed
-                self.__connection.close()
                 return services
         except Exception as e:
             # Handle exceptions
@@ -648,7 +619,6 @@ class Database():
                 sql = f'SELECT * FROM salon_appointment WHERE appointment_id = :appointment_id'
                 info = {'appointment_id': appointment_id}
                 fetch = c.execute(sql, info).fetchone()
-                self.__connection.close()
                 return Appointment(fetch[0], fetch[1], fetch[2],fetch[3], fetch[4], fetch[5], fetch[6], fetch[7], fetch[8])
         except Exception as e:
             print(e)
