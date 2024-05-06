@@ -55,7 +55,13 @@ def sort_appointments(sorted_by):
         if sorted_by == 'Date':
             all_appointments = db.get_all_appointments_date_desc()
         if sorted_by == 'fullname':
-            all_appointments = db.get_all_appointments_fullname_asc();
+            all_appointments = db.get_all_appointments_fullname_asc()
+        if sorted_by == 'Slot':
+            pass
+        if sorted_by == 'Professional':
+            all_appointments = db.get_all_appointments_profname()
+        if sorted_by == 'Client':
+            all_appointments = db.get_all_appointments_clientname()
         return render_template("all_appointments.html", context = all_appointments)
 #route to edit appointment
 @appointment_bp.route("/edit_appointment/<int:appointment_id>", methods=['POST', 'GET'])
