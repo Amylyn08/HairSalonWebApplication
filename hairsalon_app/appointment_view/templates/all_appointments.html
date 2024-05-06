@@ -25,6 +25,5 @@
     </div>
     <a href="{{url_for('appointment_bp.specific_appointment', appointment_id=appointment.appointment_id)}}">View Details / Modify</a>
   </div>
-  <button type = "button"> <a href ="{{url_for('appointment_bp.edit_appointment', appointment_id = appointment.appointment_id)}}">Edit appointment </a></button>
 {% endfor %}
 {% endblock %}
