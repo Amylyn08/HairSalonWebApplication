@@ -42,17 +42,17 @@ def my_appointments(user_id):
 
 #route for all appointments
 @appointment_bp.route("/all_appointments/", methods=['GET'])
-def all_appointments(sortbydate = None): #the id is the one for the note
+def all_appointments(): #the id is the one for the note
     #get apps from db
     all_appointments = db.get_all_appointments()     
-    if (len(all_appointments)!= 0 and sortbydate == "sortbydate"):
+    if (len(all_appointments)!= 0):
         return render_template("all_appointments.html", context = all_appointments)
-        
+    flash("No appointments to show", 'info')
     return redirect(url_for("appointment_bp.create_appointment"))
 
 @appointment_bp.route("/all_appointments/sorted/<string:sorted_by>/", methods=['GET', 'POST'])
 def sort_appointments(sorted_by):
-        if sorted_by == 'date':
+        if sorted_by == 'Date':
             all_appointments = db.get_all_appointments_date_desc()
         if sorted_by == 'fullname':
             all_appointments = db.get_all_appointments_fullname_asc();
