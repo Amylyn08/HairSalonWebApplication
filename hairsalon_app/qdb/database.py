@@ -408,6 +408,20 @@ class Database():
             print(e)
         
         return appointments
+    
+    def get_all_appointments_date_desc(self):
+        ''' method to list all appointments by date DESC'''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_appointment ORDER BY date_appointment DESC'
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+        except Exception as e:
+            print(e)
+        
+        return appointments
         
     def get_appointment_by_client_date(self, username, date):
         try:
