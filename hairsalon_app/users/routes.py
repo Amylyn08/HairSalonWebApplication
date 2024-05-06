@@ -10,7 +10,7 @@ from PIL import Image
 
 from hairsalon_app.users.Member import Member
 from hairsalon_app.users.User import User
-from hairsalon_app.users.forms import LoginForm, NewUserForm, UpdateProfileForm, UpdateImageForm
+from hairsalon_app.users.forms import LoginForm, NewUserForm, UpdateProfileAdminForm, UpdateProfileForm, UpdateImageForm
 #Create an instance of Database
 db = Database()
 login_manager = LoginManager()
@@ -147,6 +147,34 @@ def edit_profile(username):
         flash('Successful update!','success')
         return redirect(url_for('users_bp.profile', username=user.username))
     return render_template('update_profile.html', form=form, form1=form1, users=user)
+
+@users_bp.route('/profile/admin_edit/<username>/', methods=['GET', 'POST'])
+def edit_profile_admin(username):
+    form_image = UpdateImageForm()
+    form = UpdateProfileAdminForm()
+    user = db.get_member(username=username)
+    if form_image.validate_on_submit() and form.validate_on_submit():
+        if form_image.user_image.data:
+            file_name = save_file(form_image.user_image.data)  
+        else:
+            file_name = user.user_image
+        b = Bcrypt()
+        hashed_new_pass = b.generate_password_hash(form.new_password.data).decode('utf-8')
+        password = hashed_new_pass
+        db.update_profile_admin(user_type=form.user_type.data, username=form.username.data, full_name=form.full_name.data,
+                                new_password=password, email=form.email.data, phone_number=form.phone_number.data,
+                                address=form.address.data, age=form.age.data, speciality=form.speciality.data,
+                                pay_rate=form.pay_rate.data, user_image=file_name)
+        flash('Successful update!', 'success')
+        if current_user.user_type == 'admin_super':
+            return redirect(url_for('users_bp.adminsuper_pannel'))
+        else:
+            return redirect(url_for('users_bp.adminuser_pannel'))
+    return render_template('edit_profile_admin.html', user=user, form=form, form_image=form_image)
+
+
+
+
 
 
 # @users_bp.route('/profile/editimage/<username>/', methods=['GET', 'POST'])
