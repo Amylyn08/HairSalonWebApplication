@@ -435,10 +435,54 @@ class Database():
     #         except Exception as e:
     #             print(e)
     #     return oneclient
-# ----------------------
+# --------Iana
+    def get_client_name(self, client_id):
+        try:
+            with self.get_cursor() as cursor:
+                qry = '''SELECT full_name FROM salon_client WHERE user_id = :client_id'''
+                cursor.execute(qry, client_id=client_id)
+                row = cursor.fetchone()
+                if row:
+                    full_name = row[0]
+                    return full_name
+        except Exception as e:
+            print(f'Error retrieving member: {e}')
+            return None
+        finally:
+            self.close()
+        
 
+    def get_professional_name(self, professional_id):
+        try:
+            with self.get_cursor() as cursor:
+                qry = '''SELECT full_name FROM salon_user WHERE user_id = :professional_id'''
+                cursor.execute(qry, professional_id=professional_id)
+                row = cursor.fetchone()
+                if row:
+                    full_name = row[0]
+                    return full_name
+        except Exception as e:
+            print(f'Error retrieving member: {e}')
+            return None
+        finally:
+            self.close()
+
+    def get_service_name(self,service_id):
+        try:
+            with self.get_cursor() as cursor:
+                qry = '''SELECT service_name FROM salon_service WHERE service_id = :service_id'''
+                cursor.execute(qry, service_id=service_id)
+                row = cursor.fetchone()
+                if row:
+                    service_name = row[0]
+                    return service_name
+        except Exception as e:
+            print(f'Error retrieving member: {e}')
+            return None
+        finally:
+            self.close()
+    
 # ---------Darina
-
     def get_my_appointments(self, user_id):
         ''' method to list all appointments of a given client '''
         appointments = []
@@ -667,6 +711,7 @@ class Database():
             print (f'The following error occured: {e}')    
         finally:
             self.close()    
+        
 
 #get appointment from id
     def get_appointment_by_id(self, appointment_id):
