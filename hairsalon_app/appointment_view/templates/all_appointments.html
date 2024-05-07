@@ -23,16 +23,16 @@
   <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Client')}}">Client Name</a>
 </button>
 <button>
-  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Pending')}}">Client Name</a>
+  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Pending')}}">Pending</a>
 </button>
 <button>
-  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Approved')}}">Client Name</a>
+  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Approved')}}">Approved</a>
 </button>
 <button>
-  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Completed')}}">Client Name</a>
+  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Completed')}}">Completed</a>
 </button>
 <button>
-  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Cancelled')}}">Client Name</a>
+  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Cancelled')}}">Cancelled</a>
 </button>
 {% endblock %}
 {% block content_main_pannel %}
