@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    document.querySelectorAll('.access').forEach(td =>{
+    document.querySelectorAll('.access button').forEach(td =>{
         td.addEventListener('click', function(e){
             const buttonAnchor = td.querySelector('button').querySelector('a');
 
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
     })
 
-    document.querySelectorAll('.flag').forEach(td =>{
+    document.querySelectorAll('.flag button').forEach(td =>{
         td.addEventListener('click', function(e){
             const buttonAnchor = td.querySelector('button').querySelector('a');
             if(buttonAnchor.textContent == 'Unflagged'){

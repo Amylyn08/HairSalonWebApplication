@@ -84,3 +84,15 @@ label {
 .button:hover {
   background-color: #45a049;
 }
+
+.details{
+  text-decoration: none;
+  color: #2c2929;
+  border: 2px #2c2929 solid;
+  padding: 4px;
+}
+
+.details:hover{
+  background-color: rgba(94, 126, 93, 0.2);
+  color: rgb(63, 59, 59);
+}

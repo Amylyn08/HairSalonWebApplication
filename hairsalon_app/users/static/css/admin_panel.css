@@ -138,3 +138,11 @@ button {
 .app-link:hover{
     background-color: rgb(177, 177, 177);
 }
+
+a{
+    text-decoration: none;
+}
+
+.access a{
+    color: white;
+}
