@@ -153,7 +153,7 @@ def edit_profile_admin(username):
     form_image = UpdateImageForm()
     form = UpdateProfileAdminForm()
     user = db.get_member(username=username)
-    if form_image.validate_on_submit() and form.validate_on_submit():
+    if request.method == 'POST':
         if form_image.user_image.data:
             file_name = save_file(form_image.user_image.data)  
         else:

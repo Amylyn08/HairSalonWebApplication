@@ -6,13 +6,6 @@
 <div>
     <div id="image_div">
         <img src="{{ url_for('static', filename='images/user-pics/' + user.user_image) }}" alt="Profile picture of user">
-        <form action="" method="POST" enctype="multipart/form-data" novalidate>
-            {{ form_image.hidden_tag() }}
-            <fieldset>
-                {{ form_image.user_image(class='form-field', placeholder='Upload New Photo') }}
-                {{form_image.submit(class='button')}}
-            </fieldset>
-        </form>
     </div>
 </div>
 {% endblock %}
@@ -32,7 +25,7 @@
             {{ form.full_name(class='form-field', id='full_name', value=user.full_name) }}
             
             <label for="new_password">New Password</label>
-            {{ form.new_password(class='form-field', id='new_password') }}
+            {{ form.new_password(class='form-field', id='new_password', value=user.password) }}
             
             <label for="email">Email</label>
             {{ form.email(class='form-field', id='email', value=user.email) }}

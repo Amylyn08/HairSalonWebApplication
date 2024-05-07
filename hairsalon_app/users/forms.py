@@ -43,6 +43,7 @@ class UpdateProfileAdminForm(FlaskForm):
     age = IntegerField('age')
     speciality = StringField('specialty')
     pay_rate = IntegerField('pay_rate')
+    user_image = FileField('user_image', validators=[FileAllowed(['png', 'jpg', 'jpeg', 'webp'])])
     submit = SubmitField('Update info')
 
 class UpdateImageForm(FlaskForm):
