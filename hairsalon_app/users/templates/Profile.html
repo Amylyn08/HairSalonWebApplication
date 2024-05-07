@@ -20,11 +20,17 @@
     </fieldset>
 </div>
 {% endblock %}
-{% block content_main_pannel %}  
-        <div class="scrolling-text">
-            All user information is protected by the privacy politics we instored in place.
-        </div>
+{% block content_main_pannel %}
+
+<div class="button-container">
+    <div class="hidden-element" id="hoverElement">
+        <h2> You want to update your profile info? </h2><br>
+        <h4> CLICK BELOW ↓ </h4>
+    </div>
+</div>
+<div class = "container">
     <div id="update_button">
-   <button type="button"> <a href="{{url_for('users_bp.edit_profile', username=users.username)}}">Update profile</a> </button>
-   </div>
+        <button type="button" id="hoverButton"> <a href="{{url_for('users_bp.edit_profile', username=users.username)}}">Update profile</a> </button>
+    </div>
+  </div>
 {% endblock %}

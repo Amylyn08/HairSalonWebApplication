@@ -1,21 +1,40 @@
-body{
-    overflow: hidden; /* Hide horizontal overflow */
-}
-.scrolling-text {
+.scroll-container {
+    position: relative;
+    height: 500px; /* Height of the scrolling container */
+    overflow: auto; /* Enable scrolling */
+} 
+.reveal-phrase {
     position: absolute;
-    left: -100%; /* Start off screen to the left */
-    top: 50%;
-    white-space: nowrap; /* Prevent text from wrapping */
-    animation: scrollText 10s linear infinite; /* Scroll animation */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center align */
+    font-size: 24px;
+    color: #333;
+    opacity: 1; /* Initially hidden */
+    transition: opacity 0.5s ease-in-out; /* Fade-in animation */
 }
-@keyframes scrollText {
-    from {
-        transform: translateX(100%); /* Move text from right to left */
-    }
-    to {
-        transform: translateX(-100%); /* Move text from left to right */
-    }
+.spacer {
+    height: 200px;  /*Empty space to trigger reveal */
+} 
+
+.hidden-element {
+    visibility: hidden;  /* Initially hidden */
+    font-family: Nunito Sans;
+    color:#0d3d14;
+    font-size: 30px;
 }
+.container{
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; 
+}
+.button-container {
+    /* padding: 10%; */
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    text-align: center;
+}
+
 
 /* Update Image panel */
 #image_div {
@@ -27,6 +46,8 @@ body{
     padding-bottom: 3px;
     height: fit-content;
     width:fit-content;
+    font-family: Nunito Sans;
+    color:#0d3d14;
   }
 
 /* CSS for the profile image */
