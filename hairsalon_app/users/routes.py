@@ -150,18 +150,20 @@ def edit_profile(username):
 
 @users_bp.route('/profile/admin_edit/<username>/', methods=['GET', 'POST'])
 def edit_profile_admin(username):
-    form_image = UpdateImageForm()
     form = UpdateProfileAdminForm()
     user = db.get_member(username=username)
-    if request.method == 'POST':
-        if form_image.user_image.data:
-            file_name = save_file(form_image.user_image.data)  
+    if form.validate_on_submit():
+        if form.user_image.data:
+            file_name = save_file(form.user_image.data)  
         else:
             file_name = user.user_image
-        b = Bcrypt()
-        hashed_new_pass = b.generate_password_hash(form.new_password.data).decode('utf-8')
-        password = hashed_new_pass
-        db.update_profile_admin(user_type=form.user_type.data, username=form.username.data, full_name=form.full_name.data,
+        if form.new_password.data:
+            b = Bcrypt()
+            hashed_new_pass = b.generate_password_hash(form.new_password.data).decode('utf-8')
+            password = hashed_new_pass
+        else:
+            password = user.password
+        db.update_profile_admin(user_id=user.user_id, user_type=form.user_type.data, username=form.username.data, full_name=form.full_name.data,
                                 new_password=password, email=form.email.data, phone_number=form.phone_number.data,
                                 address=form.address.data, age=form.age.data, speciality=form.speciality.data,
                                 pay_rate=form.pay_rate.data, user_image=file_name)
@@ -170,7 +172,7 @@ def edit_profile_admin(username):
             return redirect(url_for('users_bp.adminsuper_pannel'))
         else:
             return redirect(url_for('users_bp.adminuser_pannel'))
-    return render_template('edit_profile_admin.html', user=user, form=form, form_image=form_image)
+    return render_template('edit_profile_admin.html', user=user, form=form)
 
 
 
@@ -222,7 +224,7 @@ def toggle_flag(username):
         flag = 0
         flash(f'User {username} has been unflagged', 'success')
     db.set_flag(username=username, status=flag)
-    return make_response({}, 204)
+    return redirect(url_for('users_bp.adminsuper_pannel'))
 
 
 def save_file(form_file):

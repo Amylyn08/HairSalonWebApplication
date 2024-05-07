@@ -42,7 +42,7 @@ class UpdateProfileAdminForm(FlaskForm):
     address = StringField('address')
     age = IntegerField('age')
     speciality = StringField('specialty')
-    pay_rate = IntegerField('pay_rate')
+    pay_rate = DecimalField('pay_rate', places=2)
     user_image = FileField('user_image', validators=[FileAllowed(['png', 'jpg', 'jpeg', 'webp'])])
     submit = SubmitField('Update info')
 

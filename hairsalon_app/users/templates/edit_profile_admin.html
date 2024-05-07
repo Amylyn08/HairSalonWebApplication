@@ -6,7 +6,15 @@
 {% block content_side_pannel %}
 <div>
     <div id="image_div">
+        <h2> {{user.full_name}}</h2>
+        <h5> @{{user.username}}</h5>
         <img src="{{ url_for('static', filename='images/user-pics/' + user.user_image) }}" alt="Profile picture of user">
+        <p id="text">
+            Upload any image in the following format: png, jpg, jpeg, webp.
+        </p>
+        <button id="delete-button">
+            <a>Delete User</a>
+        </button>
     </div>
 </div>
 {% endblock %}
@@ -46,11 +54,10 @@
             <label for="pay_rate">Pay Rate</label>
             {{ form.pay_rate(class='form-field', id='pay_rate', value=user.pay_rate) }}        
             {{ form_field_error(form.pay_rate.errors)}}
+            <label for="user_image">Profile Picture</label>
+            {{form.user_image(class='form-field', id='user_image', value=user.user_image)}}
         </fieldset> 
         {{form.submit(class='button')}}
     </form>
 </div>
-<button>
-    <a>Delete User</a>
-</button>
 {% endblock content_main_pannel %}

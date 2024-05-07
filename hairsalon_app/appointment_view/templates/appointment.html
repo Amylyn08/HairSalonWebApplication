@@ -1,5 +1,8 @@
 {% extends 'home_member.html' %}
 {% from "macro.html" import form_field_error with context %}
+{% block content_css %}
+<link rel="stylesheet" href="{{url_for('appointment_bp.static', filename='css/appointments.css')}}">
+{% endblock %}
 {% block content_side_pannel %}
 <p>This is a hair salon service application for 420 Final Project...</p>
 {% endblock %}

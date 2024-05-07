@@ -275,3 +275,17 @@ SELECT * FROM salon_report WHERE appointment_id = 8;
  SELECT * 
                     FROM SALON_APPOINTMENT 
                     WHERE CLIENT_ID = :user_id OR PROFESSIONAL_ID = 9;
+
+UPDATE salon_user
+                        SET user_type = 'client',
+                            username = 'RidaClient',
+                            full_name = 'Rida EDITED',
+                            password_hashed = '$2b$12$y7YQtBlvQ7EtKsFOSpYdaO8yKTU6os66jJfr/8skkXO0DJvM66zw.',
+                            email = 'rida@gmail.com',
+                            phone_number = '5142222222',
+                            address = '5000 Montreal',
+                            age = 19,
+                            specialty = 'janitor',
+                            pay_rate = 10,
+                            user_image = 'default.png'
+                        WHERE user_id = 21;
