@@ -10,30 +10,32 @@
 {% block content_side_pannel %}
 <p>This is a hair salon service application for 420 Final Project...</p>
 <h2>Sort By:</h2>
-<button>
-  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Date')}}">Date</a>
-</button>
-<button>
-  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Slot')}}">Slot</a>
-</button>
-<button>
-  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Professional')}}">Professional Name</a>
-</button>
-<button>
-  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Client')}}">Client Name</a>
-</button>
-<button>
-  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Pending')}}">Pending</a>
-</button>
-<button>
-  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Approved')}}">Approved</a>
-</button>
-<button>
-  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Completed')}}">Completed</a>
-</button>
-<button>
-  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Cancelled')}}">Cancelled</a>
-</button>
+<div id="button_sort">
+  <button>
+    <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Date')}}">Date</a>
+  </button>
+  <button>
+    <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Slot')}}">Slot</a>
+  </button>
+  <button>
+    <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Professional')}}">Professional Name</a>
+  </button>
+  <button>
+    <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Client')}}">Client Name</a>
+  </button>
+  <button>
+    <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Pending')}}">Pending</a>
+  </button>
+  <button>
+    <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Approved')}}">Approved</a>
+  </button>
+  <button>
+    <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Completed')}}">Completed</a>
+  </button>
+  <button>
+    <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Cancelled')}}">Cancelled</a>
+  </button>
+</div>
 {% endblock %}
 {% block content_main_pannel %}
 <h2>All appointments</h2>
