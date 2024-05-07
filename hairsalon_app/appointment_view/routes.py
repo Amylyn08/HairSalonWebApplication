@@ -56,7 +56,7 @@ def sort_appointments(sorted_by):
         if sorted_by == 'fullname':
             all_appointments = db.get_all_appointments_fullname_asc()
         if sorted_by == 'Slot':
-            pass
+            all_appointments = db.get_all_appointments_slot()
         if sorted_by == 'Professional':
             all_appointments = db.get_all_appointments_profname()
         if sorted_by == 'Client':
