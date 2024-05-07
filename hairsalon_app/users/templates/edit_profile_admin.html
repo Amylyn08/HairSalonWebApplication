@@ -3,20 +3,10 @@
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/update.css')}}">
 {% endblock content_css %}
 {% block content_side_pannel %}
-<div id="image_div">
-    <h2> {{users.full_name}}</h2>
-    <h5> @{{users.username}}</h5>
-    <img src="{{ url_for('static', filename='images/user-pics/' + users.user_image) }}" alt="Profile picture of user">
-    <form action="" method="POST" enctype="multipart/form-data" novalidate>
-        {{form1.hidden_tag() }}
-        <fieldset>
-            {{form1.user_image(class='form-field', placeholder='Upload New Photo') }}
-            {{form1.submit(class='button')}}
-        </fieldset>
-    </form>
-    <fieldset id="text">
-        Upload any image in the following format: png, jpg, jpeg, webp.
-    </fieldset>
+<div>
+    <div id="image_div">
+        <img src="{{ url_for('static', filename='images/user-pics/' + user.user_image) }}" alt="Profile picture of user">
+    </div>
 </div>
 {% endblock %}
 {% block content_main_pannel %}
@@ -35,7 +25,7 @@
             {{ form.full_name(class='form-field', id='full_name', value=user.full_name) }}
             
             <label for="new_password">New Password</label>
-            {{ form.new_password(class='form-field', id='new_password') }}
+            {{ form.new_password(class='form-field', id='new_password', value=user.password) }}
             
             <label for="email">Email</label>
             {{ form.email(class='form-field', id='email', value=user.email) }}

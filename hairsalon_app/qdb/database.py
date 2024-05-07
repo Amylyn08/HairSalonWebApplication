@@ -107,9 +107,12 @@ class Database():
                 users = cur.execute(qry).fetchall()
                 for user in users:
                     list_users.append(Member(user[2],user[3],user[4],user[5],user[6],user[7],user[8],user[9],user[10],user[11],user[12],user[13]))
+                return list_users 
         except Exception as e:
             print(e)
-        return list_users 
+        finally:
+            self.close()
+        
     
 #Add a new user
     #Add a new client
@@ -117,7 +120,7 @@ class Database():
     def add_new_client(self,username,full_name, email, user_image,password, phone, address, age):
         '''  method to add a new client, data coming fro a user input form'''
         try:
-            with self.__connection.cursor() as cur:
+            with self.get_cursor() as cur:
                 qry = '''INSERT INTO salon_user(username,full_name, email, user_image,password_hashed, phone_number, address, age)
                             VALUES(:username, :full_name, :email, :user_image, :password, :phone, :address, :age)'''
                 
@@ -125,6 +128,8 @@ class Database():
                                     password=password, phone=phone, address=address, age=age )
         except Exception as e:
                 print(f'The following error occured: {e}')
+        finally:
+            self.close()
     #Add a new proffesional
 
     def add_new_pro(self, username, full_name, email, user_image, password, phone, address, age, speciality, payrate):
@@ -139,12 +144,15 @@ class Database():
                 cur.execute(qry, {'username': username, 'full_name': full_name, 'email': email, 'user_image': user_image,
                                 'password': password, 'phone': phone, 'address': address, 'age': age,
                                 'specialty': speciality, 'payrate': payrate})
+                self.__connection.close()
             except Exception as e:
                 print(e)
+            finally:
+                self.close()
 
     def get_list_pros(self):
         try:
-            with self.__connection.cursor() as cursor:
+            with self.get_cursor() as cursor:
                 qry = '''SELECT user_id,
                                 is_active,
                                 user_type,
@@ -169,10 +177,12 @@ class Database():
                 return pros_list
         except Exception as e:
             print(f'Error retrieving member: {e}')
+        finally:
+            self.close()
 
     def get_all_users(self):
         try:
-            with self.__connection.cursor() as cursor:
+            with self.get_cursor() as cursor:
                 qry = '''SELECT user_id,
                                 is_active,
                                 user_type,
@@ -197,10 +207,12 @@ class Database():
                 return users_list
         except Exception as e:
             print(f'Error retrieving member: {e}')
+        finally:
+            self.close()
 
     def get_list_clients(self):
         try:
-            with self.__connection.cursor() as cursor:
+            with self.get_cursor() as cursor:
                 qry = '''SELECT user_id,
                                 is_active,
                                 user_type,
@@ -225,16 +237,20 @@ class Database():
                 return clients_list
         except Exception as e:
             print(f'Error retrieving member: {e}')
+        finally:
+            self.close()
 
     def get_all_admin_username(self):
         try:
-            with self.__connection.cursor() as c:
+            with self.get_cursor() as c:
                 qry='''SELECT username FROM SALON_USER WHERE user_type LIKE 'admin%' '''
                 c.execute(qry)
                 names = c.fetchall()
                 return names
         except Exception as e:
             print(f'Error retrieving member: {e}')
+        finally:
+            self.close()
 
     # def get_client(self, username):
     #     try:
@@ -261,7 +277,7 @@ class Database():
     # Iana code
     def update_profile(self,username, new_password, full_name, email, phone_number, address, user_image):
         try:
-            with self.__connection.cursor() as cursor:
+            with self.get_cursor() as cursor:
                 qry = '''UPDATE salon_user
                         SET password_hashed = :new_password,
                             full_name = :full_name,
@@ -274,11 +290,13 @@ class Database():
                 self.__connection.commit()
         except Exception as e:
             print(f'Error updating member: {e}')
+        finally:
+            self.close()
     
     def update_profile_admin(self, user_type, username, full_name, new_password, email,
                          phone_number, address, age, speciality, pay_rate, user_image):
         try:
-            with self.__connection.cursor as c:
+            with self.get_cursor() as c:
                 qry = '''UPDATE salon_user
                         SET user_type = :user_type,
                             username = :username,
@@ -306,6 +324,8 @@ class Database():
                 c.execute(qry, info)
         except Exception as e:
             print(f'The following error occured: {e}')
+        finally:
+            self.close()
     
     # def update_image(self,username, user_image):
     #     try:
@@ -322,7 +342,7 @@ class Database():
     
     def get_member(self, username):
         try:
-            with self.__connection.cursor() as cursor:
+            with self.get_cursor() as cursor:
                 qry = '''SELECT user_id,
                                 is_active,
                                 user_type,
@@ -349,10 +369,12 @@ class Database():
         except Exception as e:
             print(f'Error retrieving member: {e}')
             return None
+        finally:
+            self.close()
     
     def get_active(self, username):
         try:
-            with self.__connection.cursor() as cursor:
+            with self.get_cursor() as cursor:
                 qry = '''SELECT is_active FROM salon_user WHERE username = :username'''
                 cursor.execute(qry, username=username)
                 row = cursor.fetchone()
@@ -361,14 +383,18 @@ class Database():
                     return active
         except Exception as e:
             print(f'Error retrieving member: {e}')
+        finally:
+            self.close()
 
     def set_active(self, username, active):
         try:
-            with self.__connection.cursor() as cursor:
+            with self.get_cursor() as cursor:
                 qry = '''UPDATE salon_user SET is_active=:active WHERE username = :username'''
                 cursor.execute(qry, username=username, active=active)
         except Exception as e:
             print(f'Error updating member: {e}')
+        finally:
+            self.close()
     
     def get_flag(self, username):
         try:
@@ -383,14 +409,18 @@ class Database():
                     return None
         except Exception as e:
             print(f'Error retrieving member: {e}')
+        finally:
+            self.close()
             
     def set_flag(self, username, status):
         try:
-            with self.__connection.cursor() as cursor:
+            with self.get_cursor() as cursor:
                 qry = '''UPDATE salon_user SET status=:status WHERE username = :username'''
                 cursor.execute(qry, username=username, status=status)
         except Exception as e:
             print(f'Error updating member: {e}')
+        finally:
+            self.close()
     
     
     #Selects client based on the username                
@@ -413,7 +443,7 @@ class Database():
         ''' method to list all appointments of a given client '''
         appointments = []
         try:
-            with self.__connection.cursor() as c:
+            with self.get_cursor() as c:
                 sql = f'SELECT * FROM salon_appointment WHERE client_id = :user_id OR professional_id = :user_id'
                 info = {'user_id': user_id}
                 c.execute(sql, info)
@@ -424,33 +454,166 @@ class Database():
             return appointments
         except Exception as e:
             print(e)
-        
-        return appointments
+        finally:
+            self.close()
     
     def get_all_appointments(self):
         ''' method to list all appointments '''
         appointments = []
         try:
-            with self.__connection.cursor() as c:
-                sql =f"""SELECT *,
-                        c.name AS client_name, 
-                        p.name AS professional_name, 
-                        s.name AS service_name
-                    FROM salon_appointment a
-                    JOIN client c ON a.client_id = c.client_id
-                    JOIN professional p ON a.professional_id = p.professional_id
-                    JOIN service s ON a.service_id = s.service_id"""
+            with self.get_cursor() as c:
+                sql = f'SELECT * FROM salon_appointment'
                 fetch = c.execute(sql).fetchall()
                 for record in fetch:
-                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[10], record[5], record[11], record[6], record[12], record[7], record[8]))
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                return appointments
         except Exception as e:
             print(e)
+        finally:
+            self.close()
         
-        return appointments
+    
+    def get_all_appointments_date_desc(self):
+        ''' method to list all appointments by date DESC'''
+        appointments = []
+        try:
+            with self.get_cursor() as c:
+                sql = f'SELECT * FROM salon_appointment ORDER BY date_appointment DESC'
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                return appointments
+        except Exception as e:
+            print(e)
+        finally:
+            self.close()        
+    
+    def get_all_appointments_pending(self):
+        ''' method to list all appointments that are pending'''
+        appointments = []
+        try:
+            with self.get_cursor() as c:
+                sql = f"SELECT * FROM salon_appointment WHERE status = 'pending'"
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                return appointments
+        except Exception as e:
+            print(e)
+        finally:
+            self.close()        
+    
+    def get_all_appointments_approved(self):
+        ''' method to list all appointments that are approved'''
+        appointments = []
+        try:
+            with self.get_cursor() as c:
+                sql = f"SELECT * FROM salon_appointment WHERE status = 'approved'"
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                return appointments
+        except Exception as e:
+            print(e)
+        finally:
+            self.close()        
+    
+    def get_all_appointments_completed(self):
+        ''' method to list all appointments that are completed'''
+        appointments = []
+        try:
+            with self.get_cursor() as c:
+                sql = f"SELECT * FROM salon_appointment WHERE status = 'completed'"
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                return appointments
+        except Exception as e:
+            print(e)
+        finally:
+            self.close()
+    
+    def get_all_appointments_cancelled(self):
+        ''' method to list all appointments that are cancelled'''
+        appointments = []
+        try:
+            with self.get_cursor() as c:
+                sql = f"SELECT * FROM salon_appointment WHERE status = 'cancelled'"
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                return appointments
+        except Exception as e:
+            print(e)
+        finally:
+            self.close()
+    
+    def get_all_appointments_fullname_asc(self):
+        ''' method to list all appointments by full name ASC'''
+        appointments = []
+        try:
+            with self.get_cursor() as c:
+                sql = f'SELECT * FROM salon_appointment INNER JOIN salon_user ON salon_appointment.client_id = salon_user.user_id ORDER BY full_name asc'
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                return appointments
+        except Exception as e:
+            print(e)
+        finally:
+            self.close()            
+        
+#to redo!!!
+    def get_all_appointments_slot(self):
+        ''' method to list all appointments by full name ASC'''
+        appointments = []
+        try:
+            with self.get_cursor() as c:
+                sql = f'SELECT * FROM salon_appointment ORDER BY slot DESC'
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                return appointments
+        except Exception as e:
+            print(e)
+        finally:
+            self.close()
+        
+    
+    def get_all_appointments_profname(self):
+        ''' method to list all appointments by full name ASC'''
+        appointments = []
+        try:
+            with self.get_cursor() as c:
+                sql = f'SELECT * FROM salon_appointment INNER JOIN salon_user ON salon_user.user_id = salon_appointment.professional_id ORDER BY full_name ASC'
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                return appointments
+        except Exception as e:
+            print(e)
+        finally:
+            self.close()
+    
+    def get_all_appointments_clientname(self):
+        ''' method to list all appointments by full name ASC'''
+        appointments = []
+        try:
+            with self.get_cursor() as c:
+                sql = f'SELECT * FROM salon_appointment INNER JOIN salon_user ON salon_user.user_id = salon_appointment.client_id ORDER BY full_name ASC'
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                return appointments
+        except Exception as e:
+            print(e)
+        finally:
+            self.close()
+        
         
     def get_appointment_by_client_date(self, username, date):
         try:
-            with self.__connection.cursor() as c:
+            with self.get_cursor() as c:
                 qry = '''
                     SELECT
                         appointment_id
@@ -469,13 +632,14 @@ class Database():
         except Exception as e:
             # Handle exceptions
             print(e)
-
+        finally:
+            self.close()
 
 # add new appointment to database
     def add_new_appointment(self, username, professional, service, venue, slot, date):
         '''  method to schedule a new appointment, data coming fro a user input form'''
         try:
-            with self.__connection.cursor() as cursor:
+            with self.get_cursor() as cursor:
                 sql = f'''INSERT INTO salon_appointment (client_id, professional_id, service_id, slot, venue, date_appointment) 
                             VALUES ((SELECT user_id FROM salon_user WHERE username = :username), 
                                     (SELECT user_id FROM salon_user WHERE username = :professional), 
@@ -486,40 +650,49 @@ class Database():
                 self.__connection.commit()
         except Exception as e:
             print (f'The following error occured: {e}')
+        finally:
+            self.close()
 
 #edit appointment from database
     def edit_appointment(self, appointment_id, status, date_appointment, service):
         '''  method to edit appointment from the database'''
         try:
-            with self.__connection.cursor() as cursor:
+            with self.get_cursor() as cursor:
                 sql = f'''UPDATE salon_appointment SET status = :status, date_appointment = :date_appointment,  service_id = (SELECT service_id FROM salon_service WHERE service_name = :service) WHERE appointment_id = :appointment_id'''
                 info = {'appointment_id' : appointment_id, 'status' : status, 'date_appointment' : date_appointment, 'service' : service}
                 cursor.execute(sql, info)
                 self.__connection.commit()
+
         except Exception as e:
-            print (f'The following error occured: {e}')        
+            print (f'The following error occured: {e}')    
+        finally:
+            self.close()    
 
 #get appointment from id
     def get_appointment_by_id(self, appointment_id):
         ''' method to retrieve appointment by its id'''
         try:
-            with self.__connection.cursor() as c:
+            with self.get_cursor() as c:
                 sql = f'SELECT * FROM salon_appointment WHERE appointment_id = :appointment_id'
                 info = {'appointment_id' : appointment_id}
                 c.execute(sql, info)
                 row = c.fetchone()
                 if row:
                     appointment = Appointment(*row)
+                    self.__connection.close()
                     return appointment
                 else:
                     return None
         except Exception as e:
             print(f"The followning exception occured: {e}")
+        finally:
+            self.close()
+
 # add new report to database
     def add_new_report(self,user_id, appointment_id, title, client_report, professional_report):
         '''  method to schedule a new appointment, data coming fro a user input form'''
         try:
-            with self.__connection.cursor() as cursor:
+            with self.get_cursor() as cursor:
                 sql = f'''INSERT INTO salon_report (user_id, appointment_id, title, client_report, professional_report) 
                             VALUES (:user_id,
                                     :appointment_id, 
@@ -531,11 +704,13 @@ class Database():
                 self.__connection.commit()
         except Exception as e:
             print (f'The following error occured: {e}')
+        finally:
+            self.close()
             
     def edit_report(self, report_id, new_client_report, new_professional_report):
         '''  method to edit existing report in database'''
         try:
-            with self.__connection.cursor() as cursor:
+            with self.get_cursor() as cursor:
                 sql = f'''UPDATE salon_report
                             SET client_report = :client_report, professional_report = :professional_report
                             WHERE report_id = :report_id'''
@@ -544,27 +719,30 @@ class Database():
                 self.__connection.commit()
         except Exception as e:
             print (f'The following error occured: {e}')
+        finally:
+            self.close()
 
     def get_all_reports(self):
         ''' method to list all reports '''
         reports = []
         try:
-            with self.__connection.cursor() as c:
+            with self.get_cursor() as c:
                 sql = f'SELECT * FROM salon_report'
                 fetch = c.execute(sql).fetchall()
                 print(len(fetch))
                 for record in fetch:
                     print(record)
                     reports.append(Report(record[0], record[1], record[2],record[3], record[4], record[5], record[6]))
+                return reports
         except Exception as e:
             print(e)
-        
-        return reports
+        finally:
+            self.close()
     
     def get_appointment_reports(self, appointment_id):
         ''' method to list all reports of a specific appointment'''
         try:
-            with self.__connection.cursor() as c:
+            with self.get_cursor() as c:
                 sql = f'SELECT * FROM salon_report WHERE appointment_id = :appointment_id'
                 info = {'appointment_id' : appointment_id}
                 c.execute(sql, info)
@@ -575,11 +753,13 @@ class Database():
             return reports      
         except Exception as e:
             print(f'The following exception occured: {e}')
+        finally:
+            self.close()
         
     def get_report_by_id(self, report_id):
         ''' method to retrieve report by its id'''
         try:
-            with self.__connection.cursor() as c:
+            with self.get_cursor() as c:
                 sql = f'SELECT * FROM salon_report WHERE report_id = :report_id'
                 info = {'report_id' : report_id}
                 c.execute(sql, info)
@@ -591,20 +771,24 @@ class Database():
                     return None
         except Exception as e:
             print(f"The followning exception occured: {e}")
+        finally:
+            self.close()
                 
     def delete_report(self, report_id):
         try:
-            with self.__connection.cursor() as cursor:
+            with self.get_cursor() as cursor:
                 sql = f'DELETE FROM salon_report WHERE report_id = :report_id'
                 info = {'report_id' : report_id}
                 cursor.execute(sql, info)
         except Exception as e:
             print (f'The following error occured: {e}')
+        finally:
+            self.close()
 
     def get_all_services(self):
         service_names = []
         try:
-            with self.__connection.cursor() as c:
+            with self.get_cursor() as c:
                 qry = '''
                     SELECT
                         service_name
@@ -621,16 +805,20 @@ class Database():
         except Exception as e:
             # Handle exceptions
             print(e)
+        finally:
+            self.close()
+
     def get_appointment(self, appointment_id):
         try:
-            with self.__connection.cursor() as c:
+            with self.get_cursor() as c:
                 sql = f'SELECT * FROM salon_appointment WHERE appointment_id = :appointment_id'
                 info = {'appointment_id': appointment_id}
                 fetch = c.execute(sql, info).fetchone()
                 return Appointment(fetch[0], fetch[1], fetch[2],fetch[3], fetch[4], fetch[5], fetch[6], fetch[7], fetch[8])
         except Exception as e:
             print(e)
-
+        finally:
+            self.close()
 
 #----------END of work area -----------
 
@@ -641,10 +829,10 @@ class Database():
         # ----------------------------
         #  1.	Create two global variables:
         # •	an instance of Database class that you call db.
-database = Database()
+db = Database()
 
-# 2.	Call run_sql_script on da1tabase.sql  if the script (database.py) is run in isolation.
+# # 2.	Call run_sql_script on da1tabase.sql  if the script (database.py) is run in isolation.
 
-if __name__ == '__main__':
-    database.run_sql_script('schema.sql')
-    database.update_image("liliana2020", "michel.png")
+# if __name__ == '__main__':
+#     database.run_sql_script('schema.sql')
+#     database.update_image("liliana2020", "michel.png")

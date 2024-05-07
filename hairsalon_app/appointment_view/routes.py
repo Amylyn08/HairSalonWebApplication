@@ -2,12 +2,11 @@ from flask import Blueprint, flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
 from hairsalon_app.appointment_view.forms import AppointmentForm, AppointmentEditForm
 from hairsalon_app.appointment_view.appointment import Appointment
-from hairsalon_app.qdb.database import Database
+from hairsalon_app.qdb.database import db
 import datetime
 
 
 appointment_bp = Blueprint('appointment_bp', __name__, template_folder='templates', static_folder='static', static_url_path='/appointment_view/static')
-db = Database()
 
 
 @appointment_bp.route('/appointment/', methods=['POST', 'GET'])
@@ -29,7 +28,7 @@ def create_appointment():
     return render_template('appointment.html', form=form)
 
 #route for user's appointments
-@appointment_bp.route("/my_appointments/<int:user_id>", methods=['GET'])
+@appointment_bp.route("/my_appointments/<int:user_id>/", methods=['GET'])
 @login_required
 def my_appointments(user_id):
     #get apps from db
@@ -41,16 +40,36 @@ def my_appointments(user_id):
     return redirect(url_for("appointment_bp.create_appointment"))
 
 #route for all appointments
-@appointment_bp.route("/all_appointments", methods=['GET'])
+@appointment_bp.route("/all_appointments/", methods=['GET'])
 def all_appointments(): #the id is the one for the note
     #get apps from db
-    all_appointments = db.get_all_appointments()
-     
+    all_appointments = db.get_all_appointments()     
     if (len(all_appointments)!= 0):
         return render_template("all_appointments.html", context = all_appointments)
-        
+    flash("No appointments to show", 'info')
     return redirect(url_for("appointment_bp.create_appointment"))
 
+@appointment_bp.route("/all_appointments/sorted/<string:sorted_by>/", methods=['GET', 'POST'])
+def sort_appointments(sorted_by):
+        if sorted_by == 'Date':
+            all_appointments = db.get_all_appointments_date_desc()
+        if sorted_by == 'fullname':
+            all_appointments = db.get_all_appointments_fullname_asc()
+        if sorted_by == 'Slot':
+            pass
+        if sorted_by == 'Professional':
+            all_appointments = db.get_all_appointments_profname()
+        if sorted_by == 'Client':
+            all_appointments = db.get_all_appointments_clientname()
+        if sorted_by == 'Pending':
+            all_appointments = db.get_all_appointments_pending()
+        if sorted_by == 'Approved':
+            all_appointments = db.get_all_appointments_approved()
+        if sorted_by == 'Completed':
+            all_appointments = db.get_all_appointments_completed()
+        if sorted_by == 'Cancelled':
+            all_appointments = db.get_all_appointments_cancelled()
+        return render_template("all_appointments.html", context = all_appointments)
 #route to edit appointment
 @appointment_bp.route("/edit_appointment/<int:appointment_id>", methods=['POST', 'GET'])
 def edit_appointment(appointment_id):

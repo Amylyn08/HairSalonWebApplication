@@ -2,9 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import *
 from wtforms.validators import *
 
-from hairsalon_app.qdb.database import Database
-
-db = Database()
+from hairsalon_app.qdb.database import db
 
 pros_list = db.get_list_pros()
 choices = [(pro.username, pro.username) for pro in pros_list]

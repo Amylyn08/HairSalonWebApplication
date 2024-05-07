@@ -2,11 +2,11 @@ from flask import Blueprint, flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
 from hairsalon_app.report_view.forms import ReportForm, ReportEdit
 from hairsalon_app.appointment_view.appointment import Appointment
-from hairsalon_app.qdb.database import Database
+from hairsalon_app.qdb.database import db
 
 
 report_bp = Blueprint('report_bp', __name__, template_folder='templates')
-db = Database()
+
 
 
 #route to create report
