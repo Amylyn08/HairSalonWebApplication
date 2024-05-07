@@ -1,4 +1,5 @@
 {% extends 'home_member.html' %}
+{% from "macro.html" import form_field_error with context %}
 {% block content_side_pannel %}
 <p>This is a hair salon service application for 420 Final Project...</p>
 {% endblock %}
@@ -9,12 +10,16 @@
     <fieldset>
       <label for="date">Date</label>
       {{form.date (class="form-field", label= "date")}}
+      {{form_field_error(form.date.errors)}}
       <label for="slot">Time slot</label>
       {{form.slot (class="form-field", label = "slot", value = appointment.slot)}}
+      {{form_field_error(form.slot.errors)}}
       <label for="service">Service</label>
       {{form.service (class="form-field", label = "service", value = appointment.service)}}
+      {{form_field_error(form.service.errors)}}
       <label for="status">Status</label>
       {{form.status (class="form-field", label = "status", value = appointment.status)}}
+      {{form_field_error(form.status.errors)}}
     </fieldset>
     {{form.submit (class=button)}}
   </form>

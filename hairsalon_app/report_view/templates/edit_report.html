@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from "macro.html" import form_field_error with context %}
 {% block content_when_login %}
 <p>Hey {{current_user.username}}</p>
 <li>Profile</li>
@@ -25,17 +26,22 @@
   <fieldset>
     <label for="report_title">Edit title</label>
     {{form.title(class="form-field", placeholder=report.title)}}
+    {{form_field_error(form.title.errors)}}
     {% if current_user.user_type == 'client' %}
       <label for="client_report">Edit client report</label>
       {{form.client_report (class="form-field",  placeholder=report.client_report)}}
+      {{form_field_error(form.client_report.errors)}}
     {% elif current_user.user_type == 'professional' %}
       <label for="professional_report">Edit professional report</label>
       {{form.professional_report (class="form-field", placeholder=report.professional_report)}}
+      {{form_field_error(form.professional_report.errors)}}
     {% else %}
       <label for="client_report">Edit client report</label>
       {{form.client_report (class="form-field", placeholder=report.client_report)}}
+      {{form_field_error(form.client_report.errors)}}
       <label for="professional_report">Edit professional report</label>
       {{form.professional_report (class="form-field", placeholder=report.professional_report)}}
+      {{form_field_error(form.professional_report.errors)}}
     {% endif %}
   </fieldset>
   {{form.submit (class=button)}}

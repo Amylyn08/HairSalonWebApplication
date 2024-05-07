@@ -84,7 +84,7 @@ body {
 } 
 
 #side-pannel, #main-pannel {
-    background-color: #84a59d;
+    background-color: #f1f3f3;
     border: 4px double gray;
     padding: 20px;
     border-radius: 10px; /* Adjust the border radius as needed */
@@ -95,8 +95,9 @@ body {
 nav ul {
     list-style-type: none;
     margin: 0;
-    padding: 0;
+    padding: 5px;
     display: flex;
+    background-color: rgba(197, 197, 197, 0.9);
 }
 
 nav ul li {
