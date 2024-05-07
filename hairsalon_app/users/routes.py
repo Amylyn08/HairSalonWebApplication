@@ -14,6 +14,7 @@ from hairsalon_app.users.forms import LoginForm, NewUserForm, UpdateProfileAdmin
 #Create an instance of Database
 login_manager = LoginManager()
 
+
 #Create a blueprint
 users_bp = Blueprint("users_bp",__name__,template_folder='templates', static_folder='static', static_url_path='/users/static')
 

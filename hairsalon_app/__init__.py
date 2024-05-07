@@ -2,7 +2,7 @@ from flask import Flask, flash, redirect, render_template, url_for
 from flask import *
 from flask_login import LoginManager
 from hairsalon_app.config import ConfigProd
-from hairsalon_app.qdb.database import Database
+from hairsalon_app.qdb.database import db
 from hairsalon_app.users.User import User
 
        
@@ -12,7 +12,6 @@ def create_app(config = ConfigProd):
     app = Flask(__name__)
     app.config.from_object(config)
 
-    db = Database()
     #import your blueprints here
     # ex) from smt.smt.smt... import smt..
     from hairsalon_app.main_view.routes import main_bp
