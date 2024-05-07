@@ -432,10 +432,17 @@ class Database():
         appointments = []
         try:
             with self.__connection.cursor() as c:
-                sql = f'SELECT * FROM salon_appointment'
+                sql =f"""SELECT *,
+                        c.name AS client_name, 
+                        p.name AS professional_name, 
+                        s.name AS service_name
+                    FROM salon_appointment a
+                    JOIN client c ON a.client_id = c.client_id
+                    JOIN professional p ON a.professional_id = p.professional_id
+                    JOIN service s ON a.service_id = s.service_id"""
                 fetch = c.execute(sql).fetchall()
                 for record in fetch:
-                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[10], record[5], record[11], record[6], record[12], record[7], record[8]))
         except Exception as e:
             print(e)
         
