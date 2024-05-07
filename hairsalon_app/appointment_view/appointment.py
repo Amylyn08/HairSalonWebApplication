@@ -1,3 +1,5 @@
+
+
 class Appointment:
     def __init__(self, appointment_id, status, approved, date_appointment, client_id, professional_id, service_id, slot, venue):
         self.appointment_id = appointment_id
@@ -9,3 +11,6 @@ class Appointment:
         self.service_id = service_id
         self.slot = slot
         self.venue = venue
+        self.client_name = 0
+        self.professional_name=0
+        self.service_name =0

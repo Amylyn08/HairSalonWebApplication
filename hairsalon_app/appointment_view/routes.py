@@ -33,17 +33,19 @@ def create_appointment():
 def my_appointments(user_id):
     #get apps from db
     my_appointments = db.get_my_appointments(user_id)
-     
     if (len(my_appointments)!= 0):
         return render_template("my_appointments.html", context = my_appointments)
-        
     return redirect(url_for("appointment_bp.create_appointment"))
 
 #route for all appointments
 @appointment_bp.route("/all_appointments/", methods=['GET'])
 def all_appointments(): #the id is the one for the note
     #get apps from db
-    all_appointments = db.get_all_appointments()     
+    all_appointments = db.get_all_appointments() 
+    for app in all_appointments:
+        app.client_name = db.get_client_name(client_id=app.client_id)
+        app.professional_name = db.get_professional_name(professional_id=app.professional_id)
+        app.service_name = db.get_service_name(service_id=app.service_id)
     if (len(all_appointments)!= 0):
         return render_template("all_appointments.html", context = all_appointments)
     flash("No appointments to show", 'info')
