@@ -50,6 +50,21 @@
   border: 1px solid #ccc; /* Add border around each grid item */
 }
 
+#button_sort{
+  display:flex;
+  flex-direction: column;
+  gap:10px;
+  border: 4px solid black;
+}
+
+#button_sort button{
+  text-align:left;
+  background-color:azure;
+  font-family:'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+  font-size:16px;
+  border-bottom:3px solid black;
+}
+
 
 /* appointments.css */
 

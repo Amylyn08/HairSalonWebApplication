@@ -602,14 +602,13 @@ class Database():
             print(e)
            
         
-#to redo!!!
     def get_all_appointments_slot(self):
         ''' method to list all appointments by full name ASC'''
         appointments = []
         try:
             with self.__connect() as connection:
                 with connection.cursor() as c:
-                    sql = f'SELECT * FROM salon_appointment ORDER BY slot DESC'
+                    sql = f"SELECT * FROM salon_appointment ORDER BY TO_NUMBER(SUBSTR(slot, 1, INSTR(slot, '-') - 1))"
                     fetch = c.execute(sql).fetchall()
                     for record in fetch:
                         appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
