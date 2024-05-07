@@ -2,12 +2,11 @@ from flask import Blueprint, flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
 from hairsalon_app.appointment_view.forms import AppointmentForm, AppointmentEditForm
 from hairsalon_app.appointment_view.appointment import Appointment
-from hairsalon_app.qdb.database import Database
+from hairsalon_app.qdb.database import db
 import datetime
 
 
 appointment_bp = Blueprint('appointment_bp', __name__, template_folder='templates', static_folder='static', static_url_path='/appointment_view/static')
-db = Database()
 
 
 @appointment_bp.route('/appointment/', methods=['POST', 'GET'])

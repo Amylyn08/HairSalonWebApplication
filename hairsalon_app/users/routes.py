@@ -2,7 +2,7 @@
 #Section : 01
 from flask import Blueprint, abort, current_app, flash, make_response, url_for, redirect, render_template,request
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
-from hairsalon_app.qdb.database import Database
+from hairsalon_app.qdb.database import db
 from flask_bcrypt import Bcrypt
 import secrets
 import os
@@ -12,7 +12,6 @@ from hairsalon_app.users.Member import Member
 from hairsalon_app.users.User import User
 from hairsalon_app.users.forms import LoginForm, NewUserForm, UpdateProfileAdminForm, UpdateProfileForm, UpdateImageForm
 #Create an instance of Database
-db = Database()
 login_manager = LoginManager()
 
 #Create a blueprint
