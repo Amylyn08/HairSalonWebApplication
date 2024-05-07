@@ -439,7 +439,7 @@ class Database():
     def get_client_name(self, client_id):
         try:
             with self.get_cursor() as cursor:
-                qry = '''SELECT full_name FROM salon_client WHERE user_id = :client_id'''
+                qry = '''SELECT full_name FROM salon_user WHERE user_id = :client_id'''
                 cursor.execute(qry, client_id=client_id)
                 row = cursor.fetchone()
                 if row:
