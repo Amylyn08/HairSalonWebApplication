@@ -1,10 +1,39 @@
-{% extends 'home_member.html' %}
+{% if current_user.is_authenticated %}
+  {% extends 'home_member.html' %}
+{% else %}
+  {% extends 'base.html' %}
+{% endif %}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('appointment_bp.static', filename='css/appointments.css')}}">
 {% endblock %}
 
 {% block content_side_pannel %}
 <p>This is a hair salon service application for 420 Final Project...</p>
+<h2>Sort By:</h2>
+<button>
+  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Date')}}">Date</a>
+</button>
+<button>
+  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Slot')}}">Slot</a>
+</button>
+<button>
+  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Professional')}}">Professional Name</a>
+</button>
+<button>
+  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Client')}}">Client Name</a>
+</button>
+<button>
+  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Pending')}}">Client Name</a>
+</button>
+<button>
+  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Approved')}}">Client Name</a>
+</button>
+<button>
+  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Completed')}}">Client Name</a>
+</button>
+<button>
+  <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Cancelled')}}">Client Name</a>
+</button>
 {% endblock %}
 {% block content_main_pannel %}
 <h2>All appointments</h2>

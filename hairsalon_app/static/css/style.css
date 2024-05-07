@@ -26,7 +26,8 @@ body {
 
 /* Navigation styles */
 #nav-main {
-    background-color: #333;
+    background-image: url(../images/trees.jpg);
+    background-size: cover;
     color: #fff;
     padding: 20px 60px;
     display: flex;
@@ -83,6 +84,7 @@ body {
 } 
 
 #side-pannel, #main-pannel {
+    background-color: #84a59d;
     border: 4px double gray;
     padding: 20px;
     border-radius: 10px; /* Adjust the border radius as needed */
@@ -139,6 +141,7 @@ main {
     flex: 1;
     padding: 20px;
     position: relative; /* Set position to relative */
+    overflow-y: auto;
 }
 
 #flash-errors {
@@ -163,7 +166,8 @@ main {
 
 /* Footer styles */
 footer {
-    background-color: #333;
+    background-image: url(../images/trees_foot.jpg);
+    background-size: cover;
     color: #fff;
     text-align: center;
     padding: 10px;

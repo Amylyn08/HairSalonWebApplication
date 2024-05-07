@@ -139,6 +139,7 @@ class Database():
                 cur.execute(qry, {'username': username, 'full_name': full_name, 'email': email, 'user_image': user_image,
                                 'password': password, 'phone': phone, 'address': address, 'age': age,
                                 'specialty': speciality, 'payrate': payrate})
+                self.__connection.close()
             except Exception as e:
                 print(e)
 
@@ -440,6 +441,132 @@ class Database():
             print(e)
         
         return appointments
+    
+    def get_all_appointments_date_desc(self):
+        ''' method to list all appointments by date DESC'''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_appointment ORDER BY date_appointment DESC'
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+        except Exception as e:
+            print(e)
+        
+        return appointments
+    
+    def get_all_appointments_pending(self):
+        ''' method to list all appointments that are pending'''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f"SELECT * FROM salon_appointment WHERE status = 'pending'"
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+        except Exception as e:
+            print(e)
+        
+        return appointments
+    
+    def get_all_appointments_approved(self):
+        ''' method to list all appointments that are approved'''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f"SELECT * FROM salon_appointment WHERE status = 'approved'"
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+        except Exception as e:
+            print(e)
+        
+        return appointments
+    
+    def get_all_appointments_completed(self):
+        ''' method to list all appointments that are completed'''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f"SELECT * FROM salon_appointment WHERE status = 'completed'"
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+        except Exception as e:
+            print(e)
+        
+        return appointments
+    
+    def get_all_appointments_cancelled(self):
+        ''' method to list all appointments that are cancelled'''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f"SELECT * FROM salon_appointment WHERE status = 'cancelled'"
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+        except Exception as e:
+            print(e)
+        
+        return appointments
+    
+    def get_all_appointments_fullname_asc(self):
+        ''' method to list all appointments by full name ASC'''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_appointment INNER JOIN salon_user ON salon_appointment.client_id = salon_user.user_id ORDER BY full_name asc'
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+        except Exception as e:
+            print(e)
+        
+        return appointments
+#to redo!!!
+    def get_all_appointments_slot(self):
+        ''' method to list all appointments by full name ASC'''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_appointment ORDER BY slot DESC'
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+        except Exception as e:
+            print(e)
+        
+        return appointments
+    
+    def get_all_appointments_profname(self):
+        ''' method to list all appointments by full name ASC'''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_appointment INNER JOIN salon_user ON salon_user.user_id = salon_appointment.professional_id ORDER BY full_name ASC'
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+        except Exception as e:
+            print(e)
+        
+        return appointments
+    
+    def get_all_appointments_clientname(self):
+        ''' method to list all appointments by full name ASC'''
+        appointments = []
+        try:
+            with self.__connection.cursor() as c:
+                sql = f'SELECT * FROM salon_appointment INNER JOIN salon_user ON salon_user.user_id = salon_appointment.client_id ORDER BY full_name ASC'
+                fetch = c.execute(sql).fetchall()
+                for record in fetch:
+                    appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+        except Exception as e:
+            print(e)
+        
+        return appointments
         
     def get_appointment_by_client_date(self, username, date):
         try:
@@ -489,6 +616,7 @@ class Database():
                 info = {'appointment_id' : appointment_id, 'status' : status, 'date_appointment' : date_appointment, 'service' : service}
                 cursor.execute(sql, info)
                 self.__connection.commit()
+
         except Exception as e:
             print (f'The following error occured: {e}')        
 
@@ -503,6 +631,7 @@ class Database():
                 row = c.fetchone()
                 if row:
                     appointment = Appointment(*row)
+                    self.__connection.close()
                     return appointment
                 else:
                     return None
@@ -585,6 +714,14 @@ class Database():
         except Exception as e:
             print(f"The followning exception occured: {e}")
                 
+    def delete_report(self, report_id):
+        try:
+            with self.__connection.cursor() as cursor:
+                sql = f'DELETE FROM salon_report WHERE report_id = :report_id'
+                info = {'report_id' : report_id}
+                cursor.execute(sql, info)
+        except Exception as e:
+            print (f'The following error occured: {e}')
 
     def get_all_services(self):
         service_names = []

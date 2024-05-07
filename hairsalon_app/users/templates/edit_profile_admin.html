@@ -10,11 +10,11 @@
 </div>
 {% endblock %}
 {% block content_main_pannel %}
-<h2>Admin Profile Update</h2>
-<div>
+<div  id="info_div">
+    <h2>Edit Admin Profile</h2>
     <form action="" method="POST" enctype="multipart/form-data" novalidate>
         {{ form.hidden_tag() }}
-        <fieldset>
+        <fieldset id="info">
             <label for="user_type">User's Type</label>
             {{ form.user_type(class='form-field', id='user_type', value=user.user_type) }}
             

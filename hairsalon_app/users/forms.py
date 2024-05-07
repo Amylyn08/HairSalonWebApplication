@@ -31,7 +31,7 @@ class UpdateProfileForm(FlaskForm):
     phone_number = TelField('phone_number')
     address = StringField('address')
     submit = SubmitField('Update info')
-
+    
 class UpdateProfileAdminForm(FlaskForm):
     user_type = StringField('user_type')
     username = StringField('username')

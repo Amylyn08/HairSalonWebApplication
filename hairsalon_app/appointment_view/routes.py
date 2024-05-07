@@ -24,7 +24,7 @@ def create_appointment():
                                    slot=form.slot.data,
                                    date=form.date.data)
         flash('Appointment scheduled', 'success')
-        return redirect(url_for('appointment_bp.my_appointments', username=current_user.username))
+        return redirect(url_for('appointment_bp.my_appointments', user_id=current_user.user_id))
     flash('Invalid Inputs.' 'error')
     return render_template('appointment.html', form=form)
 
@@ -44,13 +44,33 @@ def my_appointments(user_id):
 @appointment_bp.route("/all_appointments/", methods=['GET'])
 def all_appointments(): #the id is the one for the note
     #get apps from db
-    all_appointments = db.get_all_appointments()
-     
+    all_appointments = db.get_all_appointments()     
     if (len(all_appointments)!= 0):
         return render_template("all_appointments.html", context = all_appointments)
-        
+    flash("No appointments to show", 'info')
     return redirect(url_for("appointment_bp.create_appointment"))
 
+@appointment_bp.route("/all_appointments/sorted/<string:sorted_by>/", methods=['GET', 'POST'])
+def sort_appointments(sorted_by):
+        if sorted_by == 'Date':
+            all_appointments = db.get_all_appointments_date_desc()
+        if sorted_by == 'fullname':
+            all_appointments = db.get_all_appointments_fullname_asc()
+        if sorted_by == 'Slot':
+            pass
+        if sorted_by == 'Professional':
+            all_appointments = db.get_all_appointments_profname()
+        if sorted_by == 'Client':
+            all_appointments = db.get_all_appointments_clientname()
+        if sorted_by == 'Pending':
+            all_appointments = db.get_all_appointments_pending()
+        if sorted_by == 'Approved':
+            all_appointments = db.get_all_appointments_approved()
+        if sorted_by == 'Completed':
+            all_appointments = db.get_all_appointments_completed()
+        if sorted_by == 'Cancelled':
+            all_appointments = db.get_all_appointments_cancelled()
+        return render_template("all_appointments.html", context = all_appointments)
 #route to edit appointment
 @appointment_bp.route("/edit_appointment/<int:appointment_id>", methods=['POST', 'GET'])
 def edit_appointment(appointment_id):
@@ -76,4 +96,9 @@ def specific_appointment(appointment_id):
     if appointment is None:
         flash('Appointment not found', 'error')
         return redirect(url_for("appointment_bp.all_appointments"))
-    return render_template("specific_appointment.html", appointment = appointment, reports = reports)
+    return render_template("specific_appointment.html", 
+                           appointment = appointment,
+                            reports = reports,
+                            reports_length = len(reports))
+
+

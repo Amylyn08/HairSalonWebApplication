@@ -17,9 +17,15 @@
         <p>Professional: {{report.professional_report}}</p>
     </div>
 </div>
-{% if appointment.client_id == current_user.user_id or appointment.professional_id == current_user.user_id %}
+{% if appointment.client_id == current_user.user_id or 
+    appointment.professional_id == current_user.user_id or
+    ('admin_super', 'admin_appoint') in current_user.user_type %}
+
     <button>
         <a href="{{url_for('report_bp.edit_report', report_id=report.report_id)}}">Edit Report</a>
+    </button>
+    <button>
+        <a href="{{url_for('report_bp.delete_report', report_id=report.report_id, appointment_id=appointment.appointment_id)}}">Delete Report</a>
     </button>
 {% endif %}
 {% endfor %}
@@ -63,5 +69,4 @@
         current_user.user_type == 'admin_super' or current_user.user_type == 'admin_appoint' %}
     <button type = "button"> <a href ="{{url_for('appointment_bp.edit_appointment', appointment_id = appointment.appointment_id)}}">Edit appointment </a></button>
     {% endif %}
-
 {% endblock content_main_pannel %}

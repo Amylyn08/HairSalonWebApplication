@@ -43,6 +43,13 @@ def edit_report(report_id):
     flash('Invalid Inputs.' 'error')
     return render_template('edit_report.html', form=form, report=report)
 
+@report_bp.route('/delete_report/<int:report_id>/<int:appointment_id>/', methods=['POST', 'GET'])
+def delete_report(report_id, appointment_id):
+    db.delete_report(report_id)
+    flash('Report deleted','success')
+    return redirect(url_for('appointment_bp.specific_appointment', appointment_id=appointment_id))
+
+
 # #route for all reports
 # @report_bp.route("/all_appointments", methods=['GET'])
 # def all_appointments(): #the id is the one for the note
