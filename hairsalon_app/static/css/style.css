@@ -84,7 +84,7 @@ body {
 } 
 
 #side-pannel, #main-pannel {
-    background-color: #e9edc9;
+    background-color: #a3b18a;
     border: 4px double gray;
     padding: 20px;
     border-radius: 10px; /* Adjust the border radius as needed */
@@ -141,6 +141,7 @@ main {
     flex: 1;
     padding: 20px;
     position: relative; /* Set position to relative */
+    overflow-y: auto;
 }
 
 #flash-errors {

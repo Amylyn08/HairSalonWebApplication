@@ -3,25 +3,28 @@
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/update.css')}}">
 {% endblock content_css %}
 {% block content_side_pannel %}
-<div>
-    <div id="image_div">
-        <img src="{{ url_for('static', filename='images/user-pics/' + user.user_image) }}" alt="Profile picture of user">
-        <form action="" method="POST" enctype="multipart/form-data" novalidate>
-            {{ form_image.hidden_tag() }}
-            <fieldset>
-                {{ form_image.user_image(class='form-field', placeholder='Upload New Photo') }}
-                {{form_image.submit(class='button')}}
-            </fieldset>
-        </form>
-    </div>
+<div id="image_div">
+    <h2> {{users.full_name}}</h2>
+    <h5> @{{users.username}}</h5>
+    <img src="{{ url_for('static', filename='images/user-pics/' + users.user_image) }}" alt="Profile picture of user">
+    <form action="" method="POST" enctype="multipart/form-data" novalidate>
+        {{form1.hidden_tag() }}
+        <fieldset>
+            {{form1.user_image(class='form-field', placeholder='Upload New Photo') }}
+            {{form1.submit(class='button')}}
+        </fieldset>
+    </form>
+    <fieldset id="text">
+        Upload any image in the following format: png, jpg, jpeg, webp.
+    </fieldset>
 </div>
 {% endblock %}
 {% block content_main_pannel %}
-<h2>Admin Profile Update</h2>
-<div>
+<div  id="info_div">
+    <h2>Edit Admin Profile</h2>
     <form action="" method="POST" enctype="multipart/form-data" novalidate>
         {{ form.hidden_tag() }}
-        <fieldset>
+        <fieldset id="info">
             <label for="user_type">User's Type</label>
             {{ form.user_type(class='form-field', id='user_type', value=user.user_type) }}
             

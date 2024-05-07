@@ -3,15 +3,15 @@
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/update.css')}}">
 {% endblock content_css %}
 {% block content_side_pannel %}
-<div>
+
     <div id="image_div">
         <h2> {{users.full_name}}</h2>
         <h5> @{{users.username}}</h5>
         <img src="{{ url_for('static', filename='images/user-pics/' + users.user_image) }}" alt="Profile picture of user">
         <form action="" method="POST" enctype="multipart/form-data" novalidate>
             {{form1.hidden_tag() }}
-            <fieldset id = "li">
-                {{form1.user_image(class='form-field', placeholder='Upload New Photo') }}<br>
+            <fieldset>
+                {{form1.user_image(class='form-field', placeholder='Upload New Photo') }}
                 {{form1.submit(class='button')}}
             </fieldset>
         </form>
@@ -19,12 +19,12 @@
             Upload any image in the following format: png, jpg, jpeg, webp.
         </fieldset>
     </div>
-</div>
+
 {% endblock %}
 {% block content_main_pannel %}
 <div id="info_div">
 <h2>Edit profile</h2>
-    <form action="" method="POST" enctype="multipart/form-data" novalidate id="info_form">
+    <form action="" method="POST" enctype="multipart/form-data" novalidate >
         {{ form.hidden_tag() }}
         <fieldset id="info">
             <div class = "div_space">
@@ -51,7 +51,7 @@
                 <label for="address">Address</label>
                 {{form.address(class='form-field', placeholder='Street Number, Province, Country')}}<br>
             </div>
-            <div id ="submit_info">
+            <div id="submit_button">
                 {{form.submit(class='button')}}
             </div> 
         </fieldset>
