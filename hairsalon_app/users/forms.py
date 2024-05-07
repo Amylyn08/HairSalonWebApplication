@@ -31,14 +31,18 @@ class UpdateProfileForm(FlaskForm):
     phone_number = TelField('phone_number')
     address = StringField('address')
     submit = SubmitField('Update info')
-
-class UpdateProfileForm(FlaskForm):
+    
+class UpdateProfileAdminForm(FlaskForm):
+    user_type = StringField('user_type')
+    username = StringField('username')
     full_name = StringField('full_name')
-    old_password = PasswordField('password')
     new_password = PasswordField('confirm_password')
     email = EmailField('email', validators=[Email()])
     phone_number = TelField('phone_number')
     address = StringField('address')
+    age = IntegerField('age')
+    speciality = StringField('specialty')
+    pay_rate = IntegerField('pay_rate')
     submit = SubmitField('Update info')
 
 class UpdateImageForm(FlaskForm):

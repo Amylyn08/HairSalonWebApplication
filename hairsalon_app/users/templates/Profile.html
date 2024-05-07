@@ -1,21 +1,36 @@
 {% extends 'home_member.html' %}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/profile.css')}}">
+<script src="{{url_for('users_bp.static', filename='js/profile.js')}}"></script>
 {% endblock content_css %}
 {% block content_side_pannel %}
-<img src="{{ url_for('static', filename='images/user-pics/' + users.user_image) }}" alt="Profile picture of user">
+<div id="image_div">
+    <h2> {{users.full_name}}</h2>
+    <h5> @{{users.username}}</h5>
+    <img src="{{ url_for('static', filename='images/user-pics/' + users.user_image) }}" alt="Profile picture of user">
+    {% if users.user_type == 'professional' %}
+    <h5> Speciality: {{ users.specialty}} </h5>
+    {% endif %}
+    <p> User Type: {{ users.user_type}} </p><br>
+    <p> Address :{{users.address}} </p><br>
+    <p>{{users.email}} </p><br>
+    <p> Age: {{users.age}} </p><br>
+    <fieldset id="text">
+        All user information is protected by the privacy politics we instored in place.
+    </fieldset>
+</div>
 {% endblock %}
-{% block content_main_pannel %}  
-        <h3> {{users.full_name}} </h3>
-        <h4> {{users.username}}</h4>
-        {% if users.user_type == 'professional' %}
-            <h5> Speciality: {{ users.specialty}} </h5>
-        {% endif %}
-        <p> User Type: {{ users.user_type}} </p><br>
-        <p> Address :{{users.address}} </p><br>
-        <p> Email: {{users.email}} </p><br>
-        <p> Age: {{users.age}} </p>
-   <button type="button"> <a href="{{url_for('users_bp.edit_profile', username=users.username)}}">Update profile</a> </button>
+{% block content_main_pannel %}
 
-
+<div class="button-container">
+    <div class="hidden-element" id="hoverElement">
+        <h2> You want to update your profile info? </h2><br>
+        <h4> CLICK BELOW ↓ </h4>
+    </div>
+</div>
+<div class = "container">
+    <div id="update_button">
+        <button type="button" id="hoverButton"> <a href="{{url_for('users_bp.edit_profile', username=users.username)}}">Update profile</a> </button>
+    </div>
+  </div>
 {% endblock %}

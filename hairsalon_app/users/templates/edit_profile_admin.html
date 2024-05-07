@@ -1,0 +1,64 @@
+{% extends 'home_member.html' %}
+{% block content_css %}
+<link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/update.css')}}">
+{% endblock content_css %}
+{% block content_side_pannel %}
+<div id="image_div">
+    <h2> {{users.full_name}}</h2>
+    <h5> @{{users.username}}</h5>
+    <img src="{{ url_for('static', filename='images/user-pics/' + users.user_image) }}" alt="Profile picture of user">
+    <form action="" method="POST" enctype="multipart/form-data" novalidate>
+        {{form1.hidden_tag() }}
+        <fieldset>
+            {{form1.user_image(class='form-field', placeholder='Upload New Photo') }}
+            {{form1.submit(class='button')}}
+        </fieldset>
+    </form>
+    <fieldset id="text">
+        Upload any image in the following format: png, jpg, jpeg, webp.
+    </fieldset>
+</div>
+{% endblock %}
+{% block content_main_pannel %}
+<div  id="info_div">
+    <h2>Edit Admin Profile</h2>
+    <form action="" method="POST" enctype="multipart/form-data" novalidate>
+        {{ form.hidden_tag() }}
+        <fieldset id="info">
+            <label for="user_type">User's Type</label>
+            {{ form.user_type(class='form-field', id='user_type', value=user.user_type) }}
+            
+            <label for="username">Username</label>
+            {{ form.username(class='form-field', id='username', value=user.username) }}
+            
+            <label for="full_name">Full Name</label>
+            {{ form.full_name(class='form-field', id='full_name', value=user.full_name) }}
+            
+            <label for="new_password">New Password</label>
+            {{ form.new_password(class='form-field', id='new_password') }}
+            
+            <label for="email">Email</label>
+            {{ form.email(class='form-field', id='email', value=user.email) }}
+            
+            <label for="phone_number">Phone Number</label>
+            {{ form.phone_number(class='form-field', id='phone_number', value=user.phone_number) }}
+            
+            <label for="address">Address</label>
+            {{ form.address(class='form-field', id='address', value=user.address) }}
+            
+            <label for="age">Age</label>
+            {{ form.age(class='form-field', id='age', value=user.age) }}
+            
+            <label for="speciality">Specialty</label>
+            {{ form.speciality(class='form-field', id='speciality', value=user.speciality) }}
+            
+            <label for="pay_rate">Pay Rate</label>
+            {{ form.pay_rate(class='form-field', id='pay_rate', value=user.pay_rate) }}        
+        </fieldset> 
+        {{form.submit(class='button')}}
+    </form>
+</div>
+<button>
+    <a>Delete User</a>
+</button>
+{% endblock content_main_pannel %}

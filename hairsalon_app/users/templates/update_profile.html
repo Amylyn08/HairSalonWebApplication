@@ -3,31 +3,58 @@
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/update.css')}}">
 {% endblock content_css %}
 {% block content_side_pannel %}
-<div>
+
     <div id="image_div">
+        <h2> {{users.full_name}}</h2>
+        <h5> @{{users.username}}</h5>
         <img src="{{ url_for('static', filename='images/user-pics/' + users.user_image) }}" alt="Profile picture of user">
         <form action="" method="POST" enctype="multipart/form-data" novalidate>
-            {{ form1.hidden_tag() }}
+            {{form1.hidden_tag() }}
             <fieldset>
-                {{ form1.user_image(class='form-field', placeholder='Upload New Photo') }}
+                {{form1.user_image(class='form-field', placeholder='Upload New Photo') }}
                 {{form1.submit(class='button')}}
+            </fieldset>
         </form>
+        <fieldset id="text">
+            Upload any image in the following format: png, jpg, jpeg, webp.
+        </fieldset>
     </div>
-</div>
+
 {% endblock %}
 {% block content_main_pannel %}
-<h2>Updating profile ...</h2>
-<div>
-    <form action="" method="POST" enctype="multipart/form-data" novalidate>
+<div id="info_div">
+<h2>Edit profile</h2>
+    <form action="" method="POST" enctype="multipart/form-data" novalidate >
         {{ form.hidden_tag() }}
-        <fieldset>
-            {{form.full_name(class='form-field', placeholder="full_name")}}
-            {{form.email (class='form-field', placeholder="Email")}} <br>
-            {{form.old_password(class='form-field', placeholder='Old Password')}}
-            {{form.new_password(class='form-field', placeholder='New password')}} <br>
-            {{form.phone_number(class='form-field', placeholder='Phone Number')}}
-            {{form.address(class='form-field', placeholder='Street Number, Province, Country')}}
-        {{form.submit(class='button')}}
+        <fieldset id="info">
+            <div class = "div_space">
+                <label for="full_name">Full Name</label>
+                {{form.full_name(class='form-field', placeholder="full_name", value=users.full_name)}}
+            </div>
+            <div class = "div_space">
+                <label for="email">Email</label>
+                {{form.email (class='form-field', placeholder="Email", value=users.email)}} 
+            </div>
+            <div class = "div_space">
+                <label for="old_password">Old Password</label>
+                {{form.old_password(class='form-field', placeholder='Old Password')}}
+            </div>
+            <div class = "div_space">
+                <label for="new_password">New Password</label>
+                {{form.new_password(class='form-field', placeholder='New password')}} 
+            </div>
+            <div class = "div_space">
+                <label for="phone_number">Phone Number</label>
+                {{form.phone_number(class='form-field', placeholder='Phone Number',  value=users.phone_number)}}
+            </div>
+            <div class = "div_space">
+                <label for="address">Address</label>
+                {{form.address(class='form-field', placeholder='Street Number, Province, Country', value=users.address )}}<br>
+            </div>
+            <div id="submit_button">
+                {{form.submit(class='button')}}
+            </div> 
+        </fieldset>
     </form>
 </div>
 {% endblock content_main_pannel %}

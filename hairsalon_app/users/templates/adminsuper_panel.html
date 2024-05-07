@@ -24,6 +24,7 @@
                 <th>Active</th>
                 <th>Picture</th>
                 <th>Flag</th>
+                <th>Edit/Delete</th>
             </tr>
             {% for client in clients %}
             <tr>
@@ -57,6 +58,11 @@
                     </button>
                 </td>
                 {% endif %}
+                <td>
+                    <button>
+                        <a href="{{url_for('users_bp.edit_profile_admin', username=client.username)}}">Details</a>
+                    </button>
+                </td>
             </tr>
             {% endfor %}
         </table>
@@ -71,6 +77,7 @@
                 <th>Active</th>
                 <th>Picture</th>
                 <th>Flag</th>
+                <th>Edit/Delete</th>
             </tr>
             {% for employee in employees %}
             <tr>
@@ -104,6 +111,11 @@
                     </button>
                 </td>
                 {% endif %}
+                <td>
+                    <button>
+                        <a href="{{url_for('users_bp.edit_profile_admin', username=employee.username)}}">Details</a>
+                    </button>
+                </td>
             </tr>
             {% endfor %}
         </table>
