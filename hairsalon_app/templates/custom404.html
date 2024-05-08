@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<head>
-    <meta charset="UTF=8">
-    <title> 404 Page not found</title>
-</head>
-<html>
-    <body>
+{% if current_user.is_authenticated %}
+    {% extends 'home_member.html' %}
+{% else %}
+    {% extends 'base.html' %}
+{% endif %}
         <h1> 404 - Page not found</h1>
         <p> The page that you're looking for doesn't exist or it not accesible.</p>
         <!-- <p> Please return to <a href="{{url_for('main_bp.home')}}"> home page </a> and try again.</p> -->

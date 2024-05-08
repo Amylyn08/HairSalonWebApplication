@@ -9,8 +9,8 @@
 
 {% block content_side_pannel %}
 <p>This is a hair salon service application for 420 Final Project...</p>
-<h2>Sort By:</h2>
-<div id="button_sort">
+<h5>Sort By:</h5>
+<div id="sort-by">
   <button>
     <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Date')}}">Date</a>
   </button>
@@ -23,6 +23,9 @@
   <button>
     <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Client')}}">Client Name</a>
   </button>
+</div>
+<h5>Filter By:</h5>
+<div id="filter-by">
   <button>
     <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Pending')}}">Pending</a>
   </button>
@@ -36,7 +39,7 @@
     <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Cancelled')}}">Cancelled</a>
   </button>
 </div>
-{% endblock %}
+{% endblock content_side_pannel%}
 {% block content_main_pannel %}
 <h2>All appointments</h2>
 
@@ -46,15 +49,15 @@
       <p>Date:</p> {{ appointment.date_appointment }}
     </div>
     <div class="grid3">
-      <p>Client ID:</p> {{ appointment.client_id }}
+      <p>Client ID:</p> {{ appointment.client_name }}
     </div>
     <div class="grid4">
-      <p>Professional ID:</p> {{ appointment.professional_id }}
+      <p>Professional ID:</p> {{ appointment.professional_name }}
     </div>
     <div class="grid2">
-      <p>Service ID:</p> {{ appointment.service_id }}
+      <p>Service ID:</p> {{ appointment.service_name }}
     </div>
-    <a href="{{url_for('appointment_bp.specific_appointment', appointment_id=appointment.appointment_id)}}">View Details / Modify</a>
+    <a class="details" href="{{url_for('appointment_bp.specific_appointment', appointment_id=appointment.appointment_id)}}">View Details / Modify /Create Report</a>
   </div>
 {% endfor %}
 {% endblock %}

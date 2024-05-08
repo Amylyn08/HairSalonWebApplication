@@ -138,3 +138,61 @@ button {
 .app-link:hover{
     background-color: rgb(177, 177, 177);
 }
+
+a{
+    text-decoration: none;
+}
+
+.access a{
+    color: white;
+}
+
+/* Style for the Create User section */
+#create-user-div {
+    margin-top: 20px;
+  }
+  
+  /* Style for the form fields */
+  .form-field {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  /* Style for the submit button */
+  .create-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .create-button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Style for the error messages */
+  .error-message {
+    color: red;
+  }
+  
+  /* Style for the pro-fields section */
+  #pro-fields {
+    margin-top: 20px;
+  }
+  
+  /* Style for the user type select */
+  #user-create {
+    margin-bottom: 10px;
+  }
+  
+  /* Style for the hidden fields */
+  .hidden {
+    display: none;
+  }
+  

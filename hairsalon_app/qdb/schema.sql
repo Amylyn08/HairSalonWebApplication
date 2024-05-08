@@ -223,33 +223,6 @@ INSERT INTO SALON_USER(
     19
 );
 
-UPDATE SALON_USER
-SET
-    IS_ACTIVE=0
-WHERE
-    USERNAME = 'iana_life' NSERT INTO SALON_APPOINTMENT (CLIENT_ID, PROFESSIONAL_ID, SERVICE_ID, SLOT, VENUE, DATE_APPOINTMENT) VALUES ((
-        SELECT
-            USER_ID
-        FROM
-            SALON_USER
-        WHERE
-            USERNAME = 'nasr'
-    ), (
-        SELECT
-            USER_ID
-        FROM
-            SALON_USER
-        WHERE
-            USERNAME = 'RidaPro'
-    ), (
-        SELECT
-            SERVICE_ID
-        FROM
-            SALON_SERVICE
-        WHERE
-            SERVICE_NAME = 'Trimming'
-    ), :SLOT, :VENUE, :DATE_APPOINTMENT);
-
 SELECT
     USER_ID,
     IS_ACTIVE,
@@ -272,6 +245,16 @@ WHERE
 
 SELECT * FROM salon_report WHERE appointment_id = 8;
 
- SELECT * 
-                    FROM SALON_APPOINTMENT 
-                    WHERE CLIENT_ID = :user_id OR PROFESSIONAL_ID = 9;
+UPDATE salon_user
+                        SET user_type = 'client',
+                            username = 'RidaClient',
+                            full_name = 'Rida EDITED',
+                            password_hashed = '$2b$12$y7YQtBlvQ7EtKsFOSpYdaO8yKTU6os66jJfr/8skkXO0DJvM66zw.',
+                            email = 'rida@gmail.com',
+                            phone_number = '5142222222',
+                            address = '5000 Montreal',
+                            age = 19,
+                            specialty = 'janitor',
+                            pay_rate = 10,
+                            user_image = 'default.png'
+                        WHERE user_id = 21;

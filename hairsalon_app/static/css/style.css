@@ -29,6 +29,7 @@ body {
     background-image: url(../images/trees.jpg);
     background-size: cover;
     color: #fff;
+    font-size: 17px;
     padding: 20px 60px;
     display: flex;
     justify-content: space-between;
@@ -44,7 +45,6 @@ body {
  #left-nav li a{
     text-decoration: none;
     list-style: none;
-    color: white;
     text-decoration: none;
  }
 
@@ -84,7 +84,7 @@ body {
 } 
 
 #side-pannel, #main-pannel {
-    background-color: #84a59d;
+    background-color: #f1f3f3;
     border: 4px double gray;
     padding: 20px;
     border-radius: 10px; /* Adjust the border radius as needed */
@@ -95,13 +95,16 @@ body {
 nav ul {
     list-style-type: none;
     margin: 0;
-    padding: 0;
+    padding: 5px;
     display: flex;
+    background-color: rgba(197, 197, 197, 0.9);
 }
 
 nav ul li {
     margin-right: 20px;
     transition: transform 0.3s ease; /* Add transition effect */
+    color: #2c2929;
+
 }
 
 nav ul li:last-child {
@@ -109,8 +112,9 @@ nav ul li:last-child {
 }
 
 nav ul li a {
-    color: #fff;
+    color: #2c2929;
     text-decoration: none;
+    
 }
 
 /* Add hover effect */
@@ -234,3 +238,11 @@ footer {
 .dropdown-toggle .caret {
     margin-left: 5px;
 }
+
+.error-field{
+    background-color: rgb(230, 56, 56);
+    list-style: none;
+    width: 200px;
+    border-radius: 10px;
+    text-align: center;
+    }

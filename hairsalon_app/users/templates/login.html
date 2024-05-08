@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from "macro.html" import form_field_error with context %}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/login.css')}}">
 {% endblock content_css %}
@@ -12,7 +13,9 @@
         {{form.hidden_tag()}}
         <fieldset>
             {{form.username(class='form-field', placeholder='Username')}}
+            {{form_field_error(form.username.errors)}}
             {{form.password(class='form-field', placeholder='Password')}}
+            {{form_field_error(form.password.errors)}}
         </fieldset>
         {{form.submit(class='button')}}
     </form>
