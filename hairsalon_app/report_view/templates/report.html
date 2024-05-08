@@ -2,6 +2,7 @@
 {% from "macro.html" import form_field_error with context %}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('report_bp.static', filename='css/reports.css')}}">
+<script src="{{url_for('report_bp.static', filename='js/report.js')}}"></script>
 {% endblock content_css %}
 {% block content_main_pannel %}
 <h2>Create report as {{current_user.user_type}}</h2>
@@ -9,22 +10,22 @@
     {{form.hidden_tag()}}  
     <fieldset>
       <label for="title">Title</label>
-      {{form.title (class="form-field", label = "title")}}
+      {{form.title (class="form-field", label = "title", id="title")}}
       {{form_field_error(form.title.errors)}}
       {% if current_user.user_type == 'client' %}
         <label for="client_report">Client's report</label>
-        {{form.client_report (class="form-field", placeholder = "Client's report")}}
+        {{form.client_report (class="form-field", placeholder = "Client's report", id="client-report")}}
         {{form_field_error(form.client_report.errors)}}
       {% elif current_user.user_type == 'professional' %}
         <label for="professional_report">Professional's report</label>
-        {{form.professional_report (class="form-field", placeholder = "Professional's report")}}
+        {{form.professional_report (class="form-field", placeholder = "Professional's report", id="pro-report")}}
         {{form_field_error(form.professional_report.errors)}}
       {% else %}
         <label for="client_report">Client's report</label>
-        {{form.client_report (class="form-field", placeholder = "Client's report")}}
+        {{form.client_report (class="form-field", placeholder = "Client's report", id="client-report")}}
         {{form_field_error(form.client_report.errors)}}
         <label for="professional_report">Professional's report</label>
-        {{form.professional_report (class="form-field", placeholder = "Professional's report")}}
+        {{form.professional_report (class="form-field", placeholder = "Professional's report", id="pro-report")}}
         {{form_field_error(form.professional_report.errors)}}
       {% endif %}
     </fieldset>

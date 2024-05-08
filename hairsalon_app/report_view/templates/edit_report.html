@@ -1,8 +1,11 @@
 {% extends 'home_member.html' %}
 {% from "macro.html" import form_field_error with context %}
+{% block content_css %}
+<link rel="stylesheet" href="{{url_for('report_bp.static', filename='css/reports.css')}}">
+<script src="{{url_for('report_bp.static', filename='js/report.js')}}"></script>
+{% endblock content_css %}
 {% block content_main_pannel %}
 <h2>Edit report</h2>
-
 <form action="" method="POST">
   {{form.hidden_tag()}}  
   <fieldset>
