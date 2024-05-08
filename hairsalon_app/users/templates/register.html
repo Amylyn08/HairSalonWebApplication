@@ -4,6 +4,7 @@
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/registration.css')}}">
 <script src="{{url_for('users_bp.static', filename='js/registration.js')}}"></script>
+<script src="{{url_for('users_bp.static', filename='js/validation.js')}}"></script>
 {% endblock content_css%}
 {% block content_side_pannel %}
 <p>Some description...</p>
@@ -20,26 +21,26 @@
     <form action="" method="POST" enctype="multipart/form-data" novalidate>
         {{ form.hidden_tag() }}
         <fieldset>
-            {{form.username (class='form-field', placeholder="Username")}}
+            {{form.username (class='form-field', placeholder="Username", class="username")}}
             {{form_field_error(form.username.errors)}}
-            {{form.full_name(class='form-field', placeholder="full_name")}}
+            {{form.full_name(class='form-field', placeholder="full_name", class="full_name")}}
             {{form_field_error(form.full_name.errors)}}
-            {{form.email (class='form-field', placeholder="Email")}}
+            {{form.email (class='form-field', placeholder="Email", class="email")}}
             {{form_field_error(form.email.errors)}}
-            {{form.password(class='form-field', placeholder='Password')}}
+            {{form.password(class='form-field', placeholder='Password', class="password")}}
             {{form_field_error(form.password.errors)}}
-            {{form.confirm_password(class='form-field', placeholder='Confirm_password')}}
+            {{form.confirm_password(class='form-field', placeholder='Confirm_password', class="confirm-password")}}
             {{form_field_error(form.confirm_password.errors)}}
             <section>
                 {{ form.user_image(class='form-field') }}
                 {{form_field_error(form.user_image.errors)}}
             </section>
-            {{form.phone_number(class='form-field', placeholder='Phone Number')}}
-            {{form_field_error(form.phone_number.errors)}}
-            {{form.address(class='form-field', placeholder='Street Number, Province, Country')}}
-            {{form_field_error(form.address.errors)}}
-            {{form.age(class='form-field', placeholder='Age')}}
-            {{form_field_error(form.age.errors)}}
+                {{form.phone_number(class='form-field', placeholder='Phone Number', class="phone_number")}}
+                {{form_field_error(form.phone_number.errors)}}
+                {{form.address(class='form-field', placeholder='Street Number, Province, Country', class="address")}}
+                {{form_field_error(form.address.errors)}}
+                {{form.age(class='form-field', placeholder='Age', class="age")}}
+                {{form_field_error(form.age.errors)}}
         </fieldset>
         {{form.submit(class='button')}}
     </form>
@@ -48,29 +49,29 @@
     <form action="" method="POST" enctype="multipart/form-data" novalidate>
         {{ form.hidden_tag() }}
         <fieldset>
-            {{form.username (class='form-field', placeholder="Username")}}
+            {{form.username (class='form-field', placeholder="Username", id="username")}}
             {{form_field_error(form.username.errors)}}
-            {{form.full_name(class='form-field', placeholder="full_name")}}
+            {{form.full_name(class='form-field', placeholder="full_name", id="full_name")}}
             {{form_field_error(form.full_name.errors)}}
-            {{form.email (class='form-field', placeholder="Email")}}
+            {{form.email (class='form-field', placeholder="Email", id="email")}}
             {{form_field_error(form.email.errors)}}
-            {{form.password(class='form-field', placeholder='Password')}}
+            {{form.password(class='form-field', placeholder='Password', id="password")}}
             {{form_field_error(form.password.errors)}}
-            {{form.confirm_password(class='form-field', placeholder='Confirm_password')}}
+            {{form.confirm_password(class='form-field', placeholder='Confirm_password', id="confirm-password")}}
             {{form_field_error(form.confirm_password.errors)}}
             <section>
                 {{ form.user_image(class='form-field') }}
                 {{form_field_error(form.user_image.errors)}}
             </section>
-            {{form.phone_number(class='form-field', placeholder='Phone Number')}}
+            {{form.phone_number(class='form-field', placeholder='Phone Number', id="phone_number")}}
             {{form_field_error(form.phone_number.errors)}}
-            {{form.address(class='form-field', placeholder='Street Number, Province, Country')}}
+            {{form.address(class='form-field', placeholder='Street Number, Province, Country', id="address")}}
             {{form_field_error(form.address.errors)}}
-            {{form.age(class='form-field', placeholder='Age')}}
+            {{form.age(class='form-field', placeholder='Age', id="age")}}
             {{form_field_error(form.age.errors)}}
-            {{form.pay_rate(class='form-field', placeholder='Pay Rate')}}
+            {{form.pay_rate(class='form-field', placeholder='Pay Rate', id="pay_rate")}}
             {{form_field_error(form.pay_rate.errors)}}
-            {{form.specialty(class='form-field', placeholder='Specialty')}}
+            {{form.specialty(class='form-field', placeholder='Specialty', id="specialty")}}
             {{form_field_error(form.specialty.errors)}}
         </fieldset>
         {{form.submit(class='button')}}

@@ -12,9 +12,9 @@
         <h2>Login</h2>
         {{form.hidden_tag()}}
         <fieldset>
-            {{form.username(class='form-field', placeholder='Username')}}
+            {{form.username(class='form-field', placeholder='Username', id="username")}}
             {{form_field_error(form.username.errors)}}
-            {{form.password(class='form-field', placeholder='Password')}}
+            {{form.password(class='form-field', placeholder='Password', id="password")}}
             {{form_field_error(form.password.errors)}}
         </fieldset>
         {{form.submit(class='button')}}

@@ -1,6 +1,7 @@
 {% extends 'home_member.html' %}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('appointment_bp.static', filename='css/appointments.css')}}">
+<script src="{{url_for('appointment_bp.static', filename='js/appointment.js')}}"></script>
 {% endblock %}
 {% from "macro.html" import form_field_error with context %}
 {% block content_side_pannel %}
@@ -12,7 +13,7 @@
     {{form.hidden_tag()}}  
     <fieldset>
       <label for="date">Date</label>
-      {{form.date (class="form-field", label= "date")}}
+      {{form.date (class="form-field", label= "date", id="date")}}
       {{form_field_error(form.date.errors)}}
       <label for="slot">Time slot</label>
       {{form.slot (class="form-field", label = "slot", value = appointment.slot)}}
