@@ -148,6 +148,46 @@ class Database():
                     connection.commit()
                 except Exception as e:
                     print(e)
+    def add_new_admin_appointment(self, username, full_name, email, user_image, password, phone, address, age, speciality, payrate):
+        with self.__connect() as connection:
+            with connection.cursor() as cur:
+                qry = '''INSERT INTO salon_user(user_type, username, full_name, email,
+                                                        user_image, password_hashed,
+                                                        phone_number, address, age, specialty, pay_rate)
+                        VALUES ('admin_appoint', :username, :full_name, :email, :user_image, :password,
+                                :phone, :address, :age, :specialty, :payrate)'''
+                try:
+                    cur.execute(qry, {'username': username, 'full_name': full_name, 'email': email, 'user_image': user_image,
+                                    'password':  password, 'phone': phone, 'address': address, 'age': age,
+                                    'specialty': speciality, 'payrate': payrate})
+                    connection.commit()
+                except Exception as e:
+                    print(e)
+    def add_new_admin_user(self, username, full_name, email, user_image, password, phone, address, age, speciality, payrate):
+        with self.__connect() as connection:
+            with connection.cursor() as cur:
+                qry = '''INSERT INTO salon_user(user_type, username, full_name, email,
+                                                user_image, password_hashed, phone_number, address, 
+                                                age, specialty, pay_rate)
+                        VALUES ('admin_user', :username, :full_name, :email, :user_image, :password,
+                                :phone, :address, :age, :specialty, :payrate)'''
+                try:
+                    cur.execute(qry, {'username': username, 'full_name': full_name, 'email': email, 'user_image': user_image,
+                                    'password':  password, 'phone': phone, 'address': address, 'age': age,
+                                    'specialty': speciality, 'payrate': payrate})
+                    connection.commit()
+                except Exception as e:
+                    print(f'The following error occured: {e}')
+    def delete_user(self, username):
+        with self.__connect() as connection:
+            with connection.cursor() as cursor:
+                qry='''DELETE FROM salon_user WHERE username=:username'''
+                try:
+                    cursor.execute(qry, username=username)
+                    connection.commit()
+                except Exception as e:
+                    print(f'The following error occured: {e}')
+
             
 
     def get_list_pros(self):

@@ -1,8 +1,48 @@
 {% extends 'home_member.html'%}
+{% from "macro.html" import form_field_error with context %}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/admin_panel.css')}}">
 <script src="{{url_for('users_bp.static', filename='js/admin_panel.js')}}"></script>
 {% endblock content_css %}
+{% block content_side_pannel %}
+<h4>Create User</h4>
+<div class="register-div" id="create-user">
+    <form action="" method="POST" enctype="multipart/form-data" novalidate>
+        {{ form.hidden_tag() }}
+        <fieldset>
+            <label for="user-create">Create a user of type...</label>
+                {{ form.user_type(class='form-control', id='user-create') }}    
+            {{form.username (class='form-field', placeholder="Username")}}
+            {{form_field_error(form.username.errors)}}
+            {{form.full_name(class='form-field', placeholder="full_name")}}
+            {{form_field_error(form.full_name.errors)}}
+            {{form.email (class='form-field', placeholder="Email")}}
+            {{form_field_error(form.email.errors)}}
+            {{form.password(class='form-field', placeholder='Password')}}
+            {{form_field_error(form.password.errors)}}
+            {{form.confirm_password(class='form-field', placeholder='Confirm_password')}}
+            {{form_field_error(form.confirm_password.errors)}}
+            <section>
+                {{ form.user_image(class='form-field') }}
+                {{form_field_error(form.user_image.errors)}}
+            </section>
+            {{form.phone_number(class='form-field', placeholder='Phone Number')}}
+            {{form_field_error(form.phone_number.errors)}}
+            {{form.address(class='form-field', placeholder='Street Number, Province, Country')}}
+            {{form_field_error(form.address.errors)}}
+            {{form.age(class='form-field', placeholder='Age')}}
+            {{form_field_error(form.age.errors)}}
+            <section id="non-client-fields">
+                {{form.pay_rate(class='form-field', placeholder='Pay Rate')}}
+                {{form_field_error(form.pay_rate.errors)}}
+                {{form.specialty(class='form-field', placeholder='Specialty')}}
+                {{form_field_error(form.specialty.errors)}}
+            </section>
+        </fieldset>
+        {{form.submit(class='create-button')}}
+    </form>
+</div>
+{% endblock content_side_pannel %}
 {% block content_main_pannel %}
 <h2>Admin Pannel SUPER</h2>
 <div class="admin_pannel">
@@ -14,6 +54,7 @@
              <!-- will also have report inside  5  -->
         </ul>
     </nav>
+    
     <div id="Client-list" class="content active">
         <h3>Client List</h3>
         <table class="admin-table">

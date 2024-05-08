@@ -26,12 +26,10 @@
     </ul>
 </li>
 
-{% if current_user.username == 'user_manager1' %}
-<li><a href="{{ url_for('users_bp.adminuser_pannel') }}">Admin Panel</a></li>
-{% elif current_user.username == 'appoint_manager1' %}
+{% if current_user.user_type == 'admin_super' or current_user.user_type == 'admin_user' %}
+<li><a href="{{ url_for('users_bp.admin_pannel') }}">Admin Panel</a></li>
+{% elif current_user.user_type == 'admin_appoint' %}
 <li><a href="{{ url_for('users_bp.adminappoint_pannel') }}">Admin Panel</a></li>
-{% elif current_user.username == 'nasr' %}
-<li><a href="{{ url_for('users_bp.adminsuper_pannel') }}">Admin Panel</a></li>
 {% endif %}
 {% endblock content_when_login %}
 {% block content_main_pannel %}

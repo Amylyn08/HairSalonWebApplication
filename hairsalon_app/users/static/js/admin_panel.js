@@ -44,4 +44,19 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
+    const userTypeSelect = document.getElementById("user-create");
+    const nonProDiv = document.getElementById("non-client-fields");
+    userTypeSelect.addEventListener("change", function() {
+        if (userTypeSelect.value === "client") {
+            nonProDiv.style.display = "none";
+        } else {
+            nonProDiv.style.display = "block";
+        }
+    });
+
+
+
+    // Trigger change event on page load to handle initial state
+    userTypeSelect.dispatchEvent(new Event("change"));
 });

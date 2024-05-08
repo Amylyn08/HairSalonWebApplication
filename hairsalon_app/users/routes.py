@@ -10,7 +10,7 @@ from PIL import Image
 
 from hairsalon_app.users.Member import Member
 from hairsalon_app.users.User import User
-from hairsalon_app.users.forms import LoginForm, NewUserForm, UpdateProfileAdminForm, UpdateProfileForm, UpdateImageForm
+from hairsalon_app.users.forms import LoginForm, NewUserForm, NewUserFormAdmin, UpdateProfileAdminForm, UpdateProfileForm, UpdateImageForm
 #Create an instance of Database
 login_manager = LoginManager()
 
@@ -28,20 +28,6 @@ def user_list_client():
     """Function for listing all the users."""
     users_clients = db.get_users()
     return render_template('Users.html', clients =users_clients)
-
-@users_bp.route('/adminsuper-pannel/')
-def adminsuper_pannel():
-    client_list = db.get_list_clients()
-    pro_list = db.get_all_users()
-    app_list = db.get_all_appointments()
-
-    return render_template('adminsuper_panel.html', clients=client_list, employees=pro_list, appointments=app_list)
-
-@users_bp.route('/adminuser-pannel/')
-def adminuser_pannel():
-    client_list = db.get_list_clients()
-    pro_list = db.get_list_pros()
-    return render_template('adminuser_panel.html', clients=client_list, employees=pro_list)
 
 @users_bp.route('/adminappoint-pannel/')
 def adminappoint_pannel():
@@ -168,30 +154,112 @@ def edit_profile_admin(username):
                                 address=form.address.data, age=form.age.data, speciality=form.speciality.data,
                                 pay_rate=form.pay_rate.data, user_image=file_name)
         flash('Successful update!', 'success')
-        if current_user.user_type == 'admin_super':
-            return redirect(url_for('users_bp.adminsuper_pannel'))
-        else:
-            return redirect(url_for('users_bp.adminuser_pannel'))
+        return redirect(url_for('users_bp.admin_pannel'))
     return render_template('edit_profile_admin.html', user=user, form=form)
 
+@users_bp.route('/admin-pannel/', methods=['GET', 'POST'])
+def admin_pannel():
+    form = NewUserFormAdmin()
+    if form.validate_on_submit():
+        if form.user_image.data:
+            file_name = save_file(form_file=form.user_image.data)
+        else:
+            file_name = 'default.png'
+        member_exists = db.get_member(username=form.username.data)  
+        if not member_exists:
+            b = Bcrypt()
+            hashed_pass = b.generate_password_hash(form.password.data).decode('utf-8')
+            not_client_info = {'username': form.username.data,
+                    'full_name': form.full_name.data,
+                    'email': form.email.data,
+                    'user_image': file_name,
+                    'password': hashed_pass,
+                    'phone': form.phone_number.data,
+                    'address': form.address.data,
+                    'age': form.age.data,
+                    'speciality': form.specialty.data,
+                    'payrate': form.pay_rate.data
+                }
+            if form.user_type.data == 'admin_user':
+                db.add_new_admin_user(**not_client_info)
+            elif form.user_type.data == 'admin_appoint':
+                db.add_new_admin_appointment(**not_client_info)
+            elif form.user_type.data == 'client':
+                db.add_new_client(username=form.username.data, 
+                            full_name=form.full_name.data,
+                            email=form.email.data,
+                            user_image=file_name,
+                            password=hashed_pass, 
+                            phone=form.phone_number.data,
+                            address=form.address.data,
+                            age=form.age.data)
+            elif form.user_type.data == 'professional':
+                db.add_new_pro(**not_client_info)
+            else:
+                flash('Please select a user type', 'error')
+                if current_user.user_type == 'admin_super':
+                    client_list = db.get_list_clients()
+                    pro_list = db.get_all_users()
+                    app_list = db.get_all_appointments()
+                    return render_template('adminsuper_panel.html',
+                                            clients=client_list, 
+                                            employees=pro_list,
+                                            appointments=app_list,
+                                            form=form)
+                else:
+                    client_list = db.get_list_clients()
+                    pro_list = db.get_list_pros()
+                    return render_template('adminuser_panel.html', 
+                                            clients=client_list,
+                                            employees=pro_list,
+                                            form=form)
+            flash('User created successfully','success')
+            if current_user.user_type == 'admin_super':
+                client_list = db.get_list_clients()
+                pro_list = db.get_all_users()
+                app_list = db.get_all_appointments()
+                return render_template('adminsuper_panel.html', 
+                                       clients=client_list, 
+                                       employees=pro_list, 
+                                       appointments=app_list,
+                                       form=form)
+            else:
+                client_list = db.get_list_clients()
+                pro_list = db.get_list_pros()
+                return render_template('adminuser_panel.html', 
+                                       clients=client_list, 
+                                       employees=pro_list,
+                                       form=form)
+        else:
+            flash('This user already exists', 'error')
+    if current_user.user_type == 'admin_super':
+        client_list = db.get_list_clients()
+        pro_list = db.get_all_users()
+        app_list = db.get_all_appointments()
+        return render_template('adminsuper_panel.html', 
+                                clients=client_list, 
+                                employees=pro_list, 
+                                appointments=app_list,
+                                form=form)
+    else:
+        client_list = db.get_list_clients()
+        pro_list = db.get_list_pros()
+        return render_template('adminuser_panel.html', 
+                                clients=client_list, 
+                                employees=pro_list,
+                                form=form)
+
+@users_bp.route('/adminsuper-pannel/delete-user/<string:username>/', methods=['GET', 'POST'])
+def delete_user(username):
+    user = db.get_member(username=username)
+    if user is not None:
+         db.delete_user(username=username)
+         flash(f'User {username} has been deleted','success')
+    else:
+      flash('User does not exist', 'error')
+    return redirect(url_for('users_bp.admin_pannel'))
 
 
-
-
-
-# @users_bp.route('/profile/editimage/<username>/', methods=['GET', 'POST'])
-# def edit_image(username):
-#     form = UpdateImageForm()
-#     user = db.get_member(username=username)
-#     if form.validate_on_submit():
-#         file_name = save_file(form_file=form.user_image.data)
-#         db.update_image(username=user.username, user_image=file_name)
-#         flash('Successful update!','success')
-#         return redirect(url_for('users_bp.profile', username=user.username))
-#     else:
-#         flash('Please input the information correctly!','error')
-#     return render_template('image_update.html', form=form, users=user)
-        
 
 #route for and function for logout.
 @users_bp.route('/logout/', methods=['GET','POST'])

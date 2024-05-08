@@ -123,10 +123,15 @@ input{
 
 #delete-button{
   background-color: rgb(238, 78, 78);
-  color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   display: block; /* Display button as block element */
+}
+
+#delete-button a{
+  text-decoration: none;
+  color: white;
+
 }

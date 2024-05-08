@@ -12,9 +12,6 @@
         <p id="text">
             Upload any image in the following format: png, jpg, jpeg, webp.
         </p>
-        <button id="delete-button">
-            <a>Delete User</a>
-        </button>
     </div>
 </div>
 {% endblock %}
@@ -59,5 +56,8 @@
         </fieldset> 
         {{form.submit(class='button')}}
     </form>
+    <button id="delete-button">
+        <a href="{{url_for('users_bp.delete_user', username=user.username)}}">Delete User</a>
+    </button>
 </div>
 {% endblock content_main_pannel %}
