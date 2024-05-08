@@ -2,6 +2,7 @@
 {% from "macro.html" import form_field_error with context %}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/login.css')}}">
+<script src="{{url_for('users_bp.static', filename='js/validation.js')}}"></script>
 {% endblock content_css %}
 {% block content_side_pannel %}
 <p>Some content..</p>
