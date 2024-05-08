@@ -888,6 +888,15 @@ class Database():
         except Exception as e:
             print(e)
 
+    def delete_appointment(self, appointment_id):
+        try:
+            with self.__connect() as connection:
+                with connection.cursor() as cursor:
+                    sql = f'DELETE FROM salon_appointment WHERE appointment_id = :appointment_id'
+                    cursor.execute(sql, appointment_id=appointment_id)
+                    connection.commit()
+        except Exception as e:
+            print(e)
 #----------END of work area -----------
 
 # if __name__ != '__main__':

@@ -67,5 +67,8 @@
     {% if current_user.user_id in (appointment.client_id, appointment.professional_id) or
         current_user.user_type == 'admin_super' or current_user.user_type == 'admin_appoint' %}
     <button type = "button"> <a href ="{{url_for('appointment_bp.edit_appointment', appointment_id = appointment.appointment_id)}}">Edit appointment </a></button>
+    <button>
+        <a href="{{url_for('appointment_bp.delete_appointment', appointment_id=appointment.appointment_id)}}">Delete Appointment</a>
+    </button>
     {% endif %}
 {% endblock content_main_pannel %}

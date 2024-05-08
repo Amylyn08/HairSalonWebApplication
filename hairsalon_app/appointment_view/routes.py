@@ -101,5 +101,13 @@ def specific_appointment(appointment_id):
                            appointment = appointment,
                             reports = reports,
                             reports_length = len(reports))
-
+@appointment_bp.route("/delete_appointment/<int:appointment_id>", methods=['GET','POST'])
+def delete_appointment(appointment_id):
+    appointment = db.get_appointment(appointment_id)
+    if appointment is not None:
+        db.delete_appointment(appointment_id)
+        flash('Appointment deleted successfully','success')
+    else:
+        flash('Appointment not found', 'error')
+    return redirect(url_for('appointment_bp.my_appointments', user_id=current_user.user_id))
 

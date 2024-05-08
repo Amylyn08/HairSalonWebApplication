@@ -111,12 +111,18 @@ label {
 
 .details{
   text-decoration: none;
-  color: #2c2929;
-  border: 2px #2c2929 solid;
+  color: #2e5a2d;
   padding: 4px;
 }
 
 .details:hover{
-  background-color: rgba(94, 126, 93, 0.2);
-  color: rgb(63, 59, 59);
+  background-color: #2e5a2d;
+  color: white;
 }
+
+button a{
+  text-decoration: none;
+  color: #2e5a2d;
+  font-size: 17px;
+}
+
