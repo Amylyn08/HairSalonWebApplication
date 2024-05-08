@@ -1,5 +1,6 @@
 
 {% extends 'base.html' %}
+{% from "macro.html" import form_field_error with context %}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/registration.css')}}">
 <script src="{{url_for('users_bp.static', filename='js/registration.js')}}"></script>
@@ -20,16 +21,25 @@
         {{ form.hidden_tag() }}
         <fieldset>
             {{form.username (class='form-field', placeholder="Username")}}
+            {{form_field_error(form.username.errors)}}
             {{form.full_name(class='form-field', placeholder="full_name")}}
+            {{form_field_error(form.full_name.errors)}}
             {{form.email (class='form-field', placeholder="Email")}}
+            {{form_field_error(form.email.errors)}}
             {{form.password(class='form-field', placeholder='Password')}}
+            {{form_field_error(form.password.errors)}}
             {{form.confirm_password(class='form-field', placeholder='Confirm_password')}}
+            {{form_field_error(form.confirm_password.errors)}}
             <section>
                 {{ form.user_image(class='form-field') }}
+                {{form_field_error(form.user_image.errors)}}
             </section>
             {{form.phone_number(class='form-field', placeholder='Phone Number')}}
+            {{form_field_error(form.phone_number.errors)}}
             {{form.address(class='form-field', placeholder='Street Number, Province, Country')}}
+            {{form_field_error(form.address.errors)}}
             {{form.age(class='form-field', placeholder='Age')}}
+            {{form_field_error(form.age.errors)}}
         </fieldset>
         {{form.submit(class='button')}}
     </form>
@@ -39,18 +49,29 @@
         {{ form.hidden_tag() }}
         <fieldset>
             {{form.username (class='form-field', placeholder="Username")}}
+            {{form_field_error(form.username.errors)}}
             {{form.full_name(class='form-field', placeholder="full_name")}}
+            {{form_field_error(form.full_name.errors)}}
             {{form.email (class='form-field', placeholder="Email")}}
+            {{form_field_error(form.email.errors)}}
             {{form.password(class='form-field', placeholder='Password')}}
+            {{form_field_error(form.password.errors)}}
             {{form.confirm_password(class='form-field', placeholder='Confirm_password')}}
+            {{form_field_error(form.confirm_password.errors)}}
             <section>
                 {{ form.user_image(class='form-field') }}
+                {{form_field_error(form.user_image.errors)}}
             </section>
             {{form.phone_number(class='form-field', placeholder='Phone Number')}}
+            {{form_field_error(form.phone_number.errors)}}
             {{form.address(class='form-field', placeholder='Street Number, Province, Country')}}
+            {{form_field_error(form.address.errors)}}
             {{form.age(class='form-field', placeholder='Age')}}
+            {{form_field_error(form.age.errors)}}
             {{form.pay_rate(class='form-field', placeholder='Pay Rate')}}
+            {{form_field_error(form.pay_rate.errors)}}
             {{form.specialty(class='form-field', placeholder='Specialty')}}
+            {{form_field_error(form.specialty.errors)}}
         </fieldset>
         {{form.submit(class='button')}}
     </form>

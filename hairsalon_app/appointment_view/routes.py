@@ -62,7 +62,7 @@ def sort_appointments(sorted_by):
         if sorted_by == 'fullname':
             all_appointments = db.get_all_appointments_fullname_asc()
         if sorted_by == 'Slot':
-            pass
+            all_appointments = db.get_all_appointments_slot()
         if sorted_by == 'Professional':
             all_appointments = db.get_all_appointments_profname()
         if sorted_by == 'Client':
@@ -108,5 +108,13 @@ def specific_appointment(appointment_id):
                            appointment = appointment,
                             reports = reports,
                             reports_length = len(reports))
-
+@appointment_bp.route("/delete_appointment/<int:appointment_id>", methods=['GET','POST'])
+def delete_appointment(appointment_id):
+    appointment = db.get_appointment(appointment_id)
+    if appointment is not None:
+        db.delete_appointment(appointment_id)
+        flash('Appointment deleted successfully','success')
+    else:
+        flash('Appointment not found', 'error')
+    return redirect(url_for('appointment_bp.my_appointments', user_id=current_user.user_id))
 

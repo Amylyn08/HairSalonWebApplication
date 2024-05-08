@@ -22,7 +22,7 @@
     <div class="grid2">
       <p>Service:</p> {{ appointment.service_name }}
     </div>
-    <a href="{{url_for('appointment_bp.specific_appointment', appointment_id=appointment.appointment_id)}}">View Details / Modify</a>
+    <a class="details" href="{{url_for('appointment_bp.specific_appointment', appointment_id=appointment.appointment_id)}}">View Details / Modify / Create Reports</a>
   </div>
 {% endfor %}
 

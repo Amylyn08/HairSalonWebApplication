@@ -5,7 +5,7 @@ from hairsalon_app.appointment_view.appointment import Appointment
 from hairsalon_app.qdb.database import db
 
 
-report_bp = Blueprint('report_bp', __name__, template_folder='templates')
+report_bp = Blueprint('report_bp', __name__, template_folder='templates', static_folder='static', static_url_path='/report_view/static')
 
 
 

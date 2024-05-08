@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    document.querySelectorAll('.access').forEach(td =>{
+    document.querySelectorAll('.access button').forEach(td =>{
         td.addEventListener('click', function(e){
             const buttonAnchor = td.querySelector('button').querySelector('a');
 
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
     })
 
-    document.querySelectorAll('.flag').forEach(td =>{
+    document.querySelectorAll('.flag button').forEach(td =>{
         td.addEventListener('click', function(e){
             const buttonAnchor = td.querySelector('button').querySelector('a');
             if(buttonAnchor.textContent == 'Unflagged'){
@@ -44,4 +44,19 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
+    const userTypeSelect = document.getElementById("user-create");
+    const nonProDiv = document.getElementById("non-client-fields");
+    userTypeSelect.addEventListener("change", function() {
+        if (userTypeSelect.value === "client") {
+            nonProDiv.style.display = "none";
+        } else {
+            nonProDiv.style.display = "block";
+        }
+    });
+
+
+
+    // Trigger change event on page load to handle initial state
+    userTypeSelect.dispatchEvent(new Event("change"));
 });

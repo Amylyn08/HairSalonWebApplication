@@ -1,7 +1,7 @@
 {% extends 'home_member.html' %}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('appointment_bp.static', filename='css/appointments.css')}}">
-{% endblock %}
+{% endblock content_css %}
 {% block content_side_pannel %}
 <h3>Reports for Appointment ID: {{appointment.appointment_id}} </h3>
 {% for report in reports %}
@@ -17,9 +17,8 @@
         <p>Professional: {{report.professional_report}}</p>
     </div>
 </div>
-{% if appointment.client_id == current_user.user_id or 
-    appointment.professional_id == current_user.user_id or
-    ('admin_super', 'admin_appoint') in current_user.user_type %}
+{% if current_user.user_id in (appointment.client_id, appointment.professional_id) or
+    current_user.user_type == 'admin_super' or current_user.user_type == 'admin_appoint' %}
 
     <button>
         <a href="{{url_for('report_bp.edit_report', report_id=report.report_id)}}">Edit Report</a>
@@ -65,5 +64,8 @@
     {% if current_user.user_id in (appointment.client_id, appointment.professional_id) or
         current_user.user_type == 'admin_super' or current_user.user_type == 'admin_appoint' %}
     <button type = "button"> <a href ="{{url_for('appointment_bp.edit_appointment', appointment_id = appointment.appointment_id)}}">Edit appointment </a></button>
+    <button>
+        <a href="{{url_for('appointment_bp.delete_appointment', appointment_id=appointment.appointment_id)}}">Delete Appointment</a>
+    </button>
     {% endif %}
 {% endblock content_main_pannel %}
