@@ -6,8 +6,6 @@ from hairsalon_app.users.Member import Member
 from hairsalon_app.report_view.report import Report
 import pdb
 
-
-
 class Database():
      
     def __init__(self, autocommit=True):
@@ -106,7 +104,7 @@ class Database():
                 qry = f" select * from salon_user"
                 users = cur.execute(qry).fetchall()
                 for user in users:
-                    list_users.append(Member(user[2],user[3],user[4],user[5],user[6],user[7],user[8],user[9],user[10],user[11],user[12],user[13]))
+                    list_users.append(Member(user[2],user[3],user[4],user[5],user[6],user[7],user[8],user[9],user[10],user[11],user[12],user[13], user[14], user[15]))
                 return list_users 
         except Exception as e:
             print(e)

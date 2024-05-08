@@ -47,21 +47,18 @@
           <p>Status: {{ appointment.status }}</p> 
         </div>
         <div class="specific-grid3">
-          <p>Professional ID: {{ appointment.approved }}</p> 
+          <p>Professional: {{ appointment.professional_name }}</p> 
         </div>
         <div class="specific-grid4">
-          <p>Service ID: {{ appointment.service_id }}</p> 
+          <p>Service: {{ appointment.service_name}}</p> 
         </div>
         <div class="specific-grid5">
-            <p>Client ID: {{appointment.client_id}}</p>
+            <p>Client: {{appointment.client_name}}</p>
         </div>
         <div class="specific-grid6">
-            <p>Professional ID: {{appointment.professional_id}}</p>
-        </div>
-        <div class="specific-grid7">
             <p>Slot: {{appointment.slot}}</p>
         </div>
-        <div class="specific-grid8">
+        <div class="specific-grid7">
             <p>Venue: {{appointment.venue}}</p>
         </div>
     </div>
