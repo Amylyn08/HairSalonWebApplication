@@ -1,26 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'home_member.html' %}
 {% from "macro.html" import form_field_error with context %}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('report_bp.static', filename='css/reports.css')}}">
 {% endblock content_css %}
-{% block content_when_login %}
-<p>Hey {{current_user.username}}</p>
-<li>Profile</li>
-<li><a href="{{url_for('users_bp.logout')}}">Logout</a></li>
-<li><a>My reports</a></li>
-<li><a href="{{url_for('appointment_bp.my_appointments', user_id=current_user.user_id)}}">My Appointments</a></li>
-<li><a href="{{url_for('appointment_bp.create_appointment')}}">Create Appointment</a></li>
-{% if current_user.username == 'user_manager1' %}
-<li><a href="{{ url_for('users_bp.adminuser_pannel') }}">Admin Panel</a></li>
-{% elif current_user.username == 'appoint_manager1' %}
-<li><a href="{{ url_for('users_bp.adminappoint_pannel') }}">Admin Panel</a></li>
-{% elif current_user.username == 'nasr' %}
-<li><a href="{{ url_for('users_bp.adminsuper_pannel') }}">Admin Panel</a></li>
-{% endif %}
-{% endblock content_when_login %}
-{% block content_side_pannel %}
-<p>This is a hair salon service application for 420 Final Project...</p>
-{% endblock %}
 {% block content_main_pannel %}
 <h2>Create report as {{current_user.user_type}}</h2>
 <form action="" method="POST">

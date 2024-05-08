@@ -6,12 +6,12 @@
 {% endblock content_css %}
 {% block content_side_pannel %}
 <h4>Create User</h4>
-<label for="user-create">Create a user of type...</label>
-{{ form.user_type(class='form-control', id='user-create') }}
-<div id="create-user-div">
+<div class="register-div" id="create-user">
     <form action="" method="POST" enctype="multipart/form-data" novalidate>
         {{ form.hidden_tag() }}
         <fieldset>
+            <label for="user-create">Create a user of type...</label>
+                {{ form.user_type(class='form-control', id='user-create') }}    
             {{form.username (class='form-field', placeholder="Username")}}
             {{form_field_error(form.username.errors)}}
             {{form.full_name(class='form-field', placeholder="full_name")}}
@@ -32,7 +32,7 @@
             {{form_field_error(form.address.errors)}}
             {{form.age(class='form-field', placeholder='Age')}}
             {{form_field_error(form.age.errors)}}
-            <section id="pro-fields" style="display: none;">
+            <section id="non-client-fields">
                 {{form.pay_rate(class='form-field', placeholder='Pay Rate')}}
                 {{form_field_error(form.pay_rate.errors)}}
                 {{form.specialty(class='form-field', placeholder='Specialty')}}
@@ -42,17 +42,6 @@
         {{form.submit(class='create-button')}}
     </form>
 </div>
-<script>
-    function toggleProFields() {
-        var selectElement = document.getElementById("user-create");
-        var proFields = document.getElementById("pro-fields");
-        if (selectElement.value === "client") {
-            proFields.style.display = "none";
-        } else {
-            proFields.style.display = "block";
-        }
-    }
-</script>
 {% endblock content_side_pannel %}
 {% block content_main_pannel %}
 <h2>Admin Pannel USER</h2>
@@ -73,6 +62,8 @@
                 <th>Active</th>
                 <th>Picture</th>
                 <th>Flag</th>
+                <th>Edit/Delete</th>
+
             </tr>
             {% for client in clients %}
             <tr>
@@ -106,6 +97,11 @@
                     </button>
                 </td>
                 {% endif %}
+                <td>
+                    <button>
+                        <a href="{{url_for('users_bp.edit_profile_admin', username=client.username)}}">Details</a>
+                    </button>
+                </td>
             </tr>
             {% endfor %}
         </table>
@@ -120,6 +116,7 @@
                 <th>Active</th>
                 <th>Picture</th>
                 <th>Flag</th>
+                <th>Edit/Delete</th>
             </tr>
             {% for employee in employees %}
             <tr>
@@ -153,6 +150,11 @@
                     </button>
                 </td>
                 {% endif %}
+                <td>
+                    <button>
+                        <a href="{{url_for('users_bp.edit_profile_admin', username=employee.username)}}">Details</a>
+                    </button>
+                </td>
             </tr>
             {% endfor %}
         </table>

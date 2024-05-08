@@ -45,12 +45,14 @@
             <label for="age">Age</label>
             {{ form.age(class='form-field', id='age', value=user.age) }}
             {{form_field_error(form.age.errors)}}
-            <label for="speciality">Specialty</label>
-            {{ form.speciality(class='form-field', id='speciality', value=user.speciality) }}
-            {{form_field_error(form.speciality.errors)}}
-            <label for="pay_rate">Pay Rate</label>
-            {{ form.pay_rate(class='form-field', id='pay_rate', value=user.pay_rate) }}        
-            {{ form_field_error(form.pay_rate.errors)}}
+            {% if user.user_type != 'client' %}
+                <label for="speciality">Specialty</label>
+                {{ form.speciality(class='form-field', id='speciality', value=user.speciality) }}
+                {{form_field_error(form.speciality.errors)}}
+                <label for="pay_rate">Pay Rate</label>
+                {{ form.pay_rate(class='form-field', id='pay_rate', value=user.pay_rate) }}        
+                {{ form_field_error(form.pay_rate.errors)}}
+            {% endif %}
             <label for="user_image">Profile Picture</label>
             {{form.user_image(class='form-field', id='user_image', value=user.user_image)}}
         </fieldset> 
