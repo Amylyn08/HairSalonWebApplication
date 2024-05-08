@@ -7,13 +7,14 @@ from hairsalon_app.report_view.report import Report
 import pdb
 
 class Database():
-     
+    
     def __init__(self, autocommit=True):
-        self.__connection = self.__connect()
-        self.__connection.autocommit = autocommit
+        # self.__connection = self.__connect()
+        # self.__connection.autocommit = autocommit 
+        pass
 
     #Using kwargs from config_db to establish connection
-    def __connect(self):
+    def __connect(self, autocommit=True):
         if __name__ == '__main__':
             from config_db import host, usr, sn, pw
         else:
