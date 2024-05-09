@@ -9,7 +9,7 @@
     <h5> @{{users.username}}</h5>
     <img src="{{ url_for('static', filename='images/user-pics/' + users.user_image) }}" alt="Profile picture of user">
     {% if users.user_type == 'professional' %}
-    <h5> Speciality: {{ users.specialty}} </h5>
+    <h5> Speciality: {{ users.speciality}} </h5>
     {% endif %}
     <p> User Type: {{ users.user_type}} </p><br>
     <p> Address :{{users.address}} </p><br>
