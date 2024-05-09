@@ -400,8 +400,9 @@ class Database():
                                     pay_rate
                             FROM salon_user
                             WHERE username = :username'''
-                    cursor.execute(qry, username=username)
+                    cursor.execute(qry,[username])
                     row = cursor.fetchone()
+                    print(row)
                     if row:
                         member = Member(*row)
                         return member
