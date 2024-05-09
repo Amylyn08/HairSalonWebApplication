@@ -79,7 +79,8 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user_exists = db.get_member(username=form.username.data)
+        username=form.username.data
+        user_exists = db.get_member(f'{username}')
         if user_exists:
             if user_exists.is_active[0] == 1:
                 flash('Your account has been deactivated by the admin. Please contact us.', 'error')
