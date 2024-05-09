@@ -1,0 +1,37 @@
+{% extends 'home_member.html' %}
+{% from "macro.html" import form_field_error with context %}
+{% block content_css %}
+<link rel="stylesheet" href="{{url_for('appointment_bp.static', filename='css/appointments.css')}}">
+<script src="{{url_for('appointment_bp.static', filename='js/appointment.js')}}"></script>
+{% endblock %}
+{% block content_side_pannel %}
+<p>This is a hair salon service application for 420 Final Project...</p>
+{% endblock %}
+{% block content_main_pannel %}
+<h2>Schedule your appointment</h2>
+<form action="" method="POST">
+    {{form.hidden_tag()}}  
+    <fieldset>
+      <label for="username">Enter username</label>
+      {{form.username (class="form-field", label= "username", value=current_user.username)}}
+      {{form_field_error(form.username.errors)}}
+      <label for="venue">Room Number</label>
+      {{form.venue (class="form-field", label= "venue")}}
+      {{form_field_error(form.venue.errors)}}
+      <label for="date">Date</label>
+      {{form.date (class="form-field", label = "date", id="date")}}
+      {{form_field_error(form.date.errors)}}
+      <label for="slot">Time slot</label>
+      {{form.slot (class="form-field", label = "slot")}}
+      {{form_field_error(form.slot.errors)}}
+      <label for="professional">Professional</label>
+      {{form.professional (class="form-field", label = "professional")}}
+      {{form_field_error(form.professional.errors)}}
+      <label for="service">Service</label>
+      {{form.service (class="form-field", label = "service")}}
+      {{form_field_error(form.service.error)}}
+    </fieldset>
+    {{form.submit (class='button')}}
+  </form>
+  
+{% endblock %}

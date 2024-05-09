@@ -46,23 +46,6 @@
         {% block content_side_pannel %}
              <!-- In the respective templates, override this block to add content for your view.  --> 
         {% endblock content_side_pannel %}         
-
-            <section id="flash-errors">
-                {% if get_flashed_messages() %}
-                <ul>
-                     <!-- with categories true meaning we get the category, plus the message. [0] = category, [1] = message itself  -->
-                    {% for message in get_flashed_messages(with_categories=True) %}
-                        {% if 'success' in message[0] %}
-                            <li class="success">{{ message[1] }}</li>
-                        {% elif 'error' in message[0] %}
-                            <li class="error">{{ message[1] }}</li>
-                        {% elif 'info' in message[0] %}
-                            <li class="info">{{ message[1] }}</li>
-                        {% endif %}
-                    {% endfor %}  
-                </ul>
-                {% endif %}
-            </section>
         </div>
         <div id="main-pannel">
             {% block content_main_pannel %}

@@ -1,5 +1,6 @@
 from multiprocessing.connection import Client
-import os 
+import os
+from hairsalon_app.logging_view.log import Log 
 import oracledb  
 from hairsalon_app.appointment_view.appointment import Appointment
 from hairsalon_app.users.Member import Member
@@ -400,8 +401,9 @@ class Database():
                                     pay_rate
                             FROM salon_user
                             WHERE username = :username'''
-                    cursor.execute(qry, username)
+                    cursor.execute(qry,[username])
                     row = cursor.fetchone()
+                    print(row)
                     if row:
                         member = Member(*row)
                         return member
@@ -929,6 +931,20 @@ class Database():
                     sql = f'DELETE FROM salon_appointment WHERE appointment_id = :appointment_id'
                     cursor.execute(sql, appointment_id=appointment_id)
                     connection.commit()
+        except Exception as e:
+            print(e)
+            
+    def get_all_logs(self):
+        ''' method to list all logs '''
+        logs = []
+        try:
+            with self.__connect() as connection:
+                with connection.cursor() as c:
+                    sql = f'SELECT * FROM salon_logs'
+                    fetch = c.execute(sql).fetchall()
+                    for record in fetch:
+                        logs.append(Log(*record))
+                    return logs
         except Exception as e:
             print(e)
 #----------END of work area -----------

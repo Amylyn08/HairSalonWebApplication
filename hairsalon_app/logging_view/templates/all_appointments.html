@@ -1,0 +1,63 @@
+{% if current_user.is_authenticated %}
+  {% extends 'home_member.html' %}
+{% else %}
+  {% extends 'base.html' %}
+{% endif %}
+{% block content_css %}
+<link rel="stylesheet" href="{{url_for('appointment_bp.static', filename='css/appointments.css')}}">
+{% endblock %}
+
+{% block content_side_pannel %}
+<p>This is a hair salon service application for 420 Final Project...</p>
+<h5>Sort By:</h5>
+<div id="sort-by">
+  <button>
+    <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Date')}}">Date</a>
+  </button>
+  <button>
+    <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Slot')}}">Slot</a>
+  </button>
+  <button>
+    <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Professional')}}">Professional Name</a>
+  </button>
+  <button>
+    <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Client')}}">Client Name</a>
+  </button>
+</div>
+<h5>Filter By:</h5>
+<div id="filter-by">
+  <button>
+    <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Pending')}}">Pending</a>
+  </button>
+  <button>
+    <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Approved')}}">Approved</a>
+  </button>
+  <button>
+    <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Completed')}}">Completed</a>
+  </button>
+  <button>
+    <a href="{{url_for('appointment_bp.sort_appointments', sorted_by='Cancelled')}}">Cancelled</a>
+  </button>
+</div>
+{% endblock content_side_pannel%}
+{% block content_main_pannel %}
+<h2>All appointments</h2>
+
+{% for appointment in context %}
+  <div class="appointment-box">
+    <div class="grid1">
+      <p>Date:</p> {{ appointment.date_appointment }}
+    </div>
+    <div class="grid3">
+      <p>Client :</p> {{ appointment.client_name }}
+    </div>
+    <div class="grid4">
+      <p>Professional :</p> {{ appointment.professional_name }}
+    </div>
+    <div class="grid2">
+      <p>Service :</p> {{ appointment.service_name }}
+    </div>
+    <a class="details" href="{{url_for('appointment_bp.specific_appointment', appointment_id=appointment.appointment_id)}}">View Details / Modify /Create Report</a>
+  </div>
+{% endfor %}
+{% endblock %}
