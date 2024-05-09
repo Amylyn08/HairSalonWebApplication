@@ -897,10 +897,10 @@ class Database():
                         FROM
                             salon_service
                     '''
-                    c.execute()
+                    c.execute(qry)
                     services = c.fetchall()
                     for service in services:
-                        service_names.append(service)
+                        service_names.append(service[0])
 
                     # Process appointments as needed
                     return services

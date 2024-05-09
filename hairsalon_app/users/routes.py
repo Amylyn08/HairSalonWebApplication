@@ -280,7 +280,7 @@ def toggle_active_user(username):
         flash(f'User {username} has been activated', 'success')
     
     db.set_active(username=username, active=active)
-    return redirect(url_for('users_bp.adminsuper_pannel'))
+    return redirect(url_for('users_bp.admin_pannel'))
 
 @users_bp.route('/toggle_flag/<string:username>/', methods=['GET','POST'])
 def toggle_flag(username):
@@ -292,7 +292,7 @@ def toggle_flag(username):
         flag = 0
         flash(f'User {username} has been unflagged', 'success')
     db.set_flag(username=username, status=flag)
-    return redirect(url_for('users_bp.adminsuper_pannel'))
+    return redirect(url_for('users_bp.admin_pannel'))
 
 
 def save_file(form_file):

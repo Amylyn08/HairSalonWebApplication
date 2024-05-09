@@ -1,5 +1,6 @@
 {% extends 'home_member.html' %}
 {% block content_css %}
+<script src="{{url_for('appointment_bp.static', filename='js/appointment.js')}}"></script>
 <link rel="stylesheet" href="{{url_for('appointment_bp.static', filename='css/appointments.css')}}">
 <script src="{{url_for('appointment_bp.static', filename='js/appointment.js')}}"></script>
 {% endblock %}

@@ -14,18 +14,18 @@
       {{form_field_error(form.title.errors)}}
       {% if current_user.user_type == 'client' %}
         <label for="client_report">Client's report</label>
-        {{form.client_report (class="form-field", placeholder = "Client's report")}}
+        {{form.client_report (class="form-field", placeholder = "Client's report", id="client-report")}}
         {{form_field_error(form.client_report.errors)}}
       {% elif current_user.user_type == 'professional' %}
         <label for="professional_report">Professional's report</label>
-        {{form.professional_report (class="form-field", placeholder = "Professional's report")}}
+        {{form.professional_report (class="form-field", placeholder = "Professional's report", id="pro-report")}}
         {{form_field_error(form.professional_report.errors)}}
       {% else %}
         <label for="client_report">Client's report</label>
-        {{form.client_report (class="form-field", placeholder = "Client's report")}}
+        {{form.client_report (class="form-field", placeholder = "Client's report", id="client-report")}}
         {{form_field_error(form.client_report.errors)}}
         <label for="professional_report">Professional's report</label>
-        {{form.professional_report (class="form-field", placeholder = "Professional's report")}}
+        {{form.professional_report (class="form-field", placeholder = "Professional's report", id="pro-report")}}
         {{form_field_error(form.professional_report.errors)}}
       {% endif %}
     </fieldset>
