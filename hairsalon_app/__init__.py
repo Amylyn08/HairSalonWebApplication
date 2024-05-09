@@ -19,6 +19,7 @@ def create_app(config = ConfigProd):
     from hairsalon_app.users.routes import users_bp
     from hairsalon_app.report_view.routes import report_bp
     from hairsalon_app.appointment_api.routes import api_bp
+    from hairsalon_app.logging_view.routes import log_bp
 
 
 # ---------
@@ -29,6 +30,7 @@ def create_app(config = ConfigProd):
     app.register_blueprint(users_bp)
     app.register_blueprint(report_bp)
     app.register_blueprint(api_bp)
+    app.register_blueprint(log_bp)
 
     #creating login manager
     login_manager = LoginManager()
