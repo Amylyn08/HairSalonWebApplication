@@ -17,3 +17,19 @@ class Appointment:
         self.client_name = client_name
         self.professional_name= professional_name
         self.service_name = service_name
+
+    def to_dict(self):
+        return {
+            'appointment_id': self.appointment_id,
+            'status': self.status,
+            'approved': self.approved,
+            'date_appointment': self.date_appointment.isoformat() if self.date_appointment else None,
+            'client_id': self.client_id,
+            'professional_id': self.professional_id,
+            'service_id': self.service_id,
+            'slot': self.slot,
+            'venue': self.venue,
+            'client_name': self.client_name,
+            'professional_name': self.professional_name,
+            'service_name': self.service_name
+        }

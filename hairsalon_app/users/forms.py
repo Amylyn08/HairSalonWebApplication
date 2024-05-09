@@ -14,7 +14,7 @@ class NewUserForm(FlaskForm):
     phone_number = TelField('phone_number', validators=[DataRequired()])
     address = StringField('address', validators=[DataRequired()])
     age = IntegerField('age', validators=[DataRequired(), NumberRange(min=0)])
-    pay_rate = DecimalField('pay_rate')
+    pay_rate = DecimalField('pay_rate', default=0)
     specialty = StringField('specialty')
     submit = SubmitField('Register')
 

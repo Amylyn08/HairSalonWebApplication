@@ -246,7 +246,6 @@ footer p{
 .error-field{
     background-color: rgb(230, 56, 56);
     list-style: none;
-    width: 200px;
     border-radius: 10px;
     text-align: center;
     }
