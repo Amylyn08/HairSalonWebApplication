@@ -55,8 +55,5 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-
-
-    // Trigger change event on page load to handle initial state
-    userTypeSelect.dispatchEvent(new Event("change"));
+   
 });

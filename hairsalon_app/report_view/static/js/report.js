@@ -27,6 +27,11 @@ document.addEventListener("DOMContentLoaded", function (e) {
         }
     }
 
+<<<<<<< HEAD
+=======
+    validateTitle(title);
+
+>>>>>>> 2680d15d39d73dc9eb8d4dedd0f368875c36360f
     // Listen for input event
     title.addEventListener('input', validateTitle);
 

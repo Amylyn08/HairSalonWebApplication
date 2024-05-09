@@ -29,6 +29,8 @@ document.addEventListener("DOMContentLoaded", function(e){
         }
     }
 
+    validateDate(date);
+
     // Listen for input event
     date.addEventListener('input', validateDate);
 

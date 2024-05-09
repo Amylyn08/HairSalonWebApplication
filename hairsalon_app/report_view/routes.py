@@ -50,13 +50,3 @@ def delete_report(report_id, appointment_id):
     return redirect(url_for('appointment_bp.specific_appointment', appointment_id=appointment_id))
 
 
-# #route for all reports
-# @report_bp.route("/all_appointments", methods=['GET'])
-# def all_appointments(): #the id is the one for the note
-#     #get apps from db
-#     all_appointments = db.get_all_appointments()
-     
-#     if (len(all_appointments)!= 0):
-#         return render_template("all_appointments.html", context = all_appointments)
-        
-#     return redirect(url_for("appointment_bp.create_appointment"))
