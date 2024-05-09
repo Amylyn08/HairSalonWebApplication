@@ -168,8 +168,8 @@
                 <th>ID</th>
                 <th>Status</th>
                 <th>Date</th>
-                <th>Client ID</th>
-                <th>Employee ID</th>
+                <th>Client</th>
+                <th>Employee</th>
                 <th>View Details / Modify</th>
             </tr>
             {% for app in appointments %}
@@ -177,8 +177,8 @@
                 <td>{{app.appointment_id}}</td>
                 <td>{{app.status}}</td>
                 <td>{{app.date_appointment}}</td>
-                <td>{{app.client_id}}</td>
-                <td>{{app.professional_id}}</td>
+                <td>{{app.client_name}}</td>
+                <td>{{app.professional_name}}</td>
                 <td><a class="app-link" href="{{url_for('appointment_bp.specific_appointment', appointment_id=app.appointment_id)}}">Details</a></td>
             </tr>
             {% endfor %}

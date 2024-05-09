@@ -1,5 +1,4 @@
 
-
 class Appointment:
     def __init__(self, appointment_id, status, approved, date_appointment, client_id, professional_id, service_id, slot, venue):
         self.appointment_id = appointment_id

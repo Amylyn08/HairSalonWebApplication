@@ -6,16 +6,15 @@ from hairsalon_app.users.Member import Member
 from hairsalon_app.report_view.report import Report
 import pdb
 
-
-
 class Database():
-     
+    
     def __init__(self, autocommit=True):
-        self.__connection = self.__connect()
-        self.__connection.autocommit = autocommit
+        # self.__connection = self.__connect()
+        # self.__connection.autocommit = autocommit 
+        pass
 
     #Using kwargs from config_db to establish connection
-    def __connect(self):
+    def __connect(self, autocommit=True):
         if __name__ == '__main__':
             from config_db import host, usr, sn, pw
         else:
@@ -102,12 +101,12 @@ class Database():
         '''Returns all users objects in a list'''
         list_users = []
         try:
-            with self.__connect() as connection: 
+            with self.__connect() as connection:
                 with connection.cursor() as cur:
                     qry = f" select * from salon_user"
                     users = cur.execute(qry).fetchall()
                     for user in users:
-                        list_users.append(Member(user[2],user[3],user[4],user[5],user[6],user[7],user[8],user[9],user[10],user[11],user[12],user[13]))
+                        list_users.append(Member(user[2],user[3],user[4],user[5],user[6],user[7],user[8],user[9],user[10],user[11],user[12],user[13], user[14], user[15]))
                     return list_users 
         except Exception as e:
             print(e)
