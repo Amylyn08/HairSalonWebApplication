@@ -1,0 +1,28 @@
+{% if current_user.is_authenticated %}
+  {% extends 'home_member.html' %}
+{% else %}
+  {% extends 'base.html' %}
+{% endif %}
+{% block content_css %}
+<link rel="stylesheet" href="{{url_for('appointment_bp.static', filename='css/appointments.css')}}">
+{% endblock %}
+{% block content_main_pannel %}
+<h2>All logs</h2>
+
+{% for log in context %}
+  <div class="appointment-box">
+    <div class="grid1">
+      <p>Action:</p> {{ log.action }}
+    </div>
+    <div class="grid1">
+      <p>Table name:</p> {{ log.table_name }}
+    </div>
+    <div class="grid1">
+      <p>User id:</p> {{ log.user_id }}
+    </div>
+    <div class="grid1">
+      <p>Time:</p> {{ log.time_log }}
+    </div>
+  </div>
+{% endfor %}
+{% endblock %}
