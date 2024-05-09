@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource
 from hairsalon_app.qdb.database import db
-
+from oracledb import Date
 api_bp = Blueprint('api_bp', __name__)
 api = Api(api_bp)
 
@@ -18,7 +18,7 @@ class Appointments_API(Resource):
                                data['service'], 
                                data['venue'], 
                                data['slot'], 
-                               data['date'])
+                               Date.fromisoformat(data['date'].split(' ')[0]))
         return self.get(), 201
 
 class Appointment_API(Resource):
