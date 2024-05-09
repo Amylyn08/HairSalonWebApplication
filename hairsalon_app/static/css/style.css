@@ -26,8 +26,8 @@ body {
 
 /* Navigation styles */
 #nav-main {
-    background-image: url(../images/trees.jpg);
-    background-size: cover;
+    background-image: url(../images/topf.jpg);
+    /* background-size: cover; */
     color: #fff;
     font-size: 17px;
     padding: 20px 60px;
@@ -170,13 +170,17 @@ main {
 
 /* Footer styles */
 footer {
-    background-image: url(../images/trees_foot.jpg);
-    background-size: cover;
-    color: #fff;
+    background-image: url(../images/top3.jpg);
+    /* background-size: cover; */
+    color: #0b0b0b;
     text-align: center;
     padding: 10px;
     margin-top: auto; /* Push the footer to the bottom */
 }
+
+/* div > p{
+    background-color: rgba(197, 197, 197, 0.9);
+} */
 
 .success{
     background-color: rgb(76, 163, 76);;
