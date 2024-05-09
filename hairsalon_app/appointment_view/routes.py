@@ -12,7 +12,9 @@ appointment_bp = Blueprint('appointment_bp', __name__, template_folder='template
 @appointment_bp.route('/appointment/', methods=['POST', 'GET'])
 @login_required 
 def create_appointment():
-    form = AppointmentForm() #create form to add address to list
+    pros_list = db.get_list_pros()
+    service_list = db.get_all_services()
+    form = AppointmentForm(pros_list, service_list) #create form to add address to list
     if form.validate_on_submit():
         existing_apps = db.get_appointment_by_client_date(username=current_user.username, date=form.date.data)
         if existing_apps is None:       
@@ -71,7 +73,8 @@ def sort_appointments(sorted_by):
 #route to edit appointment
 @appointment_bp.route("/edit_appointment/<int:appointment_id>", methods=['POST', 'GET'])
 def edit_appointment(appointment_id):
-    form = AppointmentEditForm()
+    service_list = db.get_all_services()
+    form = AppointmentEditForm(service_list)
     appointment = db.get_appointment_by_id(appointment_id)
     form.date.data = appointment.date_appointment
     form.slot.data = appointment.slot
