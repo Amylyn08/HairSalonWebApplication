@@ -11,41 +11,13 @@
 {% endblock content_side_pannel %}
 {% block content_main_pannel %}
 <h2>Register With Us</h2>
-<input type='checkbox' id='toggle' class='toggleCheckbox' value="pro"/>
+<input type="checkbox" id="toggle" class="toggleCheckbox" value="pro"/>
 <!-- pro=on if checked -->
     <label for='toggle' class='toggleContainer'>
         <div>Client</div> 
         <div>Professional</div>
     </label>
-<div class="register-div" id="register-client">
-    <form action="" method="POST" enctype="multipart/form-data" novalidate>
-        {{ form.hidden_tag() }}
-        <fieldset>
-            {{form.username (class='form-field', placeholder="Username", class="username")}}
-            {{form_field_error(form.username.errors)}}
-            {{form.full_name(class='form-field', placeholder="full_name", class="full_name")}}
-            {{form_field_error(form.full_name.errors)}}
-            {{form.email (class='form-field', placeholder="Email", class="email")}}
-            {{form_field_error(form.email.errors)}}
-            {{form.password(class='form-field', placeholder='Password', class="password")}}
-            {{form_field_error(form.password.errors)}}
-            {{form.confirm_password(class='form-field', placeholder='Confirm_password', class="confirm-password")}}
-            {{form_field_error(form.confirm_password.errors)}}
-            <section>
-                {{ form.user_image(class='form-field') }}
-                {{form_field_error(form.user_image.errors)}}
-            </section>
-                {{form.phone_number(class='form-field', placeholder='Phone Number', class="phone_number")}}
-                {{form_field_error(form.phone_number.errors)}}
-                {{form.address(class='form-field', placeholder='Street Number, Province, Country', class="address")}}
-                {{form_field_error(form.address.errors)}}
-                {{form.age(class='form-field', placeholder='Age', class="age")}}
-                {{form_field_error(form.age.errors)}}
-        </fieldset>
-        {{form.submit(class='button')}}
-    </form>
-</div>
-<div class='register-div' id="register-pro">
+<div id="register-div">
     <form action="" method="POST" enctype="multipart/form-data" novalidate>
         {{ form.hidden_tag() }}
         <fieldset>
@@ -69,10 +41,12 @@
             {{form_field_error(form.address.errors)}}
             {{form.age(class='form-field', placeholder='Age', id="age")}}
             {{form_field_error(form.age.errors)}}
-            {{form.pay_rate(class='form-field', placeholder='Pay Rate', id="pay_rate")}}
-            {{form_field_error(form.pay_rate.errors)}}
-            {{form.specialty(class='form-field', placeholder='Specialty', id="specialty")}}
-            {{form_field_error(form.specialty.errors)}}
+            <section id="pro-fields">
+                {{form.pay_rate(class='form-field', placeholder='Pay Rate', id="pay_rate")}}
+                {{form_field_error(form.pay_rate.errors)}}
+                {{form.specialty(class='form-field', placeholder='Specialty', id="specialty")}}
+                {{form_field_error(form.specialty.errors)}}
+            </section>
         </fieldset>
         {{form.submit(class='button')}}
     </form>

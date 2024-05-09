@@ -33,10 +33,6 @@ def create_appointment():
 def my_appointments(user_id):
     #get apps from db
     my_appointments = db.get_my_appointments(user_id)
-    for app in my_appointments:
-        app.client_name = db.get_client_name(client_id=app.client_id)
-        app.professional_name = db.get_professional_name(professional_id=app.professional_id)
-        app.service_name = db.get_service_name(service_id=app.service_id)
     if (len(my_appointments)!= 0):
         return render_template("my_appointments.html", context = my_appointments)
     return redirect(url_for("appointment_bp.create_appointment"))
@@ -46,10 +42,6 @@ def my_appointments(user_id):
 def all_appointments(): #the id is the one for the note
     #get apps from db
     all_appointments = db.get_all_appointments() 
-    for app in all_appointments:
-        app.client_name = db.get_client_name(client_id=app.client_id)
-        app.professional_name = db.get_professional_name(professional_id=app.professional_id)
-        app.service_name = db.get_service_name(service_id=app.service_id)
     if (len(all_appointments)!= 0):
         return render_template("all_appointments.html", context = all_appointments)
     flash("No appointments to show", 'info')
@@ -98,9 +90,6 @@ def edit_appointment(appointment_id):
 def specific_appointment(appointment_id):
     appointment = db.get_appointment(appointment_id)
     reports = db.get_appointment_reports(appointment_id)
-    appointment.client_name = db.get_client_name(client_id= appointment.client_id)
-    appointment.professional_name = db.get_professional_name(professional_id=appointment.professional_id)
-    appointment.service_name = db.get_service_name(service_id=appointment.service_id)
     if appointment is None:
         flash('Appointment not found', 'error')
         return redirect(url_for("appointment_bp.all_appointments"))

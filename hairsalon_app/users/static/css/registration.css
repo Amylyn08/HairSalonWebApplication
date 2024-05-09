@@ -1,5 +1,5 @@
 /* Style for the register-div */
-.register-div {
+#register-div {
     width: 80%;
     margin: 0 auto;
   }

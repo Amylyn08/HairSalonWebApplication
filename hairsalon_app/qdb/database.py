@@ -546,7 +546,9 @@ class Database():
                     sql = f'SELECT * FROM salon_appointment'
                     fetch = c.execute(sql).fetchall()
                     for record in fetch:
-                        appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                        appointments.append(Appointment(record[0], record[1], record[2],record[3], 
+                                                        record[4], record[5], record[6], record[7], 
+                                                        record[8],record[9], record[10], record[11]))
                     return appointments
         except Exception as e:
             print(e)
@@ -562,7 +564,9 @@ class Database():
                     sql = f'SELECT * FROM salon_appointment ORDER BY date_appointment DESC'
                     fetch = c.execute(sql).fetchall()
                     for record in fetch:
-                        appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                        appointments.append(Appointment(record[0], record[1], record[2],record[3], 
+                                                        record[4], record[5], record[6], record[7], 
+                                                        record[8], record[9], record[10], record[11]))
                     return appointments
         except Exception as e:
             print(e)    
@@ -576,7 +580,9 @@ class Database():
                     sql = f"SELECT * FROM salon_appointment WHERE status = 'pending'"
                     fetch = c.execute(sql).fetchall()
                     for record in fetch:
-                        appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                        appointments.append(Appointment(record[0], record[1], record[2],record[3], 
+                                                        record[4], record[5], record[6], record[7], 
+                                                        record[8], record[9], record[10], record[11]))
                     return appointments
         except Exception as e:
             print(e)      
@@ -590,7 +596,9 @@ class Database():
                     sql = f"SELECT * FROM salon_appointment WHERE status = 'approved'"
                     fetch = c.execute(sql).fetchall()
                     for record in fetch:
-                        appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                        appointments.append(Appointment(record[0], record[1], record[2],record[3], 
+                                                        record[4], record[5], record[6], record[7], 
+                                                        record[8], record[9], record[10], record[11]))
                     return appointments
         except Exception as e:
             print(e)
@@ -605,7 +613,9 @@ class Database():
                     sql = f"SELECT * FROM salon_appointment WHERE status = 'completed'"
                     fetch = c.execute(sql).fetchall()
                     for record in fetch:
-                        appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                        appointments.append(Appointment(record[0], record[1], record[2],record[3], 
+                                                        record[4], record[5], record[6], record[7], 
+                                                        record[8], record[9], record[10], record[11]))
                     return appointments
         except Exception as e:
             print(e)
@@ -620,7 +630,9 @@ class Database():
                     sql = f"SELECT * FROM salon_appointment WHERE status = 'cancelled'"
                     fetch = c.execute(sql).fetchall()
                     for record in fetch:
-                        appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                        appointments.append(Appointment(record[0], record[1], record[2],record[3], 
+                                                        record[4], record[5], record[6], record[7], 
+                                                        record[8], record[9], record[10], record[11]))
                     return appointments
         except Exception as e:
             print(e)
@@ -635,7 +647,9 @@ class Database():
                     sql = f'SELECT * FROM salon_appointment INNER JOIN salon_user ON salon_appointment.client_id = salon_user.user_id ORDER BY full_name asc'
                     fetch = c.execute(sql).fetchall()
                     for record in fetch:
-                        appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                        appointments.append(Appointment(record[0], record[1], record[2],record[3], 
+                                                        record[4], record[5], record[6], record[7], 
+                                                        record[8], record[9], record[10], record[11]))
                     return appointments
         except Exception as e:
             print(e)
@@ -647,10 +661,13 @@ class Database():
         try:
             with self.__connect() as connection:
                 with connection.cursor() as c:
-                    sql = f"SELECT * FROM salon_appointment ORDER BY TO_NUMBER(SUBSTR(slot, 1, INSTR(slot, '-') - 1))"
+                    sql = f'''SELECT * FROM salon_appointment 
+                            ORDER BY TO_NUMBER(SUBSTR(slot, 1, INSTR(slot, '-') - 1))'''
                     fetch = c.execute(sql).fetchall()
                     for record in fetch:
-                        appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                        appointments.append(Appointment(record[0], record[1], record[2],record[3], 
+                                                        record[4], record[5], record[6], record[7], 
+                                                        record[8], record[9], record[10], record[11]))
                     return appointments
         except Exception as e:
             print(e)
@@ -663,10 +680,13 @@ class Database():
         try:
             with self.__connect() as connection:
                 with connection.cursor() as c:
-                    sql = f'SELECT * FROM salon_appointment INNER JOIN salon_user ON salon_user.user_id = salon_appointment.professional_id ORDER BY full_name ASC'
+                    sql = f'''SELECT * FROM salon_appointment INNER JOIN salon_user ON 
+                            salon_user.user_id = salon_appointment.professional_id ORDER BY full_name ASC'''
                     fetch = c.execute(sql).fetchall()
                     for record in fetch:
-                        appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                        appointments.append(Appointment(record[0], record[1], record[2],record[3], 
+                                                        record[4], record[5], record[6], record[7], 
+                                                        record[8], record[9], record[10], record[11]))
                     return appointments
         except Exception as e:
             print(e)
@@ -678,10 +698,14 @@ class Database():
         try:
             with self.__connect() as connection:
                 with connection.cursor() as c:
-                    sql = f'SELECT * FROM salon_appointment INNER JOIN salon_user ON salon_user.user_id = salon_appointment.client_id ORDER BY full_name ASC'
+                    sql = f'''SELECT * FROM salon_appointment 
+                                INNER JOIN salon_user ON salon_user.user_id = salon_appointment.client_id 
+                                ORDER BY full_name ASC'''
                     fetch = c.execute(sql).fetchall()
                     for record in fetch:
-                        appointments.append(Appointment(record[0], record[1], record[2],record[3], record[4], record[5], record[6], record[7], record[8]))
+                        appointments.append(Appointment(record[0], record[1], record[2],record[3], 
+                                                        record[4], record[5], record[6], record[7], 
+                                                        record[8], record[9], record[10], record[11]))
                     return appointments
         except Exception as e:
             print(e)
@@ -715,12 +739,21 @@ class Database():
         try:
             with self.__connect() as connection:
                 with connection.cursor() as cursor:
-                    sql = f'''INSERT INTO salon_appointment (client_id, professional_id, service_id, slot, venue, date_appointment) 
+                    sql = f'''INSERT INTO salon_appointment (client_id, professional_id,
+                                 service_id, slot, venue, date_appointment, client_name, professional_name, service_name)  
                                 VALUES ((SELECT user_id FROM salon_user WHERE username = :username), 
                                         (SELECT user_id FROM salon_user WHERE username = :professional), 
                                         (SELECT service_id FROM salon_service WHERE service_name = :service), 
-                                        :slot, :venue, :date_appointment)'''
-                    info = {'username' : username, 'professional': professional, 'service': service, 'slot': slot, 'venue': venue, 'date_appointment': date}
+                                        :slot, :venue, :date_appointment,
+                                        (SELECT full_name FROM salon_user WHERE username = :username),
+                                        (SELECT full_name FROM salon_user WHERE username = :professional),
+                                        :service)'''
+                    info = {'username' : username, 
+                            'professional': professional, 
+                            'service': service, 
+                            'slot': slot, 
+                            'venue': venue, 
+                            'date_appointment': date}
                     cursor.execute(sql, info)
                     connection.commit()
         except Exception as e:
@@ -883,7 +916,9 @@ class Database():
                     sql = f'SELECT * FROM salon_appointment WHERE appointment_id = :appointment_id'
                     info = {'appointment_id': appointment_id}
                     fetch = c.execute(sql, info).fetchone()
-                    return Appointment(fetch[0], fetch[1], fetch[2],fetch[3], fetch[4], fetch[5], fetch[6], fetch[7], fetch[8])
+                    return Appointment(fetch[0], fetch[1], fetch[2],fetch[3], 
+                                       fetch[4], fetch[5], fetch[6], fetch[7], 
+                                       fetch[8], fetch[9], fetch[10], fetch[11])
         except Exception as e:
             print(e)
 
