@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content_side_pannel %}
+<h2>Saloon API</h2>
+<ul>
+    <li>List all appointments</li>
+    <li><a href="http://127.0.0.1:5010/api/appointments/">api/appointments/</a></li>
+</ul>
+<ul>
+    <li>List Appointment ID 1</li>
+    <li><a href="http://127.0.0.1:5010/api/appointment/1/">api/appointment/1/</a></li>
+</ul>
+<ul>
+    <li>Create a recipe: POST</li>
+    <li>curl http://127.0.0.1:5010/api/appointments/ \ -d '{"username":"nasr", "professional":"BiancaPro", "service":"Trimming", "venue":"1", "slot":"11-12"}' \ -X "POST" \ -H "Content-Type:application/json"</li>
+</ul>
+<ul>
+    <li>Delete a recipe: Appointment 2</li>
+    <li>curl -X DELETE http://127.0.0.1:5010/api/appointment/2/ -H "Content-Type: application/json"</li>
+</ul>
+{% endblock content_side_pannel %}
+{% block content_main_pannel %}
+
+{% endblock content_main_pannel %}
