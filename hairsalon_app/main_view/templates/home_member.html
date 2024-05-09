@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/home_member.css')}}"/>
+<link rel="stylesheet" href="{{url_for('main_bp.static', filename='css/home.css')}}"/>
 {% endblock content_css %}
 {% block content_side_pannel %}
 <p>This is a hair salon service application for 420 Final Project...</p>
@@ -33,12 +34,14 @@
 {% endif %}
 {% endblock content_when_login %}
 {% block content_main_pannel %}
-<h2>Welcome Home</h2>
-<img id="home_image" src="{{url_for('static', filename='images/logo.jpg')}}" alt="Hair salon logo with scissors and comb.">
+<div id="first_div"> 
+<h2>Saloon</h2>
+<img id="home_image" src="{{url_for('static', filename='images/hair.jpg')}}" alt="Lady with hair.">
+</div>
 <div id="schedule-with-us">
 <h4>Shedule An Appointment </h4>
     <p>(514) 928-2935</p>
     <p>Saloon.appointments@gmail.com</p>
-    <a href="{{url_for('appointment_bp.create_appointment')}}"><buton>Make Appointment</buton></a>
+    <a href=""><buton>Make Appointment</buton></a>
 </div>
 {% endblock %}

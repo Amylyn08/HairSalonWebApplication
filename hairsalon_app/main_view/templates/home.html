@@ -1,14 +1,35 @@
 {% extends 'base.html' %}
+{% block content_css %}
+<link rel="stylesheet" href="{{url_for('main_bp.static', filename='css/home.css')}}"/>
+{% endblock content_css %}
 {% block content_side_pannel %}
 <p>This is a hair salon service application for 420 Final Project...</p>
 {% endblock %}
 {% block content_main_pannel %}
-<h2>Welcome Home</h2>
-<img id="home_image" src="{{url_for('static', filename='images/logo.jpg')}}" alt="Hair salon logo with scissors and comb.">
-<div id="schedule-with-us">
-<h4>Shedule An Appointment </h4>
-    <p>(514) 928-2935</p>
-    <p>Saloon.appointments@gmail.com</p>
-    <a href=""><buton>Make Appointment</buton></a>
+<div id="first_div"> 
+    <h2>Saloon</h2>
+    <div id="image_div">  <img id="home_image" src="{{url_for('static', filename='images/hair3.avif')}}" alt="Lady with hair."> </div>    
+    <div id="services">
+        <div class="rect" id="rect1">
+                <h5> HAIR/ BEAUTY/ NAILS</h5>
+                <h2> WHAT DO YOU NEED ?</h2>
+                <p>Full-service hair salon offering expert styling, cutting, nail care, and face treatment services tailored to enhance each client's unique beauty and style.  </p>
+                <a href="{{url_for('main_bp.about')}}"><button>Learn More</button></a>
+        </div>
+        <div class="rect">
+            <div class = " img_service"> <img src="{{url_for('static', filename='images/hair_care.png')}}" alt="Lady washing hair"></div>
+            <h6> <span class="first_word"> Hair</span> Salon</h6>
+            <p>A hair salon offers a wide range of hair care services including cutting, styling, coloring, and treatments. Experienced hairstylists provide personalized consultations and use professional techniques to create tailored hairstyles that complement clients.</p>
+        </div>
+        <div class="rect">
+            <div class = " img_service"> <img src="{{url_for('static', filename='images/nail_care.webp')}}" alt="Manicure."></div>
+            <h6> <span class="first_word">Nail</span> Salon </h6>
+            <p>A nail salon focuses on nail care and enhancement, providing services such as manicures, pedicures, nail art, and nail extensions. Nail technicians offer a variety of treatments to beautify and maintain nails using quality products and creative designs to achieve stylish results.</p>
+        </div>
+        <div class="rect">
+            <div class = " img_service"> <img src="{{url_for('static', filename='images/makeup_care.jpg')}}" alt="Face Treatement."></div>
+             <h6> <span class="first_word"> Makeup </span> Salon </h6>
+             <p>A makeup salon specializes in professional makeup application and services, offering a range of cosmetic treatments including makeup application for events, photo shoots, weddings and special occasions. Makeup artists use quality products and techniques to enhance beauty.</p>
+        </div>   
 </div>
 {% endblock %}
