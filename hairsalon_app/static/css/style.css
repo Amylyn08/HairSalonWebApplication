@@ -178,9 +178,9 @@ footer {
     margin-top: auto; /* Push the footer to the bottom */
 }
 
-/* div > p{
+footer p{
     background-color: rgba(197, 197, 197, 0.9);
-} */
+}
 
 .success{
     background-color: rgb(76, 163, 76);;
