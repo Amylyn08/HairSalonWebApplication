@@ -20,17 +20,6 @@ def create_report(appointment_id):
     flash('Invalid Inputs.' 'error')
     return render_template('report.html', form=form)
 
-#route for all reports
-@report_bp.route("/all_reports/", methods=['GET'])
-def all_reports(): #the id is the one for the note
-    #get reports from db
-    all_reports = db.get_all_reports()
-     
-    if (len(all_reports)!= 0):
-        return render_template("all_reports.html", context = all_reports)
-        
-    return redirect(url_for("report_bp.create_report"))
-
 #route to create report
 @report_bp.route('/edit_report/<int:report_id>', methods=['POST', 'GET'])
 def edit_report(report_id):

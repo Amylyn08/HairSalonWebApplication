@@ -22,12 +22,6 @@ users_bp = Blueprint("users_bp",__name__,template_folder='templates', static_fol
 users_clients= []
 users_professionals =[]
 
-#Generates all the 
-@users_bp.route("/allUsers/")
-def user_list_client():
-    """Function for listing all the users."""
-    users_clients = db.get_users()
-    return render_template('Users.html', clients =users_clients)
 
 @users_bp.route('/adminappoint-pannel/')
 def adminappoint_pannel():

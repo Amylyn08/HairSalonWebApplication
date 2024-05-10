@@ -62,20 +62,20 @@ def sort_appointments(sorted_by):
         if sorted_by == 'Client':
             all_appointments = db.get_all_appointments_clientname()
         if sorted_by == 'Pending':
-            all_appointments = db.get_all_appointments_pending()
+            all_appointments = db.appointments_status_fiter('pending')
         if sorted_by == 'Approved':
-            all_appointments = db.get_all_appointments_approved()
+            all_appointments = db.appointments_status_fiter('approved')
         if sorted_by == 'Completed':
-            all_appointments = db.get_all_appointments_completed()
+            all_appointments = db.appointments_status_fiter('completed')
         if sorted_by == 'Cancelled':
-            all_appointments = db.get_all_appointments_cancelled()
+            all_appointments = db.appointments_status_fiter('cancelled')
         return render_template("all_appointments.html", context = all_appointments)
 #route to edit appointment
 @appointment_bp.route("/edit_appointment/<int:appointment_id>", methods=['POST', 'GET'])
 def edit_appointment(appointment_id):
     service_list = db.get_all_services()
     form = AppointmentEditForm(service_list)
-    appointment = db.get_appointment_by_id(appointment_id)
+    appointment = db.get_appointment(appointment_id)
     form.date.data = appointment.date_appointment
     form.slot.data = appointment.slot
 
