@@ -1,0 +1,30 @@
+ul {
+    border: 2px solid grey;
+    padding: 10px;
+    margin: 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 10px 0;
+    text-align: center;
+}
+
+ul:hover{
+    border-color: #2c2929;
+    background-color: rgb(216, 216, 216);
+}
+
+ul li{
+    list-style: none;
+    font-size: 16px;
+    margin-bottom: 5px;
+    
+}
+
+ul li a {
+    color: blue;
+    text-decoration: none;
+}
+
+ul li a:hover {
+    text-decoration: underline;
+}
