@@ -406,6 +406,7 @@ class Database():
                     return appointments
         except Exception as e:
             print(e)    
+        
     
     def appointments_status_fiter(self, filter):
         ''' method to list all appointments with a filter'''
@@ -656,6 +657,19 @@ class Database():
                     return services
         except Exception as e:
             # Handle exceptions
+            print(e)
+
+    def get_services(self):
+        ''' method to list all services  '''
+        services = []
+        try:
+            with self.__connect() as connection:
+                with connection.cursor() as c:
+                    sql = 'SELECT * FROM salon_service'
+                    c.execute(sql)
+                    rows = c.fetchall()
+                    return rows
+        except Exception as e:
             print(e)
 
 
