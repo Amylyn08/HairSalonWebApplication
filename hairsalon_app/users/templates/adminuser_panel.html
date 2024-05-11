@@ -67,7 +67,7 @@
             </tr>
             {% for client in clients %}
             <tr>
-                <td>{{ client.id }}</td> <!-- Assuming client's ID is stored in a field called 'id' -->
+                <td>{{ client.id }}</td> 
                 <td>{{ client.username }}</td>
                 <td>{{ client.full_name }}</td>
                 {% if client.is_active[0] == 0 %}

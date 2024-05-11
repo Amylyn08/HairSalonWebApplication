@@ -155,6 +155,7 @@ def edit_profile_admin(username):
 @users_bp.route('/admin-pannel/', methods=['GET', 'POST'])
 def admin_pannel():
     form = NewUserFormAdmin()
+    logs = db.get_all_logs()
     if form.validate_on_submit():
         if form.user_image.data:
             file_name = save_file(form_file=form.user_image.data)
@@ -200,7 +201,8 @@ def admin_pannel():
                                             clients=client_list, 
                                             employees=pro_list,
                                             appointments=app_list,
-                                            form=form)
+                                            form=form,
+                                            logs=logs)
                 else:
                     client_list = db.get_list_clients()
                     pro_list = db.get_list_pros()
@@ -217,7 +219,8 @@ def admin_pannel():
                                        clients=client_list, 
                                        employees=pro_list, 
                                        appointments=app_list,
-                                       form=form)
+                                       form=form,
+                                       logs=logs)
             else:
                 client_list = db.get_list_clients()
                 pro_list = db.get_list_pros()
@@ -235,7 +238,8 @@ def admin_pannel():
                                 clients=client_list, 
                                 employees=pro_list, 
                                 appointments=app_list,
-                                form=form)
+                                form=form,
+                                logs=logs)
     else:
         client_list = db.get_list_clients()
         pro_list = db.get_list_pros()
