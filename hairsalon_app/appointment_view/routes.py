@@ -12,7 +12,7 @@ appointment_bp = Blueprint('appointment_bp', __name__, template_folder='template
 @appointment_bp.route('/appointment/', methods=['POST', 'GET'])
 @login_required 
 def create_appointment():
-    pros_list = db.get_list_pros()
+    pros_list = db.get_members_cond(condition="user_type='professional'")
     service_list = db.get_all_services()
     form = AppointmentForm(pros_list, service_list) #create form to add address to list
     if form.validate_on_submit():

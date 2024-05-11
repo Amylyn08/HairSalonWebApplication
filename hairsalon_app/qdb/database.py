@@ -1,12 +1,9 @@
 from multiprocessing.connection import Client
 import os
-from hairsalon_app.logging_view.log import Log 
 import oracledb  
 from hairsalon_app.appointment_view.appointment import Appointment
 from hairsalon_app.users.Member import Member
 from hairsalon_app.report_view.report import Report
-from hairsalon_app.services.service import Service
-import pdb
 
 class Database():
     
@@ -130,12 +127,11 @@ class Database():
                     print(f'The following error occured: {e}')
 
             
-
-    def get_list_pros(self):
+    def get_members_cond(self, condition):
         try:
             with self.__connect() as connection:
                 with connection.cursor() as cursor:
-                    qry = '''SELECT user_id,
+                    qry = f'''SELECT user_id,
                                     is_active,
                                     user_type,
                                     status,
@@ -150,74 +146,16 @@ class Database():
                                     specialty,
                                     pay_rate
                             FROM salon_user
-                            WHERE user_type='professional' '''
+                           WHERE {condition} ''' 
                     cursor.execute(qry)
                     rows = cursor.fetchall()
-                    pros_list = []
+                    members_list = []
                     for pro in rows:
-                        pros_list.append(Member(*pro))
-                    return pros_list
+                        members_list.append(Member(*pro))
+                    return members_list
         except Exception as e:
             print(f'Error retrieving member: {e}')
 
-    def get_all_users(self):
-        try:
-            with self.__connect() as connection:
-                with connection.cursor() as cursor:
-                    qry = '''SELECT user_id,
-                                    is_active,
-                                    user_type,
-                                    status,
-                                    username,
-                                    full_name, 
-                                    email, 
-                                    user_image, 
-                                    password_hashed, 
-                                    phone_number,
-                                    address,
-                                    age,
-                                    pay_rate, 
-                                    specialty
-                            FROM salon_user
-                            WHERE user_type NOT IN ('admin_super', 'client') '''
-                    cursor.execute(qry)
-                    rows = cursor.fetchall()
-                    users_list = []
-                    for user in rows:
-                        users_list.append(Member(*user))
-                    return users_list
-        except Exception as e:
-            print(f'Error retrieving member: {e}')
-
-
-    def get_list_clients(self):
-        try:
-            with self.__connect() as connection:
-                with connection.cursor() as cursor:
-                    qry = '''SELECT user_id,
-                                    is_active,
-                                    user_type,
-                                    status,
-                                    username,
-                                    full_name, 
-                                    email, 
-                                    user_image, 
-                                    password_hashed, 
-                                    phone_number,
-                                    address,
-                                    age,
-                                    pay_rate, 
-                                    specialty
-                            FROM salon_user
-                            WHERE user_type='client' '''
-                    cursor.execute(qry)
-                    rows = cursor.fetchall()
-                    clients_list = []
-                    for client in rows:
-                        clients_list.append(Member(*client))
-                    return clients_list
-        except Exception as e:
-            print(f'Error retrieving member: {e}')
 
     def update_profile(self,username, new_password, full_name, email, phone_number, address, user_image):
         try:
@@ -272,40 +210,6 @@ class Database():
                     connection.commit()
         except Exception as e:
             print(f'The following error occured: {e}')
-    
-    
-    def get_member(self, username):
-        try:
-            with self.__connect() as connection:
-                with connection.cursor() as cursor:
-                    qry = '''SELECT user_id,
-                                    is_active,
-                                    user_type,
-                                    status,
-                                    username,
-                                    full_name, 
-                                    email, 
-                                    user_image, 
-                                    password_hashed, 
-                                    phone_number,
-                                    address,
-                                    age,
-                                    specialty,
-                                    pay_rate
-                            FROM salon_user
-                            WHERE username = :username'''
-                    cursor.execute(qry,[username])
-                    row = cursor.fetchone()
-                    print(row)
-                    if row:
-                        member = Member(*row)
-                        return member
-                    else:
-                        return None
-        except Exception as e:
-            print(f'Error retrieving member: {e}')
-            return None
-
     
     def get_active(self, username):
         try:
@@ -702,11 +606,9 @@ class Database():
         try:
             with self.__connect() as connection:
                 with connection.cursor() as c:
-                    sql = f'SELECT * FROM salon_logs'
-                    fetch = c.execute(sql).fetchall()
-                    for record in fetch:
-                        logs.append(Log(*record))
-                    return logs
+                    sql = f'SELECT * FROM salon_logs order by time_log DESC'
+                    rows = c.execute(sql).fetchall()
+                    return rows
         except Exception as e:
             print(e)
 #----------END of work area -----------

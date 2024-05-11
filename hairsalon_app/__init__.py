@@ -18,9 +18,7 @@ def create_app(config = ConfigProd):
     from hairsalon_app.appointment_view.routes import appointment_bp
     from hairsalon_app.users.routes import users_bp
     from hairsalon_app.report_view.routes import report_bp
-    from hairsalon_app.services.routes import service_bp
     from hairsalon_app.appointment_api.routes import api_bp
-    from hairsalon_app.logging_view.routes import log_bp
 
 
 # ---------
@@ -30,8 +28,6 @@ def create_app(config = ConfigProd):
     app.register_blueprint(users_bp)
     app.register_blueprint(report_bp)
     app.register_blueprint(api_bp)
-    app.register_blueprint(service_bp)
-    app.register_blueprint(log_bp)
 
     #creating login manager
     login_manager = LoginManager()
@@ -41,7 +37,8 @@ def create_app(config = ConfigProd):
     #loading user from login_manager
     @login_manager.user_loader
     def load_user(username):
-        return db.get_member(username=username)
+        user =  db.get_members_cond(f"username = '{username}'")
+        return user[0]
     
     #unauthorized function from login_manager.
     @login_manager.unauthorized_handler
