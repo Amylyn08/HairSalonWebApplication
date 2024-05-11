@@ -18,18 +18,19 @@ def create_app(config = ConfigProd):
     from hairsalon_app.appointment_view.routes import appointment_bp
     from hairsalon_app.users.routes import users_bp
     from hairsalon_app.report_view.routes import report_bp
+    from hairsalon_app.services.routes import service_bp
     from hairsalon_app.appointment_api.routes import api_bp
     from hairsalon_app.logging_view.routes import log_bp
 
 
 # ---------
     #Register your blueprints here
-
     app.register_blueprint(appointment_bp)
     app.register_blueprint(main_bp)
     app.register_blueprint(users_bp)
     app.register_blueprint(report_bp)
     app.register_blueprint(api_bp)
+    app.register_blueprint(service_bp)
     app.register_blueprint(log_bp)
 
     #creating login manager

@@ -5,6 +5,7 @@ import oracledb
 from hairsalon_app.appointment_view.appointment import Appointment
 from hairsalon_app.users.Member import Member
 from hairsalon_app.report_view.report import Report
+from hairsalon_app.services.service import Service
 import pdb
 
 class Database():
@@ -521,6 +522,21 @@ class Database():
             print(f'Error retrieving member: {e}')
             return None
     
+    def get_services(self):
+        ''' method to list all services  '''
+        services = []
+        try:
+            with self.__connect() as connection:
+                with connection.cursor() as c:
+                    sql = 'SELECT * FROM salon_service'
+                    c.execute(sql)
+                    rows = c.fetchall()
+                    for service in rows:
+                        services.append(Service(service[0], service[1], service[2], service[3], service[4]))
+                return services
+        except Exception as e:
+            print(e)
+
 # ---------Darina
     def get_my_appointments(self, user_id):
         ''' method to list all appointments of a given client '''
