@@ -30,6 +30,10 @@ def adminappoint_home():
 def adminuser_home():
     return render_template('home_adminuser.html')
 
+@main_bp.route('/api/')
+def api_docs():
+    return render_template('api_docs.html')
+
 
 
 

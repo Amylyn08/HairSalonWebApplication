@@ -15,7 +15,7 @@ CREATE TABLE SALON_USER (
     USERNAME VARCHAR2(30) NOT NULL UNIQUE,
     FULL_NAME VARCHAR2(100) DEFAULT NULL,
     EMAIL VARCHAR2(120) NOT NULL,
-    USER_IMAGE VARCHAR2(30),
+    USER_IMAGE VARCHAR2(30) DEFAULT('default.png'),
     PASSWORD_HASHED VARCHAR2(80) NOT NULL,
     PHONE_NUMBER VARCHAR2(80) DEFAULT NULL,
     ADDRESS VARCHAR2(100) DEFAULT NULL,
@@ -97,6 +97,8 @@ INSERT INTO SALON_USER(user_type, username, full_name, email, user_image, PASSWO
     VALUES('admin_super','nasr', 'ADMIN SUPER', 'admin@gmail.com', 
             'default.png', '$2b$12$xmVAPgK1vQCmkIKaH.jxfubAjtbP2pL/tDKVj2qAHfnAiz2MT.S/e',
             '5000 hair street', '100');
+
+-- INSERT INTO SALON_USER(user_type, username, full_name, email,
 
 
 COMMIT;
