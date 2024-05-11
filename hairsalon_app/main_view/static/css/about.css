@@ -1,0 +1,96 @@
+/* Styling for the about section */
+#about_us {
+    position: relative;
+    text-align: center; /* Center align the content */
+}
+
+/* Styling for the image */
+#about_img img {
+    display: block;
+    width: 100%; /* Ensure the image takes up the full width of the container */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px; /* Add border-radius for rounded corners */
+}
+
+/* Styling for the text overlay */
+#about_img h1,
+#about_img p {
+    position: absolute;
+    top: 50%; /* Position the text 50% down from the top */
+    left: 50%; /* Position the text 50% from the left */
+    transform: translate(-50%, -50%); /* Center the text horizontally and vertically */
+    color:#312a2a;
+    font-style: oblique;
+    font-family: Nunito Sans;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+#about_img h1 {
+    top: 45%; /* Position the heading */
+    margin-bottom: 10px; /* Margin between heading and paragraph */
+}
+
+#about_img p {
+    top: 50%; /* Position the paragraph */
+    font-size: larger;
+}
+
+#about_img .image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(230, 189, 189, 0.6); /* Semi-transparent black overlay */
+    border-radius: 8px; /* Match the image's border-radius */
+}
+.text{
+    color:#af6666;
+    font-style: oblique;
+    font-family: Nunito Sans;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
+    margin-top: 2%;
+}
+
+#about_text p {
+    font-size: larger;
+    font-family: Nunito Sans;
+}
+#about_text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 2%;
+    text-align: center;
+}
+#about_team{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    font-size: larger;
+    font-family: Nunito Sans;
+}
+#about_team p{
+    margin-top: 2%;
+}
+#team{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    text-align: center;
+    background-color:#dbacac;
+}
+#iana{
+    width: 85%; /* Adjust as needed for your layout */
+    max-width: 800px; /* Set a maximum width to maintain clarity and prevent excessive stretching */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 50%; /* Round the corners to create a circular image */
+}
+#darina, #amy {
+    width: 70%; /* Adjust as needed for your layout */
+    max-width: 600px; /* Set a maximum width to maintain clarity and prevent excessive stretching */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 50%; /* Round the corners to create a circular image */
+}
