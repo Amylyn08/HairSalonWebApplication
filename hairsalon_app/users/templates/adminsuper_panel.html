@@ -187,7 +187,22 @@
     </div>   
     <div id="logs" class="content">
         <h3>All logs</h3>
-        
+        <table class="admin-table">
+            <tr>
+                <th>User ID</th>
+                <th>Action</th>
+                <th>Table Name</th>
+                <th>Date and Time</th>
+            </tr>
+            {% for log in logs %}
+            <tr>
+                <td>{{log.user_id}}</td>
+                <td>{{log.action}}</td>
+                <td>{{log.table_name}}</td>
+                <td>{{log.time_log}}</td>
+            </tr>
+            {% endfor %}
+        </table>
     </div> 
 </div>
 {% endblock content_main_pannel %}

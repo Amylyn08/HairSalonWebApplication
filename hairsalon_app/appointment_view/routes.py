@@ -80,10 +80,9 @@ def edit_appointment(appointment_id):
     form.slot.data = appointment.slot
 
     if form.validate_on_submit():
-        if True:
-            db.edit_appointment(appointment_id, form.status.data, form.date.data, form.service.data, )
-            flash('Appointment edited', 'success')
-            return redirect(url_for('appointment_bp.edit_appointment', appointment_id=appointment_id))
+        db.edit_appointment(appointment_id, form.status.data, form.date.data, form.service.data, )
+        flash('Appointment edited', 'success')
+        return redirect(url_for('appointment_bp.edit_appointment', appointment_id=appointment_id))
         
     flash('Invalid Inputs.' 'error')
     return render_template('edit_appointment.html', form=form, appointment = appointment)

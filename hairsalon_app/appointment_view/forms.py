@@ -41,7 +41,8 @@ class AppointmentEditForm(FlaskForm):
     ], validators=[DataRequired()])
     service = SelectField('service', validators=[DataRequired()])
     status = SelectField('status', choices=[
-        ('pending', 'pending'), ('cancelled', 'cancelled')
+        ('pending', 'pending'), ('cancelled', 'cancelled'),
+        ('completed', 'completed'), ('approved', 'approved')
     ], validators=[DataRequired()])
     submit = SubmitField("Edit")
 
