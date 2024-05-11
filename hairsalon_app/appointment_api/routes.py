@@ -30,8 +30,11 @@ class Appointment_API(Resource):
             return {'message': 'Appointment not found'}, 404
     
     def delete(self, appointment_id):
-        db.delete_appointment(appointment_id)
-        return {'message': f'Appointment {appointment_id} deleted'}, 204
+        if db.get_appointment_by_id(appointment_id):
+            db.delete_appointment(appointment_id)
+            return f'Appointment {appointment_id} deleted', 204
+        else:
+            return f'Appointment {appointment_id} not found', 404
 
 api.add_resource(Appointment_API, '/api/appointment/<int:appointment_id>/')
 api.add_resource(Appointments_API, '/api/appointments/')

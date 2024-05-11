@@ -5,6 +5,13 @@ html, body, ul, ol, li, h1, h2, h3, p, form, input, textarea, button {
     border: 0;
 }
 
+html,
+body{
+   width: 100%;
+   height: 100%;
+   overflow: hidden;
+   margin: 0;
+}
 /* Set box-sizing property to border-box for all elements */
 /* *, *::before, *::after {
     box-sizing: border-box;
