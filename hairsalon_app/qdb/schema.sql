@@ -94,7 +94,7 @@ CREATE TABLE SALON_REPORT(
 );
 
 INSERT INTO SALON_USER(user_type, username, full_name, email, user_image, PASSWORD_HASHED, address, age)
-    VALUES('admin_super', 'nasr', 'ADMIN SUPER', 'admin@gmail.com', 
+    VALUES('admin_super','nasr', 'ADMIN SUPER', 'admin@gmail.com', 
             'default.png', '$2b$12$xmVAPgK1vQCmkIKaH.jxfubAjtbP2pL/tDKVj2qAHfnAiz2MT.S/e',
             '5000 hair street', '100');
 

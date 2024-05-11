@@ -5,6 +5,7 @@ import oracledb
 from hairsalon_app.appointment_view.appointment import Appointment
 from hairsalon_app.users.Member import Member
 from hairsalon_app.report_view.report import Report
+from hairsalon_app.services.service import Service
 import pdb
 
 class Database():
