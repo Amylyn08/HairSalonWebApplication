@@ -12,6 +12,39 @@ h2{
     display: flex;
     justify-content: center;
 }
+.img_prof{
+    margin-left:2%;
+}
+
+.img_prof > img{
+    width: 90%;
+    height: 80%;
+    border-radius: 2%;
+}
+.img_prof > p{
+    margin:0%;
+    font-family: Nunito Sans;
+    font-style: oblique;
+    color:#d69191;
+}
+.text{
+    font-style: oblique;
+}
+.professionals{
+    display: flex;
+    flex-direction: row;
+    margin: 2%;
+}
+
+
+/* Style for text label */
+.label {
+    font-size: 16px; /* Adjust font size as needed */
+    color: #333; /* Text color */
+    /* Space between image and text label */
+    font-family: Nunito Sans;
+}
+
 img{
     text-align: center;
     border-radius: 5%;
@@ -98,3 +131,62 @@ button {
     text-decoration: none;
  /* Align the link/button to the left edge of the parent div */
   }
+
+#parent-container {
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100%; 
+}
+
+#bookmarks{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 2%;
+    text-align: center;
+    width:100%;
+    height: 100%;
+}
+
+#bookmarks a{
+    color:#cf9898;
+    font-size: larger;
+    font-style: oblique;
+    font-family: Nunito Sans;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* The Table of prices */
+#services_prices{
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color:#333
+}
+.service-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.service-table th, .service-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.service-table th {
+    background-color: #f2f2f2;
+}
+
+.service-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.service-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
