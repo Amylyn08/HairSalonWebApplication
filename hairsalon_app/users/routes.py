@@ -25,7 +25,7 @@ users_professionals =[]
 
 @users_bp.route('/adminappoint-pannel/')
 def adminappoint_pannel():
-    app_list = db.get_all_appointments()
+    app_list = db.appointments_cond()
     return render_template('adminappoint_panel.html', appointments=app_list)
 
 @users_bp.route('/register/', methods=['GET', 'POST'])
@@ -158,7 +158,7 @@ def admin_pannel():
     logs = db.get_all_logs()
     client_list = db.get_members_cond(condition="(user_type='client')")
     pro_list = db.get_members_cond(condition="user_type NOT IN ('admin_super', 'client')")
-    app_list = db.get_all_appointments()
+    app_list = db.appointments_cond()
 
     if form.validate_on_submit():
         file_name = save_file(form_file=form.user_image.data) if form.user_image.data else 'default.png'

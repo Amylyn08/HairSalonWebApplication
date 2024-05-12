@@ -7,7 +7,7 @@ api = Api(api_bp)
 
 class Appointments_API(Resource):
     def get(self):
-        all_appointments = db.get_all_appointments()
+        all_appointments = db.appointments_cond()
         return {"length": len(all_appointments),
                 "all_appointment": [appointment.to_dict() for appointment in all_appointments]}, 200
     
@@ -23,14 +23,14 @@ class Appointments_API(Resource):
 
 class Appointment_API(Resource):
     def get(self, appointment_id):
-        appointment = db.get_appointment(appointment_id)
+        appointment =  db.appointments_cond(cond=f"WHERE appointment_id = {appointment_id}")[0]
         if appointment:
             return appointment.to_dict(), 200
         else:
             return {'message': 'Appointment not found'}, 404
     
     def delete(self, appointment_id):
-        if db.get_appointment(appointment_id):
+        if  db.appointments_cond(cond=f"WHERE appointment_id = {appointment_id}")[0]:
             db.delete_appointment(appointment_id)
             return f'Appointment {appointment_id} deleted', 204
         else:

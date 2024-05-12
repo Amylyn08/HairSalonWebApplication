@@ -16,17 +16,17 @@ def create_appointment():
     service_list = db.get_all_services()
     form = AppointmentForm(pros_list, service_list) #create form to add address to list
     if form.validate_on_submit():
-        existing_apps = db.get_appointment_by_client_date(username=current_user.username, date=form.date.data)
-        if existing_apps is None:       
+        existing_apps = db.appointments_cond(cond=f"WHERE date_appointment = TO_DATE('{form.date.data}', 'YYYY-MM-DD') AND client_name = '{current_user.full_name}'")
+        if len(existing_apps) == 0:       
             db.add_new_appointment(username=current_user.username,
                                    professional=form.professional.data,
                                    service=form.service.data,
                                    venue=form.venue.data,
                                    slot=form.slot.data,
                                    date=form.date.data)
-        flash('Appointment scheduled', 'success')
-        return redirect(url_for('appointment_bp.my_appointments', user_id=current_user.user_id))
-    flash('Invalid Inputs.' 'error')
+            flash('Appointment scheduled', 'success')
+            return redirect(url_for('appointment_bp.my_appointments', user_id=current_user.user_id))
+    flash('Invalid Inputs or this appointment already exists.', 'error')
     return render_template('appointment.html', form=form)
 
 #route for user's appointments
@@ -34,7 +34,7 @@ def create_appointment():
 @login_required
 def my_appointments(user_id):
     #get apps from db
-    my_appointments = db.get_my_appointments(user_id)
+    my_appointments = db.appointments_cond(cond=f"WHERE client_id={user_id} OR professional_id={user_id}")
     if (len(my_appointments)!= 0):
         return render_template("my_appointments.html", context = my_appointments)
     return redirect(url_for("appointment_bp.create_appointment"))
@@ -43,7 +43,7 @@ def my_appointments(user_id):
 @appointment_bp.route("/all_appointments/", methods=['GET'])
 def all_appointments(): #the id is the one for the note
     #get apps from db
-    all_appointments = db.get_all_appointments() 
+    all_appointments = db.appointments_cond()
     if (len(all_appointments)!= 0):
         return render_template("all_appointments.html", context = all_appointments)
     flash("No appointments to show", 'info')
@@ -52,45 +52,43 @@ def all_appointments(): #the id is the one for the note
 @appointment_bp.route("/all_appointments/sorted/<string:sorted_by>/", methods=['GET', 'POST'])
 def sort_appointments(sorted_by):
         if sorted_by == 'Date':
-            all_appointments = db.get_all_appointments_date_desc()
-        if sorted_by == 'fullname':
-            all_appointments = db.get_all_appointments_fullname_asc()
+            all_appointments = db.appointments_cond(cond="ORDER BY date_appointment DESC")
         if sorted_by == 'Slot':
-            all_appointments = db.get_all_appointments_slot()
+            all_appointments = db.appointments_cond(cond="ORDER BY TO_NUMBER(SUBSTR(slot, 1, INSTR(slot, '-') - 1))")
         if sorted_by == 'Professional':
-            all_appointments = db.get_all_appointments_profname()
+            all_appointments = db.appointments_cond(cond="ORDER BY professional_name ASC")
         if sorted_by == 'Client':
-            all_appointments = db.get_all_appointments_clientname()
+            all_appointments = db.appointments_cond(cond="ORDER BY client_name ASC")
         if sorted_by == 'Pending':
-            all_appointments = db.appointments_status_fiter('pending')
+            all_appointments = db.appointments_cond(cond="WHERE status = 'pending")
         if sorted_by == 'Approved':
-            all_appointments = db.appointments_status_fiter('approved')
+            all_appointments = db.appointments_cond(cond="WHERE status = 'approved")
         if sorted_by == 'Completed':
-            all_appointments = db.appointments_status_fiter('completed')
+            all_appointments = db.appointments_cond(cond="WHERE status = 'completed")
         if sorted_by == 'Cancelled':
-            all_appointments = db.appointments_status_fiter('cancelled')
+            all_appointments = db.appointments_cond(cond="WHERE status = 'cancelled")
         return render_template("all_appointments.html", context = all_appointments)
 #route to edit appointment
 @appointment_bp.route("/edit_appointment/<int:appointment_id>", methods=['POST', 'GET'])
 def edit_appointment(appointment_id):
     service_list = db.get_all_services()
     form = AppointmentEditForm(service_list)
-    appointment = db.get_appointment(appointment_id)
+    appointment = db.appointments_cond(cond=f"WHERE appointment_id = {appointment_id}")[0]
     form.date.data = appointment.date_appointment
     form.slot.data = appointment.slot
 
     if form.validate_on_submit():
         db.edit_appointment(appointment_id, form.status.data, form.date.data, form.service.data, )
         flash('Appointment edited', 'success')
-        return redirect(url_for('appointment_bp.edit_appointment', appointment_id=appointment_id))
+        return redirect(url_for('appointment_bp.specific_appointment', appointment_id=appointment_id))
         
-    flash('Invalid Inputs.' 'error')
+    flash('Invalid Inputs.', 'error')
     return render_template('edit_appointment.html', form=form, appointment = appointment)
 
 @appointment_bp.route("/appointment/<int:appointment_id>", methods=['GET'])
 @login_required
 def specific_appointment(appointment_id):
-    appointment = db.get_appointment(appointment_id)
+    appointment =  db.appointments_cond(cond=f"WHERE appointment_id = {appointment_id}")[0]
     reports = db.get_appointment_reports(appointment_id)
     if appointment is None:
         flash('Appointment not found', 'error')
@@ -101,7 +99,7 @@ def specific_appointment(appointment_id):
                             reports_length = len(reports))
 @appointment_bp.route("/delete_appointment/<int:appointment_id>", methods=['GET','POST'])
 def delete_appointment(appointment_id):
-    appointment = db.get_appointment(appointment_id)
+    appointment =  db.appointments_cond(cond=f"WHERE appointment_id = {appointment_id}")[0]
     if appointment is not None:
         db.delete_appointment(appointment_id)
         flash('Appointment deleted successfully','success')
