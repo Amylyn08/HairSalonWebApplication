@@ -25,7 +25,6 @@ class Database():
     def __run_file(self, file_path):
         statement_parts = []
         with self.__connection.cursor() as cursor:
-            # pdb.set_trace()
             with open(file_path, 'r') as f:
                 for line in f:
                     if line[:2]=='--': continue
@@ -393,7 +392,7 @@ class Database():
             with self.__connect() as connection:
                 with connection.cursor() as cursor:
                     sql = f'DELETE FROM salon_appointment WHERE appointment_id = :appointment_id'
-                    cursor.execute(sql, appointment_id=appointment_id)
+                    cursor.execute(sql, [appointment_id])
                     connection.commit()
         except Exception as e:
             print(e)

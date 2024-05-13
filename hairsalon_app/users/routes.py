@@ -25,6 +25,11 @@ users_professionals =[]
 @users_bp.route('/adminappoint-pannel/')
 @login_required 
 def adminappoint_pannel():
+    if current_user.user_type != 'admin_super' or \
+        current_user.user_type != 'admin_appoint':
+        flash('You must be admin appoint or super to access this view', 'error')
+        return redirect(url_for('main_bp.member_home'))
+
     app_list = db.appointments_cond()
     return render_template('adminappoint_panel.html', appointments=app_list)
 
@@ -40,7 +45,7 @@ def register():
         else:
             file_name = 'default.png'
         member_exists = db.get_members_cond(f'username = "{form.username.data}"')
-        if not member_exists[0]:
+        if not member_exists:
             b = Bcrypt()
             hashed_pass = b.generate_password_hash(form.password.data).decode('utf-8')
             if form.pay_rate.data is not None and form.specialty.data is not None:
@@ -96,16 +101,27 @@ def login():
 @login_required
 def profile(username):
     username=escape(username)
-    user = db.get_members_cond(f'username = "{username}"')
+    user = db.get_members_cond(f"username = '{username}'")
+    if not user:
+        flash('User does not exist', 'error')
+        return redirect(url_for('main_bp.home'))
+    user = user[0]
     return render_template('Profile.html', users=user)
 
 @users_bp.route('/profile/edit/<string:username>/', methods=['GET', 'POST'])
 @login_required 
 def edit_profile(username):
+    if current_user.username != username:
+        flash("This is not your profile", 'error')
+        return redirect(url_for('main_bp.home'))
     username=escape(username)
     form1 = UpdateImageForm()
     form = UpdateProfileForm()
-    user = db.get_members_cond(f'username = "{username}"')
+    user = db.get_members_cond(f"username = '{username}'")
+    if not user:
+        flash('User does not exist', 'error')
+        return redirect(url_for('main_bp.home'))
+    user = user[0]
     if request.method == 'POST':
         full_name = form.full_name.data if form.full_name.data else user.full_name
         email = form.email.data if form.email.data else user.email
@@ -127,7 +143,12 @@ def edit_profile(username):
                 password = user.password
         else:
             password = user.password
-        db.update_profile(username=user.username,new_password= password, full_name=full_name, email=email,  phone_number=phone_number, address=address, user_image=file_name)
+        db.update_profile(username=user.username,
+                          new_password= password, 
+                          full_name=full_name, email=email,  
+                          phone_number=phone_number, 
+                          address=address, 
+                          user_image=file_name)
         flash('Successful update!','success')
         return redirect(url_for('users_bp.profile', username=user.username))
     return render_template('update_profile.html', form=form, form1=form1, users=user)
@@ -221,6 +242,9 @@ def admin_pannel():
 @users_bp.route('/adminsuper-pannel/delete-user/<string:username>/', methods=['GET', 'POST'])
 @login_required 
 def delete_user(username):
+    if current_user.username == username:
+        flash("You can't delete yoursef", 'error')
+        return redirect(url_for('users_bp.admin_pannel'))
     username=escape(username)
     user = db.get_members_cond(f"username = '{username}'")
     if user is not None:
@@ -242,6 +266,9 @@ def logout():
 
 @users_bp.route('/toggle_active/<string:username>/', methods=['GET','POST'])
 def toggle_active_user(username):
+    if current_user.username == username:
+        flash("You can't deactivate yoursef", 'error')
+        return redirect(url_for('users_bp.admin_pannel'))
     username=escape(username)
     active = db.get_active(username=username)
     if active == 0:
@@ -256,6 +283,9 @@ def toggle_active_user(username):
 
 @users_bp.route('/toggle_flag/<string:username>/', methods=['GET','POST'])
 def toggle_flag(username):
+    if current_user.username == username:
+        flash("You can't flag yoursef", 'error')
+        return redirect(url_for('users_bp.admin_pannel'))
     username=escape(username)
     flag = db.get_flag(username=username)
     if flag == 0:

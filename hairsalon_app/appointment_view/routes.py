@@ -36,6 +36,7 @@ def create_appointment():
 @appointment_bp.route("/my_appointments/<int:user_id>/", methods=['GET'])
 @login_required
 def my_appointments(user_id):
+    # thingy
     #get apps from db
     my_appointments = db.appointments_cond(cond=f"WHERE client_id={user_id} OR professional_id={user_id}")
     if (len(my_appointments)!= 0):
@@ -76,6 +77,7 @@ def sort_appointments(sorted_by):
 @appointment_bp.route("/edit_appointment/<int:appointment_id>", methods=['POST', 'GET'])
 @login_required 
 def edit_appointment(appointment_id):
+    # check if appointment belongs to you
     service_list = db.services_cond()
     appointment = db.appointments_cond(cond=f"WHERE appointment_id = {appointment_id}")[0]
     form = AppointmentEditForm(service_list)
@@ -111,6 +113,7 @@ def specific_appointment(appointment_id):
 @appointment_bp.route("/delete_appointment/<int:appointment_id>", methods=['GET','POST'])
 @login_required 
 def delete_appointment(appointment_id):
+    # check if appointment belongs to you
     appointment =  db.appointments_cond(cond=f"WHERE appointment_id = {appointment_id}")[0]
     if appointment is not None:
         db.delete_appointment(appointment_id)
