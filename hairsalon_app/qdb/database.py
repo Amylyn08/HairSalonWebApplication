@@ -408,5 +408,16 @@ class Database():
                     return rows
         except Exception as e:
             print(e)    
+    
+    def clear_logs(self):
+        '''method to clear all logs '''
+        try:
+            with self.__connect() as connection:
+                with connection.cursor() as c:
+                    sql = f'DELETE FROM salon_logs'
+                    c.execute(sql)
+                    connection.commit()
+        except Exception as e:
+            print(f'Error clearing logs: {e}')
 
 db = Database()

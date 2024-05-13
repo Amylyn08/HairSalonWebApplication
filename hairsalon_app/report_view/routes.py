@@ -24,8 +24,10 @@ def create_report(appointment_id):
 @report_bp.route('/edit_report/<int:report_id>', methods=['POST', 'GET'])
 @login_required 
 def edit_report(report_id):
-    # check if report is yours
-    report = db.reports_cond(cond=f"WHERE report_id = {report_id}")[0]
+    report = db.reports_cond(cond=f"WHERE report_id = {report_id} AND user_id = {current_user.user_id}")[0]
+    if not report:
+        flash('Report not found, or not your report.' 'info')
+        return redirect(url_for('appointment_bp.specific_appointment', appointment_id=report.appointment_id))
     form = ReportEdit() 
     if form.validate_on_submit():
         db.edit_report(report_id, form.client_report.data, form.professional_report.data)
@@ -37,7 +39,10 @@ def edit_report(report_id):
 @report_bp.route('/delete_report/<int:report_id>/<int:appointment_id>/', methods=['POST', 'GET'])
 @login_required 
 def delete_report(report_id, appointment_id):
-    # check if report is yours
+    report = db.reports_cond(cond=f"WHERE report_id = {report_id} AND user_id = {current_user.user_id}")[0]
+    if not report:
+        flash('Report not found, or not your report.' 'info')
+        return redirect(url_for('appointment_bp.specific_appointment', appointment_id=report.appointment_id))
     db.delete_report(report_id)
     flash('Report deleted','success')
     return redirect(url_for('appointment_bp.specific_appointment', appointment_id=appointment_id))

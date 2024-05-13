@@ -1,6 +1,6 @@
 #Name : Iana Feniuc
 #Section : 01
-from flask import Blueprint, current_app, flash, make_response, url_for, redirect, render_template,request
+from flask import Blueprint, current_app, flash, url_for, redirect, render_template,request
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from hairsalon_app.qdb.database import db
 from flask_bcrypt import Bcrypt
@@ -25,7 +25,7 @@ users_professionals =[]
 @users_bp.route('/adminappoint-pannel/')
 @login_required 
 def adminappoint_pannel():
-    if current_user.user_type != 'admin_super' or \
+    if current_user.user_type != 'admin_super' and \
         current_user.user_type != 'admin_appoint':
         flash('You must be admin appoint or super to access this view', 'error')
         return redirect(url_for('main_bp.member_home'))
@@ -100,11 +100,14 @@ def login():
 @users_bp.route('/profile/<string:username>/')
 @login_required
 def profile(username):
+    if username != current_user.username:
+        flash("This is not your profile", 'error')
+        return redirect(url_for('main_bp.member_home'))
     username=escape(username)
     user = db.get_members_cond(f"username = '{username}'")
     if not user:
         flash('User does not exist', 'error')
-        return redirect(url_for('main_bp.home'))
+        return redirect(url_for('main_bp.member_home'))
     user = user[0]
     return render_template('Profile.html', users=user)
 
@@ -113,14 +116,14 @@ def profile(username):
 def edit_profile(username):
     if current_user.username != username:
         flash("This is not your profile", 'error')
-        return redirect(url_for('main_bp.home'))
+        return redirect(url_for('main_bp.member_home'))
     username=escape(username)
     form1 = UpdateImageForm()
     form = UpdateProfileForm()
     user = db.get_members_cond(f"username = '{username}'")
     if not user:
         flash('User does not exist', 'error')
-        return redirect(url_for('main_bp.home'))
+        return redirect(url_for('main_bp.member_home'))
     user = user[0]
     if request.method == 'POST':
         full_name = form.full_name.data if form.full_name.data else user.full_name
@@ -156,6 +159,10 @@ def edit_profile(username):
 @users_bp.route('/profile/admin_edit/<string:username>/', methods=['GET', 'POST'])
 @login_required 
 def edit_profile_admin(username):
+    if current_user.user_type != 'admin_super' and \
+            current_user.user_type != 'admin_user':
+        flash('You must be admin appoint or super to access this view', 'info')
+        return redirect(url_for('main_bp.member_home'))
     username=escape(username)
     form = UpdateProfileAdminForm()
     user = db.get_members_cond(f"username = '{username}'")
@@ -181,6 +188,10 @@ def edit_profile_admin(username):
 @users_bp.route('/admin-pannel/', methods=['GET', 'POST'])
 @login_required 
 def admin_pannel():
+    if current_user.user_type != 'admin_super' and \
+        current_user.user_type != 'admin_user':
+        flash('You must be admin appoint or super to access this view', 'info')
+        return redirect(url_for('main_bp.member_home'))
     form = NewUserFormAdmin()
     logs = db.get_all_logs()
     client_list = db.get_members_cond(condition="(user_type='client')")
@@ -242,7 +253,11 @@ def admin_pannel():
 @users_bp.route('/adminsuper-pannel/delete-user/<string:username>/', methods=['GET', 'POST'])
 @login_required 
 def delete_user(username):
-    if current_user.username == username:
+    if current_user.user_type != 'admin_super' and \
+        current_user.user_type != 'admin_user':
+        flash('You must be admin appoint or super to access this view', 'info')
+        return redirect(url_for('main_bp.member_home'))
+    elif current_user.username == username:
         flash("You can't delete yoursef", 'error')
         return redirect(url_for('users_bp.admin_pannel'))
     username=escape(username)
@@ -266,7 +281,11 @@ def logout():
 
 @users_bp.route('/toggle_active/<string:username>/', methods=['GET','POST'])
 def toggle_active_user(username):
-    if current_user.username == username:
+    if current_user.user_type != 'admin_super' and \
+        current_user.user_type != 'admin_user':
+        flash('You must be admin appoint or super to access this view', 'info')
+        return redirect(url_for('main_bp.member_home'))
+    elif current_user.username == username:
         flash("You can't deactivate yoursef", 'error')
         return redirect(url_for('users_bp.admin_pannel'))
     username=escape(username)
@@ -283,7 +302,11 @@ def toggle_active_user(username):
 
 @users_bp.route('/toggle_flag/<string:username>/', methods=['GET','POST'])
 def toggle_flag(username):
-    if current_user.username == username:
+    if current_user.user_type != 'admin_super' and \
+        current_user.user_type != 'admin_user':
+        flash('You must be admin appoint or super to access this view', 'info')
+        return redirect(url_for('main_bp.member_home'))
+    elif current_user.username == username:
         flash("You can't flag yoursef", 'error')
         return redirect(url_for('users_bp.admin_pannel'))
     username=escape(username)
@@ -295,6 +318,11 @@ def toggle_flag(username):
         flag = 0
         flash(f'User {username} has been unflagged', 'success')
     db.set_flag(username=username, status=flag)
+    return redirect(url_for('users_bp.admin_pannel'))
+
+def clear_logs(self):
+    db.clear_logs()
+    flash('logs cleared', 'success')
     return redirect(url_for('users_bp.admin_pannel'))
 
 

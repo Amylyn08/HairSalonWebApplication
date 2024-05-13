@@ -21,21 +21,6 @@ def member_home():
     list_services = db.services_cond()
     return render_template('home_member.html',services=list_services)
 
-
-@main_bp.route('/adminsuper-home/')
-@login_required 
-def adminsuper_home():
-    return render_template('home_adminsuper.html')
-
-@main_bp.route('/adminappoint-home/')
-@login_required 
-def adminappoint_home():
-    return render_template('home_adminappoint.html')
-@main_bp.route('/adminuser-home/')
-@login_required 
-def adminuser_home():
-    return render_template('home_adminuser.html')
-
 @main_bp.route('/api/')
 def api_docs():
     return render_template('api_docs.html')

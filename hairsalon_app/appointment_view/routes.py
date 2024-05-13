@@ -36,17 +36,17 @@ def create_appointment():
 @appointment_bp.route("/my_appointments/<int:user_id>/", methods=['GET'])
 @login_required
 def my_appointments(user_id):
-    # thingy
-    #get apps from db
+    if user_id != current_user.user_id:
+        flash("Not your appointments to view", 'info')
     my_appointments = db.appointments_cond(cond=f"WHERE client_id={user_id} OR professional_id={user_id}")
     if (len(my_appointments)!= 0):
         return render_template("my_appointments.html", context = my_appointments)
+    flash("No appointments to show", 'info')
     return redirect(url_for("appointment_bp.create_appointment"))
 
 #route for all appointments
 @appointment_bp.route("/all_appointments/", methods=['GET'])
-def all_appointments(): #the id is the one for the note
-    #get apps from db
+def all_appointments():
     all_appointments = db.appointments_cond()
     if (len(all_appointments)!= 0):
         return render_template("all_appointments.html", context = all_appointments)
@@ -65,19 +65,22 @@ def sort_appointments(sorted_by):
         if sorted_by == 'Client':
             all_appointments = db.appointments_cond(cond="ORDER BY client_name ASC")
         if sorted_by == 'Pending':
-            all_appointments = db.appointments_cond(cond="WHERE status = 'pending")
+            all_appointments = db.appointments_cond(cond="WHERE status = 'pending'")
         if sorted_by == 'Approved':
-            all_appointments = db.appointments_cond(cond="WHERE status = 'approved")
+            all_appointments = db.appointments_cond(cond="WHERE status = 'approved'")
         if sorted_by == 'Completed':
-            all_appointments = db.appointments_cond(cond="WHERE status = 'completed")
+            all_appointments = db.appointments_cond(cond="WHERE status = 'completed'")
         if sorted_by == 'Cancelled':
-            all_appointments = db.appointments_cond(cond="WHERE status = 'cancelled")
+            all_appointments = db.appointments_cond(cond="WHERE status = 'cancelled'")
         return render_template("all_appointments.html", context = all_appointments)
 #route to edit appointment
 @appointment_bp.route("/edit_appointment/<int:appointment_id>", methods=['POST', 'GET'])
 @login_required 
 def edit_appointment(appointment_id):
-    # check if appointment belongs to you
+    app = db.appointments_cond(cond=f"WHERE appointment_id={appointment_id} AND (client_id={current_user.user_id} or professional_id={current_user.user_id})")
+    if not app:
+        flash('Not your appointment to view.', 'info')
+        return redirect(url_for("appointment_bp.all_appointments"))
     service_list = db.services_cond()
     appointment = db.appointments_cond(cond=f"WHERE appointment_id = {appointment_id}")[0]
     form = AppointmentEditForm(service_list)
@@ -113,7 +116,10 @@ def specific_appointment(appointment_id):
 @appointment_bp.route("/delete_appointment/<int:appointment_id>", methods=['GET','POST'])
 @login_required 
 def delete_appointment(appointment_id):
-    # check if appointment belongs to you
+    app = db.appointments_cond(cond=f"WHERE appointment_id={appointment_id} AND (client_id={current_user.user_id} or professional_id={current_user.user_id})")
+    if not app:
+        flash('Not your appointment to delete', 'info')
+        return redirect(url_for("appointment_bp.all_appointments"))
     appointment =  db.appointments_cond(cond=f"WHERE appointment_id = {appointment_id}")[0]
     if appointment is not None:
         db.delete_appointment(appointment_id)
