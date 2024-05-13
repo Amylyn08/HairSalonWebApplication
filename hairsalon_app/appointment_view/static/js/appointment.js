@@ -36,4 +36,20 @@ document.addEventListener("DOMContentLoaded", function(e){
 
     // Listen for blur event
     date.addEventListener('blur', validateDate);
+
+    document.getElementById('date').addEventListener('change', function() {
+        document.getElementById('date').value = this.value;
+    });
+
+    document.getElementById('slot').addEventListener('change', function() {
+        document.getElementById('slot').value = this.value;
+    });
+
+    document.getElementById('service').addEventListener('change', function() {
+        document.getElementById('service').value = this.value;
+    });
+
+    document.getElementById('status').addEventListener('change', function() {
+        document.getElementById('status').value = this.value;
+    });
 });

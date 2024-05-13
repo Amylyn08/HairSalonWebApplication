@@ -120,9 +120,9 @@
             <tbody>
                 {% for service in services %}
                 <tr>
-                    <td>{{service.service_name}}</td>
-                    <td>{{service.duration}}</td>
-                    <td>{{service.price}}</td>
+                    <td>{{service[1]}}</td>
+                    <td>{{service[2]}}</td>
+                    <td>{{service[3]}}$</td>
                 </tr>
                 {% endfor %}
             </tbody>

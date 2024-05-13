@@ -6,18 +6,12 @@ from hairsalon_app.users.Member import Member
 from hairsalon_app.report_view.report import Report
 
 class Database():
-    
-    def __init__(self, autocommit=True):
-        # self.__connection = self.__connect()
-        # self.__connection.autocommit = autocommit 
-        pass
-
     #Using kwargs from config_db to establish connection
     def __connect(self, autocommit=True):
         if __name__ == '__main__':
             from config_db import host, usr, sn, pw
         else:
-            from hairsalon_app.qdb.config_db import host, usr, sn, pw
+          from hairsalon_app.qdb.config_db import host, usr, sn, pw
         return oracledb.connect(user=usr, password=pw, host=host,  service_name=sn) 
     
     
@@ -302,13 +296,23 @@ class Database():
             print (f'The following error occured: {e}')
 
 #edit appointment from database
-    def edit_appointment(self, appointment_id, status, date_appointment, service):
+    def edit_appointment(self, appointment_id, status, date_appointment, service, slot):
         '''  method to edit appointment from the database'''
         try:
             with self.__connect() as connection:
                 with connection.cursor() as cursor:
-                    sql = f'''UPDATE salon_appointment SET status = :status, date_appointment = :date_appointment,  service_id = (SELECT service_id FROM salon_service WHERE service_name = :service) WHERE appointment_id = :appointment_id'''
-                    info = {'appointment_id' : appointment_id, 'status' : status, 'date_appointment' : date_appointment, 'service' : service}
+                    sql = f'''UPDATE salon_appointment SET status = :status, 
+                                                            date_appointment = :date_appointment,  
+                                                            service_id = (SELECT service_id FROM salon_service WHERE service_name = :service),
+                                                            slot = :slot,
+                                                            service_name = :service
+                                                            WHERE appointment_id = :appointment_id'''
+                    info = {'appointment_id' : appointment_id, 
+                            'status' : status, 
+                            'date_appointment' : date_appointment, 
+                            'service' : service,
+                            'slot' : slot,
+                            'service' : service}
                     cursor.execute(sql, info)
                     connection.commit()
         except Exception as e:

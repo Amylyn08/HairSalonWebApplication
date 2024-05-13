@@ -100,6 +100,7 @@ INSERT INTO SALON_USER(user_type, username, full_name, email, user_image, PASSWO
 
 -- INSERT INTO SALON_USER(user_type, username, full_name, email,
 
+SELECT SERVICE_ID FROM SALON_SERVICE WHERE service_name = 'Full treatment';
 
 SELECT * FROM SALON_APPOINTMENT WHERE date_appointment = TO_DATE('2024-05-24', 'YYYY-MM-DD')  AND client_name = 'ADMIN SUPER';
 COMMIT;

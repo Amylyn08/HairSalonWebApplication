@@ -49,5 +49,6 @@ class AppointmentEditForm(FlaskForm):
     def __init__(self, service_list, *args, **kwargs):
         super(AppointmentEditForm, self).__init__(*args, **kwargs)
         service_names = [service[0] for service in service_list]
-        self.service.choices = [(service, service) for service in service_names]
+        self.service.choices =[(service, service) for service in service_names]
+
 
