@@ -1,7 +1,6 @@
 from flask import Blueprint, flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
 from hairsalon_app.report_view.forms import ReportForm, ReportEdit
-from hairsalon_app.appointment_view.appointment import Appointment
 from hairsalon_app.qdb.database import db
 
 
@@ -11,6 +10,7 @@ report_bp = Blueprint('report_bp', __name__, template_folder='templates', static
 
 #route to create report
 @report_bp.route('/report/<int:appointment_id>/', methods=['POST', 'GET'])
+@login_required 
 def create_report(appointment_id):
     form = ReportForm() 
     if form.validate_on_submit():
@@ -22,8 +22,9 @@ def create_report(appointment_id):
 
 #route to create report
 @report_bp.route('/edit_report/<int:report_id>', methods=['POST', 'GET'])
+@login_required 
 def edit_report(report_id):
-    report = db.get_report_by_id(report_id=report_id)
+    report = db.reports_cond(cond=f"WHERE report_id = {report_id}")[0]
     form = ReportEdit() 
     if form.validate_on_submit():
         db.edit_report(report_id, form.client_report.data, form.professional_report.data)
@@ -33,6 +34,7 @@ def edit_report(report_id):
     return render_template('edit_report.html', form=form, report=report)
 
 @report_bp.route('/delete_report/<int:report_id>/<int:appointment_id>/', methods=['POST', 'GET'])
+@login_required 
 def delete_report(report_id, appointment_id):
     db.delete_report(report_id)
     flash('Report deleted','success')

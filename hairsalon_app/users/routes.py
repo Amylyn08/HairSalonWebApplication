@@ -1,14 +1,13 @@
 #Name : Iana Feniuc
 #Section : 01
-from flask import Blueprint, abort, current_app, flash, make_response, url_for, redirect, render_template,request
+from flask import Blueprint, current_app, flash, make_response, url_for, redirect, render_template,request
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from hairsalon_app.qdb.database import db
 from flask_bcrypt import Bcrypt
 import secrets
 import os
 from PIL import Image
-
-from hairsalon_app.users.Member import Member
+from markupsafe import escape
 from hairsalon_app.users.User import User
 from hairsalon_app.users.forms import LoginForm, NewUserForm, NewUserFormAdmin, UpdateProfileAdminForm, UpdateProfileForm, UpdateImageForm
 #Create an instance of Database
@@ -24,6 +23,7 @@ users_professionals =[]
 
 
 @users_bp.route('/adminappoint-pannel/')
+@login_required 
 def adminappoint_pannel():
     app_list = db.appointments_cond()
     return render_template('adminappoint_panel.html', appointments=app_list)
@@ -92,14 +92,17 @@ def login():
     return render_template('login.html', form=form)
 
 #route to profile
-@users_bp.route('/profile/<username>/')
+@users_bp.route('/profile/<string:username>/')
 @login_required
 def profile(username):
+    username=escape(username)
     user = db.get_members_cond(f'username = "{username}"')
     return render_template('Profile.html', users=user)
 
-@users_bp.route('/profile/edit/<username>/', methods=['GET', 'POST'])
+@users_bp.route('/profile/edit/<string:username>/', methods=['GET', 'POST'])
+@login_required 
 def edit_profile(username):
+    username=escape(username)
     form1 = UpdateImageForm()
     form = UpdateProfileForm()
     user = db.get_members_cond(f'username = "{username}"')
@@ -129,8 +132,10 @@ def edit_profile(username):
         return redirect(url_for('users_bp.profile', username=user.username))
     return render_template('update_profile.html', form=form, form1=form1, users=user)
 
-@users_bp.route('/profile/admin_edit/<username>/', methods=['GET', 'POST'])
+@users_bp.route('/profile/admin_edit/<string:username>/', methods=['GET', 'POST'])
+@login_required 
 def edit_profile_admin(username):
+    username=escape(username)
     form = UpdateProfileAdminForm()
     user = db.get_members_cond(f"username = '{username}'")
     if form.validate_on_submit():
@@ -153,6 +158,7 @@ def edit_profile_admin(username):
     return render_template('edit_profile_admin.html', user=user[0], form=form)
 
 @users_bp.route('/admin-pannel/', methods=['GET', 'POST'])
+@login_required 
 def admin_pannel():
     form = NewUserFormAdmin()
     logs = db.get_all_logs()
@@ -185,7 +191,14 @@ def admin_pannel():
             elif user_type == 'admin_appoint':
                 db.add_new_admin_appointment(**user_info)
             elif user_type == 'client':
-                db.add_new_client(**user_info)
+                db.add_new_client(username=form.username.data, 
+                                  full_name=form.full_name.data,
+                                  email=form.email.data,
+                                  user_image=file_name,
+                                  password=hashed_pass,
+                                  phone=form.phone_number.data,
+                                  address=form.address.data,
+                                  age=form.age.data)
             elif user_type == 'professional':
                 db.add_new_pro(**user_info)
             else:
@@ -206,7 +219,9 @@ def admin_pannel():
 
 
 @users_bp.route('/adminsuper-pannel/delete-user/<string:username>/', methods=['GET', 'POST'])
+@login_required 
 def delete_user(username):
+    username=escape(username)
     user = db.get_members_cond(f"username = '{username}'")
     if user is not None:
          db.delete_user(username=username)
@@ -227,6 +242,7 @@ def logout():
 
 @users_bp.route('/toggle_active/<string:username>/', methods=['GET','POST'])
 def toggle_active_user(username):
+    username=escape(username)
     active = db.get_active(username=username)
     if active == 0:
         active = 1
@@ -240,6 +256,7 @@ def toggle_active_user(username):
 
 @users_bp.route('/toggle_flag/<string:username>/', methods=['GET','POST'])
 def toggle_flag(username):
+    username=escape(username)
     flag = db.get_flag(username=username)
     if flag == 0:
         flag = 1

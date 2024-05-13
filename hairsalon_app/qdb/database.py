@@ -351,39 +351,20 @@ class Database():
         except Exception as e:
             print (f'The following error occured: {e}')
 
-    
-    def get_appointment_reports(self, appointment_id):
-        ''' method to list all reports of a specific appointment'''
+    def reports_cond(self, cond=''):
+        '''Gets reports under a certain condition'''
         try:
             with self.__connect() as connection:
-                with connection.cursor() as c:
-                    sql = f'SELECT * FROM salon_report WHERE appointment_id = :appointment_id'
-                    info = {'appointment_id' : appointment_id}
-                    c.execute(sql, info)
-                    rows = c.fetchall()
-                    reports = []
+                with connection.cursor() as cursor:
+                    qry = f'''SELECT * FROM salon_report {cond}'''
+                    cursor.execute(qry)
+                    rows = cursor.fetchall()
+                    reports_list = []
                     for report in rows:
-                        reports.append(Report(*report))
-                return reports      
+                        reports_list.append(Report(*report))
+                    return reports_list
         except Exception as e:
             print(f'The following exception occured: {e}')
-        
-    def get_report_by_id(self, report_id):
-        ''' method to retrieve report by its id'''
-        try:
-            with self.__connect() as connection:
-                with connection.cursor() as c:
-                    sql = f'SELECT * FROM salon_report WHERE report_id = :report_id'
-                    info = {'report_id' : report_id}
-                    c.execute(sql, info)
-                    row = c.fetchone()
-                    if row:
-                        report = Report(*row)
-                        return report
-                    else:
-                        return None
-        except Exception as e:
-            print(f"The followning exception occured: {e}")
                 
     def delete_report(self, report_id):
         try:
@@ -396,40 +377,16 @@ class Database():
         except Exception as e:
             print (f'The following error occured: {e}')
 
-    def get_all_services(self):
-        service_names = []
+    def services_cond(self, cond=''):
+        '''Method to get services under a certain criteria'''
         try:
             with self.__connect() as connection:
-                with connection.cursor() as c:
-                    qry = '''
-                        SELECT
-                            service_name
-                        FROM
-                            salon_service
-                    '''
-                    c.execute(qry)
-                    services = c.fetchall()
-                    for service in services:
-                        service_names.append(service[0])
-
-                    # Process appointments as needed
-                    return services
+                with connection.cursor() as cursor:
+                    qry = f'''SELECT * FROM salon_service {cond}'''
+                    cursor.execute(qry)
+                    return cursor.fetchall()
         except Exception as e:
-            # Handle exceptions
-            print(e)
-
-    def get_services(self):
-        ''' method to list all services  '''
-        services = []
-        try:
-            with self.__connect() as connection:
-                with connection.cursor() as c:
-                    sql = 'SELECT * FROM salon_service'
-                    c.execute(sql)
-                    rows = c.fetchall()
-                    return rows
-        except Exception as e:
-            print(e)
+            print(f'The following exception occured: {e}')
 
     def delete_appointment(self, appointment_id):
         try:
@@ -452,19 +409,5 @@ class Database():
                     return rows
         except Exception as e:
             print(e)    
-#----------END of work area -----------
 
-# if __name__ != '__main__':
-    #import things 
-
-        # ----------------------                   
-        # ----------------------------
-        #  1.	Create two global variables:
-        # •	an instance of Database class that you call db.
 db = Database()
-
-# # 2.	Call run_sql_script on da1tabase.sql  if the script (database.py) is run in isolation.
-
-# if __name__ == '__main__':
-#     database.run_sql_script('schema.sql')
-#     database.update_image("liliana2020", "michel.png")

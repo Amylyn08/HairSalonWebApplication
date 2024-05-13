@@ -19,7 +19,7 @@ class AppointmentForm(FlaskForm):
         pro_choices = [(pro.username, pro.username) for pro in pros_list]
         self.professional.choices = pro_choices
         
-        service_names = [service[0] for service in service_list]
+        service_names = [service[0][1] for service in service_list]
         service_choices = [(service, service) for service in service_names]
         self.service.choices = service_choices
 
@@ -48,7 +48,7 @@ class AppointmentEditForm(FlaskForm):
 
     def __init__(self, service_list, *args, **kwargs):
         super(AppointmentEditForm, self).__init__(*args, **kwargs)
-        service_names = [service[0] for service in service_list]
+        service_names = [service[0][1] for service in service_list]
         self.service.choices =[(service, service) for service in service_names]
 
 

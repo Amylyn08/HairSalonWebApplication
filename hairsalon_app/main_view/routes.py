@@ -1,4 +1,5 @@
 from flask import Blueprint, flash, redirect, render_template, url_for
+from flask_login import login_required
 from hairsalon_app.qdb.database import db
 
 
@@ -7,7 +8,7 @@ main_bp = Blueprint('main_bp', __name__, template_folder='templates',static_fold
 @main_bp.route('/')
 @main_bp.route('/home/')
 def home():
-    list_services = db.get_services()
+    list_services = db.services_cond()
     return render_template('home.html',services=list_services)
 
 @main_bp.route('/about')
@@ -15,19 +16,23 @@ def about():
     return render_template('about.html')
 
 @main_bp.route('/member-home')
+@login_required 
 def member_home():
-    list_services = db.get_services()
+    list_services = db.services_cond()
     return render_template('home_member.html',services=list_services)
 
 
 @main_bp.route('/adminsuper-home/')
+@login_required 
 def adminsuper_home():
     return render_template('home_adminsuper.html')
 
 @main_bp.route('/adminappoint-home/')
+@login_required 
 def adminappoint_home():
     return render_template('home_adminappoint.html')
 @main_bp.route('/adminuser-home/')
+@login_required 
 def adminuser_home():
     return render_template('home_adminuser.html')
 
