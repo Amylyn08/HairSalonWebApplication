@@ -13,25 +13,8 @@ from hairsalon_app.users.forms import LoginForm, NewUserForm, NewUserFormAdmin, 
 #Create an instance of Database
 login_manager = LoginManager()
 
-
 #Create a blueprint
 users_bp = Blueprint("users_bp",__name__,template_folder='templates', static_folder='static', static_url_path='/users/static')
-
-#List of users
-users_clients= []
-users_professionals =[]
-
-
-@users_bp.route('/adminappoint-pannel/')
-@login_required 
-def adminappoint_pannel():
-    if current_user.user_type != 'admin_super' and \
-        current_user.user_type != 'admin_appoint':
-        flash('You must be admin appoint or super to access this view', 'error')
-        return redirect(url_for('main_bp.member_home'))
-
-    app_list = db.appointments_cond()
-    return render_template('adminappoint_panel.html', appointments=app_list)
 
 @users_bp.route('/register/', methods=['GET', 'POST'])
 def register():
@@ -188,8 +171,7 @@ def edit_profile_admin(username):
 @users_bp.route('/admin-pannel/', methods=['GET', 'POST'])
 @login_required 
 def admin_pannel():
-    if current_user.user_type != 'admin_super' and \
-        current_user.user_type != 'admin_user':
+    if 'admin' not in current_user.user_type:
         flash('You must be admin appoint or super to access this view', 'info')
         return redirect(url_for('main_bp.member_home'))
     form = NewUserFormAdmin()
@@ -201,7 +183,6 @@ def admin_pannel():
     if form.validate_on_submit():
         file_name = save_file(form_file=form.user_image.data) if form.user_image.data else 'default.png'
         member_exists = db.get_members_cond(f"username = '{form.username.data}'")
-
         if not member_exists:
             b = Bcrypt()
             hashed_pass = b.generate_password_hash(form.password.data).decode('utf-8')
@@ -219,9 +200,9 @@ def admin_pannel():
             }
             user_type = form.user_type.data
             if user_type == 'admin_user':
-                db.add_new_admin_user(**user_info)
+                db.add_new_admin(user_type='admin_user', **user_info)
             elif user_type == 'admin_appoint':
-                db.add_new_admin_appointment(**user_info)
+                db.add_new_admin(user_type='admin_appoint', **user_info)
             elif user_type == 'client':
                 db.add_new_client(username=form.username.data, 
                                   full_name=form.full_name.data,
@@ -239,9 +220,8 @@ def admin_pannel():
             flash('User created successfully','success')
         else:
             flash('This user already exists', 'error')
-
     return render_template(
-        'adminsuper_panel.html' if current_user.user_type == 'admin_super' else 'adminuser_panel.html',
+        'admin_panel.html',
         clients=client_list, 
         employees=pro_list, 
         appointments=app_list,
@@ -280,6 +260,7 @@ def logout():
     return redirect(url_for('main_bp.home'))
 
 @users_bp.route('/toggle_active/<string:username>/', methods=['GET','POST'])
+@login_required
 def toggle_active_user(username):
     if current_user.user_type != 'admin_super' and \
         current_user.user_type != 'admin_user':
@@ -301,6 +282,7 @@ def toggle_active_user(username):
     return redirect(url_for('users_bp.admin_pannel'))
 
 @users_bp.route('/toggle_flag/<string:username>/', methods=['GET','POST'])
+@login_required
 def toggle_flag(username):
     if current_user.user_type != 'admin_super' and \
         current_user.user_type != 'admin_user':
@@ -320,7 +302,9 @@ def toggle_flag(username):
     db.set_flag(username=username, status=flag)
     return redirect(url_for('users_bp.admin_pannel'))
 
-def clear_logs(self):
+@users_bp.route('/clear-logs/', methods=['GET', 'POST'])
+@login_required 
+def clear_logs():
     db.clear_logs()
     flash('logs cleared', 'success')
     return redirect(url_for('users_bp.admin_pannel'))

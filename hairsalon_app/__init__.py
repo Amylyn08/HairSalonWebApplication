@@ -3,7 +3,6 @@ from flask import *
 from flask_login import LoginManager
 from hairsalon_app.config import ConfigProd
 from hairsalon_app.qdb.database import db
-from hairsalon_app.users.User import User
 
        
 def create_app(config = ConfigProd):
