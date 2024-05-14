@@ -15,16 +15,28 @@
                     <h3>Saloon</h3>
                     <img id="logo" src="{{ url_for('static', filename='images/logo1.png') }}" alt="logo for web">
                 </li>            
-                {% if current_user.is_authenticated %}
-                <li><a href="{{url_for('main_bp.member_home')}}">Home</a></li>
-                {% else %}
                 <li><a href="{{url_for('main_bp.home')}}">Home</a></li>
-                {% endif %}
                 <li><a href="{{url_for('main_bp.about')}}">About Us</a></li>
                 <li>About Us</li>
                 <li><a href="{{url_for('main_bp.api_docs')}}">API</a></li>
             </ul>
         </div>
+        <section id="flash-errors">
+            {% if get_flashed_messages() %}
+            <ul>
+                 <!-- with categories true meaning we get the category, plus the message. [0] = category, [1] = message itself  -->
+                {% for message in get_flashed_messages(with_categories=True) %}
+                    {% if 'success' in message[0] %}
+                        <li class="success">{{ message[1] }}</li>
+                    {% elif 'error' in message[0] %}
+                        <li class="error">{{ message[1] }}</li>
+                    {% elif 'info' in message[0] %}
+                        <li class="info">{{ message[1] }}</li>
+                    {% endif %}
+                {% endfor %}  
+            </ul>
+            {% endif %}
+        </section>
         <div id="right-nav">
             <nav>
                 <ul >

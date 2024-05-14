@@ -1,10 +1,12 @@
-{% extends 'home_member.html'%}
+{% extends 'home.html'%}
 {% from "macro.html" import form_field_error with context %}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/admin_panel.css')}}">
 <script src="{{url_for('users_bp.static', filename='js/validation.js')}}"></script>
+<script src="{{url_for('users_bp.static', filename='js/admin_panel.js')}}"></script>
 {% endblock content_css %}
 {% block content_side_pannel %}
+{% if current_user.user_type == 'admin_super' or current_user.user_type == 'admin_user' %}
 <h4>Create User</h4>
 <div class="register-div" id="create-user">
     <form action="" method="POST" enctype="multipart/form-data" novalidate>
@@ -42,17 +44,24 @@
         {{form.submit(class='create-button')}}
     </form>
 </div>
+{% endif %}
 {% endblock content_side_pannel %}
 {% block content_main_pannel %}
-<h2>Admin Pannel USER</h2>
+<h2>Admin Pannel {{current_user.user_type}}</h2>
 <div class="admin_pannel">
     <nav>
         <ul id="adminnav-menu">
-            <li class="active">Clients</li>
+            {% if current_user.user_type == 'admin_super' or current_user.user_type == 'admin_user' %}
+            <li>Clients</li>
             <li>Employees</li>
+            {% endif %}
+            {% if current_user.user_type == 'admin_super' or current_user.user_type == 'admin_appoint' %}
+            <li>Appointments</li>
+            {% endif %}
+            <li>Logs</li>
         </ul>
-    </nav>
-    <div id="Client-list" class="content active">
+    </nav> 
+    <div id="Client-list" class="content">
         <h3>Client List</h3>
         <table class="admin-table">
             <tr>
@@ -63,11 +72,10 @@
                 <th>Picture</th>
                 <th>Flag</th>
                 <th>Edit/Delete</th>
-
             </tr>
             {% for client in clients %}
             <tr>
-                <td>{{ client.id }}</td> <!-- Assuming client's ID is stored in a field called 'id' -->
+                <td>{{ client.id }}</td> 
                 <td>{{ client.username }}</td>
                 <td>{{ client.full_name }}</td>
                 {% if client.is_active[0] == 0 %}
@@ -159,5 +167,50 @@
             {% endfor %}
         </table>
     </div>
+    <div id="Appointments-list" class="content">
+        <h3>Appointment List With Reports</h3>
+        <table class="admin-table">
+            <tr>
+                <th>ID</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Client</th>
+                <th>Employee</th>
+                <th>View Details / Modify</th>
+            </tr>
+            {% for app in appointments %}
+            <tr>
+                <td>{{app.appointment_id}}</td>
+                <td>{{app.status}}</td>
+                <td>{{app.date_appointment}}</td>
+                <td>{{app.client_name}}</td>
+                <td>{{app.professional_name}}</td>
+                <td><a class="app-link" href="{{url_for('appointment_bp.specific_appointment', appointment_id=app.appointment_id)}}">Details</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>   
+    <div id="logs" class="content">
+        <h3>All logs</h3>
+        <button>
+            <a href="{{url_for('users_bp.clear_logs')}}">Clear Logs</a>
+        </button>
+        <table class="admin-table">
+            <tr>
+                <th>User ID</th>
+                <th>Action</th>
+                <th>Table Name</th>
+                <th>Date and Time</th>
+            </tr>
+            {% for log in logs %}
+            <tr>
+                <td>{{log[2]}}</td>
+                <td>{{log[0]}}</td>
+                <td>{{log[1]}}</td>
+                <td>{{log[3]}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div> 
 </div>
 {% endblock content_main_pannel %}

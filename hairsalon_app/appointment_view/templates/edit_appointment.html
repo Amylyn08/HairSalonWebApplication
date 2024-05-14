@@ -1,4 +1,4 @@
-{% extends 'home_member.html' %}
+{% extends 'home.html' %}
 {% block content_css %}
 <script src="{{url_for('appointment_bp.static', filename='js/appointment.js')}}"></script>
 <link rel="stylesheet" href="{{url_for('appointment_bp.static', filename='css/appointments.css')}}">
@@ -17,13 +17,13 @@
       {{form.date (class="form-field", label= "date", id="date")}}
       {{form_field_error(form.date.errors)}}
       <label for="slot">Time slot</label>
-      {{form.slot (class="form-field", label = "slot", value = appointment.slot)}}
+      {{form.slot (class="form-field", label = "slot", value = appointment.slot, id="slot")}}
       {{form_field_error(form.slot.errors)}}
       <label for="service">Service</label>
-      {{form.service (class="form-field", label = "service", value = appointment.service)}}
+      {{form.service (class="form-field", label = "service", value = appointment.service, id="service")}}
       {{form_field_error(form.service.errors)}}
       <label for="status">Status</label>
-      {{form.status (class="form-field", label = "status", value = appointment.status)}}
+      {{form.status (class="form-field", label = "status", value = appointment.status, id="status")}}
       {{form_field_error(form.status.errors)}}
     </fieldset>
     {{form.submit (class='button')}}
