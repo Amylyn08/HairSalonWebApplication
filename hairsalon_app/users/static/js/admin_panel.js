@@ -12,7 +12,18 @@ document.addEventListener("DOMContentLoaded", function () {
             // Hide all content sections
             contentSections.forEach(section => section.classList.remove('active'));
             // Show the corresponding content section based on the index
-            contentSections[index].classList.add('active');
+            if (menuItem.textContent == "Clients"){
+                contentSections[0].classList.add('active');
+            }
+            if (menuItem.textContent == "Employees"){
+                contentSections[1].classList.add('active');
+            }
+            if (menuItem.textContent == "Appointments"){
+                contentSections[2].classList.add('active');
+            }
+            if (menuItem.textContent == "Logs"){
+                contentSections[3].classList.add('active');
+            }
         });
     });
 

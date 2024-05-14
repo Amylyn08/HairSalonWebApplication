@@ -126,5 +126,5 @@ def delete_appointment(appointment_id):
         flash('Appointment deleted successfully','success')
     else:
         flash('Appointment not found', 'error')
-    return redirect(url_for('appointment_bp.my_appointments', user_id=current_user.user_id))
+    return redirect(url_for('appointment_bp.all_appointments'))
 
