@@ -32,18 +32,20 @@ def register():
             b = Bcrypt()
             hashed_pass = b.generate_password_hash(form.password.data).decode('utf-8')
             if form.pay_rate.data is not None and form.specialty.data is not None:
-                db.add_new_pro(username=form.username.data, 
-                                        full_name=form.full_name.data,
-                                        email=form.email.data,
-                                        user_image=file_name,
-                                        password=hashed_pass, 
-                                        phone=form.phone_number.data,
-                                        address=form.address.data,
-                                        age=form.age.data, 
-                                        speciality=form.specialty.data,
-                                        payrate=form.pay_rate.data)
+                db.add_new_member( user_type='professional',
+                                username=form.username.data, 
+                                full_name=form.full_name.data,
+                                email=form.email.data,
+                                user_image=file_name,
+                                password=hashed_pass, 
+                                phone=form.phone_number.data,
+                                address=form.address.data,
+                                age=form.age.data, 
+                                speciality=form.specialty.data,
+                                payrate=form.pay_rate.data)
             else:
-                db.add_new_client(username=form.username.data, 
+                db.add_new_member(  user_type='client',
+                                    username=form.username.data, 
                                     full_name=form.full_name.data,
                                     email=form.email.data,
                                     user_image=file_name,
@@ -75,7 +77,7 @@ def login():
                 if user_exists[0].status == 1:
                     flash('Your account has been flagged. You are actions are being monitored.', 'info')
                 flash(f'Success: Logged in as {form.username.data}', 'success')
-                return redirect(url_for('main_bp.member_home'))
+                return redirect(url_for('main_bp.home'))
         flash ('Invalid password or username. Retry', 'error')        
     return render_template('login.html', form=form)
 
@@ -85,12 +87,12 @@ def login():
 def profile(username):
     if username != current_user.username:
         flash("This is not your profile", 'error')
-        return redirect(url_for('main_bp.member_home'))
+        return redirect(url_for('main_bp.home'))
     username=escape(username)
     user = db.get_members_cond(f"username = '{username}'")
     if not user:
         flash('User does not exist', 'error')
-        return redirect(url_for('main_bp.member_home'))
+        return redirect(url_for('main_bp.home'))
     user = user[0]
     return render_template('Profile.html', users=user)
 
@@ -99,14 +101,14 @@ def profile(username):
 def edit_profile(username):
     if current_user.username != username:
         flash("This is not your profile", 'error')
-        return redirect(url_for('main_bp.member_home'))
+        return redirect(url_for('main_bp.home'))
     username=escape(username)
     form1 = UpdateImageForm()
     form = UpdateProfileForm()
     user = db.get_members_cond(f"username = '{username}'")
     if not user:
         flash('User does not exist', 'error')
-        return redirect(url_for('main_bp.member_home'))
+        return redirect(url_for('main_bp.home'))
     user = user[0]
     if request.method == 'POST':
         full_name = form.full_name.data if form.full_name.data else user.full_name
@@ -145,7 +147,7 @@ def edit_profile_admin(username):
     if current_user.user_type != 'admin_super' and \
             current_user.user_type != 'admin_user':
         flash('You must be admin appoint or super to access this view', 'info')
-        return redirect(url_for('main_bp.member_home'))
+        return redirect(url_for('main_bp.home'))
     username=escape(username)
     form = UpdateProfileAdminForm()
     user = db.get_members_cond(f"username = '{username}'")
@@ -173,11 +175,11 @@ def edit_profile_admin(username):
 def admin_pannel():
     if 'admin' not in current_user.user_type:
         flash('You must be admin appoint or super to access this view', 'info')
-        return redirect(url_for('main_bp.member_home'))
+        return redirect(url_for('main_bp.home'))
     form = NewUserFormAdmin()
     logs = db.get_all_logs()
     client_list = db.get_members_cond(condition="(user_type='client')")
-    pro_list = db.get_members_cond(condition="user_type NOT IN ('admin_super', 'client')")
+    employee_list = db.get_members_cond(condition="user_type NOT IN ('admin_super', 'client')")
     app_list = db.appointments_cond()
 
     if form.validate_on_submit():
@@ -200,11 +202,14 @@ def admin_pannel():
             }
             user_type = form.user_type.data
             if user_type == 'admin_user':
-                db.add_new_admin(user_type='admin_user', **user_info)
+                db.add_new_member(user_type='admin_user', **user_info)
+                employee_list = db.get_members_cond(condition="user_type NOT IN ('admin_super', 'client')")
             elif user_type == 'admin_appoint':
-                db.add_new_admin(user_type='admin_appoint', **user_info)
+                db.add_new_member(user_type='admin_appoint', **user_info)
+                employee_list = db.get_members_cond(condition="user_type NOT IN ('admin_super', 'client')")
             elif user_type == 'client':
-                db.add_new_client(username=form.username.data, 
+                db.add_new_member(user_type = 'client',
+                                  username=form.username.data, 
                                   full_name=form.full_name.data,
                                   email=form.email.data,
                                   user_image=file_name,
@@ -212,18 +217,21 @@ def admin_pannel():
                                   phone=form.phone_number.data,
                                   address=form.address.data,
                                   age=form.age.data)
+                client_list = db.get_members_cond(condition="(user_type='client')")
             elif user_type == 'professional':
-                db.add_new_pro(**user_info)
+                db.add_new_member(user_type='professional',**user_info)
+                employee_list = db.get_members_cond(condition="user_type NOT IN ('admin_super', 'client')")
             else:
                 flash('Please select a user type', 'error')
 
             flash('User created successfully','success')
         else:
             flash('This user already exists', 'error')
+    logs = db.get_all_logs()
     return render_template(
         'admin_panel.html',
         clients=client_list, 
-        employees=pro_list, 
+        employees=employee_list, 
         appointments=app_list,
         form=form,
         logs=logs
@@ -236,7 +244,7 @@ def delete_user(username):
     if current_user.user_type != 'admin_super' and \
         current_user.user_type != 'admin_user':
         flash('You must be admin appoint or super to access this view', 'info')
-        return redirect(url_for('main_bp.member_home'))
+        return redirect(url_for('main_bp.home'))
     elif current_user.username == username:
         flash("You can't delete yoursef", 'error')
         return redirect(url_for('users_bp.admin_pannel'))
@@ -265,7 +273,7 @@ def toggle_active_user(username):
     if current_user.user_type != 'admin_super' and \
         current_user.user_type != 'admin_user':
         flash('You must be admin appoint or super to access this view', 'info')
-        return redirect(url_for('main_bp.member_home'))
+        return redirect(url_for('main_bp.home'))
     elif current_user.username == username:
         flash("You can't deactivate yoursef", 'error')
         return redirect(url_for('users_bp.admin_pannel'))
@@ -287,7 +295,7 @@ def toggle_flag(username):
     if current_user.user_type != 'admin_super' and \
         current_user.user_type != 'admin_user':
         flash('You must be admin appoint or super to access this view', 'info')
-        return redirect(url_for('main_bp.member_home'))
+        return redirect(url_for('main_bp.home'))
     elif current_user.username == username:
         flash("You can't flag yoursef", 'error')
         return redirect(url_for('users_bp.admin_pannel'))

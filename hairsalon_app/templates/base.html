@@ -15,11 +15,7 @@
                     <h3>Saloon</h3>
                     <img id="logo" src="{{ url_for('static', filename='images/logo1.png') }}" alt="logo for web">
                 </li>            
-                {% if current_user.is_authenticated %}
-                <li><a href="{{url_for('main_bp.member_home')}}">Home</a></li>
-                {% else %}
                 <li><a href="{{url_for('main_bp.home')}}">Home</a></li>
-                {% endif %}
                 <li><a href="{{url_for('main_bp.about')}}">About Us</a></li>
                 <li>About Us</li>
                 <li><a href="{{url_for('main_bp.api_docs')}}">API</a></li>

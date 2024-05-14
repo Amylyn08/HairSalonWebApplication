@@ -1,7 +1,46 @@
 {% extends 'base.html' %}
 {% block content_css %}
 <link rel="stylesheet" href="{{url_for('main_bp.static', filename='css/home.css')}}"/>
+<link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/home.css')}}"/>
 {% endblock content_css %}
+{% block content_when_login %}
+{% if current_user.is_authenticated %}
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Appointments <span class="caret"></span></a>
+    <ul class="dropdown-menu">
+        <li><a href="{{url_for('appointment_bp.all_appointments')}}">All Appointments</a></li>
+        {% if current_user.is_authenticated %}
+            <li><a href="{{url_for('appointment_bp.my_appointments', user_id=current_user.user_id)}}">My Appointments</a></li>
+            <li><a href="{{url_for('appointment_bp.create_appointment')}}">Create Appointment</a></li>
+        {% endif %}
+    </ul>
+</li>
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <span>{{ current_user.username }}</span>
+        <img class="icon" src="{{ url_for('static', filename='images/user-pics/' + current_user.user_image) }}" alt="Profile picture of user">
+        <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+        <li><a href="{{ url_for('users_bp.profile', username=current_user.username) }}">Profile</a></li>
+        <li><a href="{{ url_for('users_bp.logout') }}">Logout</a></li>
+    </ul>
+</li>
+{% if 'admin' in current_user.user_type %}
+    <li><a href="{{ url_for('users_bp.admin_pannel') }}">Admin Panel</a></li>
+{% endif %}
+{% else %}
+    <li> 
+        <a href="{{url_for('users_bp.login')}}">Login</a>
+    </li>
+    <li>
+        <a href="{{ url_for('users_bp.register') }}">Register</a>
+    </li>
+    <li> 
+        <a href="{{url_for('appointment_bp.all_appointments')}}">Appointments</a>
+    </li>
+{% endif %}
+{% endblock content_when_login %}
 {% block content_side_pannel %}
 <div id="parent-container">
     <div id="bookmarks">
@@ -44,7 +83,7 @@
     <h2> Professionals</h2>
     <div class="professionals"> 
         <div class="img_prof"> 
-            <img src="{{url_for('static', filename='images/prof_hair.jpg')}}" alt="Lady professional hairstralyst.">
+            <img src="{{url_for('static', filename='images/prof_hair.jpg')}}" alt="Lady professional hairstylist.">
             <p class="label">Alice McGraw</p>
         </div>
         <div class="text">

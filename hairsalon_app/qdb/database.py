@@ -47,39 +47,8 @@ class Database():
         else:
             print('Invalid Path')
 
-
-    def add_new_client(self,username,full_name, email, user_image,password, phone, address, age):
-        '''  method to add a new client, data coming fro a user input form'''
-        try:
-            with self.__connect() as connection:
-                with connection.cursor() as cur:
-                    qry = '''INSERT INTO salon_user(username,full_name, email, user_image,password_hashed, phone_number, address, age)
-                                VALUES(:username, :full_name, :email, :user_image, :password, :phone, :address, :age)'''
-                    
-                    cur.execute(qry, username=username, full_name=full_name, email=email, user_image=user_image,
-                                        password=password, phone=phone, address=address, age=age )
-                    connection.commit()
-        except Exception as e:
-                print(f'The following error occured: {e}')
-    #Add a new proffesional
-
-    def add_new_pro(self, username, full_name, email, user_image, password, phone, address, age, speciality, payrate):
-        ''' Method to add a new professional, data coming from a user input form '''
-        with self.__connect() as connection:
-            with connection.cursor() as cur:
-                qry = '''INSERT INTO salon_user(user_type, username, full_name, email,
-                                                        user_image, password_hashed,
-                                                        phone_number, address, age, specialty, pay_rate)
-                        VALUES ('professional', :username, :full_name, :email, :user_image, :password,
-                                :phone, :address, :age, :specialty, :payrate)'''
-                try:
-                    cur.execute(qry, {'username': username, 'full_name': full_name, 'email': email, 'user_image': user_image,
-                                    'password': password, 'phone': phone, 'address': address, 'age': age,
-                                    'specialty': speciality, 'payrate': payrate})
-                    connection.commit()
-                except Exception as e:
-                    print(e)
-    def add_new_admin(self, user_type, username, full_name, email, user_image, password, phone, address, age, speciality, payrate):
+    def add_new_member(self, user_type, username, full_name, email, user_image, password, phone, address, age, speciality=None, payrate=None):
+        '''Method to add a new member'''
         with self.__connect() as connection:
             with connection.cursor() as cur:
                 qry = '''INSERT INTO salon_user(user_type, username, full_name, email,
@@ -97,6 +66,7 @@ class Database():
                     print(e)
  
     def delete_user(self, username):
+        '''Method to delete a user according to their username'''
         with self.__connect() as connection:
             with connection.cursor() as cursor:
                 qry='''DELETE FROM salon_user WHERE username=:username'''
@@ -108,6 +78,7 @@ class Database():
 
             
     def get_members_cond(self, condition):
+        '''Method to get member(s) under a condition'''
         try:
             with self.__connect() as connection:
                 with connection.cursor() as cursor:
@@ -138,6 +109,7 @@ class Database():
 
 
     def update_profile(self,username, new_password, full_name, email, phone_number, address, user_image):
+        '''Method to update profile of a member'''
         try:
             with self.__connect() as connection:
                 with connection.cursor() as cursor:
@@ -149,7 +121,13 @@ class Database():
                                 address = :address,
                                 user_image = :user_image
                             WHERE username = :username'''
-                    cursor.execute(qry,username=username,new_password=new_password,full_name=full_name,email=email,phone_number=phone_number,address=address,user_image=user_image)
+                    cursor.execute(qry,username=username,
+                                   new_password=new_password,
+                                   full_name=full_name,
+                                   email=email,
+                                   phone_number=phone_number,
+                                   address=address,
+                                   user_image=user_image)
                     connection.commit()
         except Exception as e:
             print(f'Error updating member: {e}')
@@ -157,6 +135,7 @@ class Database():
     
     def update_profile_admin(self, user_id, user_type, username, full_name, new_password, email,
                          phone_number, address, age, speciality, pay_rate, user_image):
+        '''Method to update a profile but as an admin'''
         try:
             with self.__connect() as connection:
                 with connection.cursor() as c:
@@ -172,7 +151,7 @@ class Database():
                                 specialty = :speciality,
                                 pay_rate = :pay_rate,
                                 user_image = :user_image
-                            WHERE user_id = :user_id'''  # Added a comma after :pay_rate
+                            WHERE user_id = :user_id''' 
 
                     info = [user_type,
                             username,
@@ -192,6 +171,7 @@ class Database():
             print(f'The following error occured: {e}')
     
     def get_active(self, username):
+        '''Method to get the active status of a user'''
         try:
             with self.__connect() as connection:
                 with connection.cursor() as cursor:
@@ -205,6 +185,7 @@ class Database():
             print(f'Error retrieving member: {e}')
 
     def set_active(self, username, active):
+        '''Method to set the active status of a user'''
         try:
             with self.__connect() as connection:
                 with connection.cursor() as cursor:
@@ -215,6 +196,7 @@ class Database():
             print(f'Error updating member: {e}')
     
     def get_flag(self, username):
+        '''Method to retrieve a flag of a user'''
         try:
             with self.__connect() as connection:
                 with connection.cursor() as cursor:
@@ -231,6 +213,7 @@ class Database():
 
             
     def set_flag(self, username, status):
+        '''Method to set a flag of a user, if they are warned or not'''
         try:
             with self.__connect() as connection:
                 with connection.cursor() as cursor:
@@ -316,7 +299,11 @@ class Database():
                                         :title, 
                                         :client_report, 
                                         :professional_report)'''
-                    info = {'user_id': user_id,'appointment_id' : appointment_id, 'title': title, 'client_report': client_report, 'professional_report': professional_report}
+                    info = {'user_id': user_id,
+                            'appointment_id' : appointment_id, 
+                            'title': title, 
+                            'client_report': client_report, 
+                            'professional_report': professional_report}
                     cursor.execute(sql, info)
                     connection.commit()
         except Exception as e:
@@ -375,6 +362,7 @@ class Database():
             print(f'The following exception occured: {e}')
 
     def delete_appointment(self, appointment_id):
+        '''Method to delete an appointment taking in an appointment ID'''
         try:
             with self.__connect() as connection:
                 with connection.cursor() as cursor:

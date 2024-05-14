@@ -78,7 +78,7 @@ def sort_appointments(sorted_by):
 @login_required 
 def edit_appointment(appointment_id):
     app = db.appointments_cond(cond=f"WHERE appointment_id={appointment_id} AND (client_id={current_user.user_id} or professional_id={current_user.user_id})")
-    if not app:
+    if not app and (current_user.user_type != 'admin_super' and current_user.user_type != 'admin_appoint'):
         flash('Not your appointment to view.', 'info')
         return redirect(url_for("appointment_bp.all_appointments"))
     service_list = db.services_cond()
@@ -117,7 +117,7 @@ def specific_appointment(appointment_id):
 @login_required 
 def delete_appointment(appointment_id):
     app = db.appointments_cond(cond=f"WHERE appointment_id={appointment_id} AND (client_id={current_user.user_id} or professional_id={current_user.user_id})")
-    if not app:
+    if not app and (current_user.user_type != 'admin_super' and current_user.user_type != 'admin_appoint'):
         flash('Not your appointment to delete', 'info')
         return redirect(url_for("appointment_bp.all_appointments"))
     appointment =  db.appointments_cond(cond=f"WHERE appointment_id = {appointment_id}")[0]

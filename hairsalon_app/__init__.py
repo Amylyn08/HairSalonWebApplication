@@ -1,11 +1,11 @@
 from flask import Flask, flash, redirect, render_template, url_for
 from flask import *
 from flask_login import LoginManager
-from hairsalon_app.config import ConfigProd
+from hairsalon_app.config import ConfigProd, ConfigDev
 from hairsalon_app.qdb.database import db
 
        
-def create_app(config = ConfigProd):
+def create_app(config = ConfigDev):
 
     #Creating flask app
     app = Flask(__name__)
