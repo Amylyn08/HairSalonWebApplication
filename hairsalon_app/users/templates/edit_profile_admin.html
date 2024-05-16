@@ -57,10 +57,14 @@
             <label for="user_image">Profile Picture</label>
             {{form.user_image(class='form-field', id='user_image', value=user.user_image)}}
         </fieldset> 
+        <div class ="upd_buttons">
         {{form.submit(class='button')}}
+        </div>
     </form>
-    <button id="delete-button">
-        <a href="{{url_for('users_bp.delete_user', username=user.username)}}">Delete User</a>
-    </button>
+    <div class="upd_buttons">
+        <button id="delete-button">
+            <a href="{{url_for('users_bp.delete_user', username=user.username)}}">Delete User</a>
+        </button>
+    </div>
 </div>
 {% endblock content_main_pannel %}
