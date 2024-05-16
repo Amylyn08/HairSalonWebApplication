@@ -4,7 +4,7 @@
   grid-template-rows: 50% 50%;
   border: 4px double #ccc; /* Add border around appointment boxes */
   margin-bottom: 10px;
-  padding: 30px;
+  padding: 40px;
 }
 
 /* Style for individual grid items */
@@ -111,7 +111,6 @@ label {
 .details{
   text-decoration: none;
   color: #2e5a2d;
-  padding: 4px;
 }
 
 .details:hover{
