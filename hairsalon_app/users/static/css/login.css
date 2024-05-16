@@ -1,0 +1,49 @@
+#login-div {
+    width: 50%;
+    margin: 0 auto;
+    padding: 30px;
+    border: 5px double  #333;
+    border-radius: 5px;
+    position: relative; /* Added */
+}
+
+.form-field {
+    width: calc(100% - 20px); /* Adjusted width */
+    margin: 15px auto; /* Centered the form fields */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Centered the form vertically */
+}
+
+fieldset {
+    width: 100%;
+}
+
+.button {
+    width: calc(100% - 20px); /* Adjusted width */
+    padding: 10px;
+    background-color: #7a766d;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #4e4d4a;
+}
+
+.register-link {
+    position: absolute;
+    bottom: -30px; /* Adjust as needed */
+    left: 0;
+    width: 100%;
+    text-align: center;
+}

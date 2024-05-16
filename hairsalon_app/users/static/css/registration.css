@@ -1,0 +1,102 @@
+/* Style for the register-div */
+#register-div {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  /* Style for the form */
+  form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  }
+  
+  /* Style for form field labels */
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  /* Style for form fields */
+  .form-field {
+    width: 90%;
+    padding: 10px;
+    margin:10px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* Style for the submit button */
+  .button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Hover effect for the submit button */
+  .button:hover {
+    background-color: #0056b3;
+  }
+  
+  .toggleCheckbox {
+    display: none;
+  }
+
+  .toggleContainer {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: fit-content;
+    border: 3px solid #343434;
+    border-radius: 20px;
+    background: #343434;
+    font-weight: bold;
+    color: #343434;
+    cursor: pointer;
+ }
+
+ .toggleContainer::before {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    left: 0%;
+    border-radius:20px;
+    background: white;
+    transition: all 0.3s;
+ }
+
+ .toggleContainer div {
+    padding: 6px;
+    text-align: center;
+    z-index: 1;
+ }
+ 
+
+ .toggleCheckbox:checked + .toggleContainer::before {
+    left: 50%;
+ }
+
+ .toggleCheckbox:checked + .toggleContainer div:first-child{
+    color: white;
+    transition: color 0.3s;
+ }
+ .toggleCheckbox:checked + .toggleContainer div:last-child{
+    color: #343434;
+    transition: color 0.3s;
+ }
+ .toggleCheckbox + .toggleContainer div:first-child{
+    color: #343434;
+    transition: color 0.3s;
+ }
+ .toggleCheckbox + .toggleContainer div:last-child{
+    color: white;
+    transition: color 0.3s;
+ }
+ /* Credit to:  https://hudecz.medium.com/how-to-create-a-pure-css-toggle-button-2fcc955a8984*/
