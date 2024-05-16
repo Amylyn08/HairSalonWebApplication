@@ -90,7 +90,7 @@ def login():
 @users_bp.route('/profile/<string:username>/')
 @login_required
 def profile(username):
-    """Returns to the profile using the given username """
+    """Returns to the profile using the given username. """
     if username != current_user.username:
         flash("This is not your profile", 'error')
         return redirect(url_for('main_bp.home'))
@@ -106,7 +106,7 @@ def profile(username):
 @users_bp.route('/profile/edit/<string:username>/', methods=['GET', 'POST'])
 @login_required 
 def edit_profile(username):
-    """Edits the profile and returns to his profile if the update was succeseful """
+    """Edits the profile and returns to his profile if the update was successeful """
     if current_user.username != username:
         flash("This is not your profile", 'error')
         return redirect(url_for('main_bp.home'))
