@@ -1,0 +1,30 @@
+@media screen and (max-width: 900px) { 
+    #services {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height:100%;
+        width:100%;
+    }
+
+    .rect{
+        display:flex;
+        width:75%;
+        height:auto;
+    }
+
+    .professionals{
+        display: flex;
+        flex-direction: column;
+        margin: 2%;
+    }
+    .img_prof {
+        width: 50%;
+        height: auto;
+        border-radius: 2%;
+    }
+    #about_img p {
+        top: 55%; /* Position the paragraph */
+        font-size: larger;
+    }
+}

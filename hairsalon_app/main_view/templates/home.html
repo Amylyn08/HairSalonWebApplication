@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content_css %}
+<link rel="stylesheet" href="{{url_for('main_bp.static', filename='css/mobile.css')}}">
 <link rel="stylesheet" href="{{url_for('main_bp.static', filename='css/home.css')}}"/>
 <link rel="stylesheet" href="{{url_for('users_bp.static', filename='css/home.css')}}"/>
 {% endblock content_css %}
@@ -65,7 +66,7 @@
         <div class="rect">
             <div class = " img_service"> <img src="{{url_for('static', filename='images/hair_care.png')}}" alt="Lady washing hair"></div>
             <h6> <span class="first_word"> Hair</span> Salon</h6>
-            <p>A hair salon offers a wide range of hair care services including cutting, styling, coloring, and treatments. Experienced hairstylists provide personalized consultations and use professional techniques to create tailored hairstyles that complement clients.</p>
+            <p>A hair salon offers a wide range of hair care services including cutting, styling, coloring, and treatments. Experienced hairstylists provide personalized consultations and use professional techniques to create tailored hairstyles that complement our clients.</p>
         </div>
         <div class="rect">
             <div class = " img_service"> <img src="{{url_for('static', filename='images/nail_care.webp')}}" alt="Manicure."></div>
@@ -94,7 +95,7 @@
         <div class="text">
             <p>Matthey Kravinski is a talented and creative nail artist known for his exquisite nail designs and meticulous attention to detail. With a passion for nail artistry, Matthey brings innovative techniques and personalized flair to each client's nails. From elegant and sophisticated patterns to vibrant and playful designs, Matthey's artistic vision transforms nails into captivating works of art. With a focus on quality and client satisfaction, Matthey Kravinski ensures every manicure and pedicure is a unique expression of style and creativity. Whether you're looking for classic elegance or bold statement nails, trust Matthey Kravinski to deliver stunning nail art tailored to your individual taste and preferences.</p>
         </div>
-        <div class="img_prof"> 
+        <div class="img_prof" id="tt"> 
             <img src="{{url_for('static', filename='images/prof_nail.jpg')}}" alt="Guy professional nail artist.">
             <p class="label">Matthew Kravinski</p>
         </div>
