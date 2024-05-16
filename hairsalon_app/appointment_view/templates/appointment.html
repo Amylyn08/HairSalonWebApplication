@@ -24,9 +24,15 @@
       <label for="slot">Time slot</label>
       {{form.slot (class="form-field", label = "slot")}}
       {{form_field_error(form.slot.errors)}}
-      <label for="professional">Professional</label>
-      {{form.professional (class="form-field", label = "professional")}}
-      {{form_field_error(form.professional.errors)}}
+      {% if current_user.user_type == 'client' %}
+        <label for="professional">Professional</label>
+        {{form.professional (class="form-field", label = "professional")}}
+        {{form_field_error(form.professional.errors)}}
+      {% else %}
+        <label for="client">Client</label>
+        {{form.client (class="form-field", label = "client")}}
+        {{form_field_error(form.client.errors)}}
+      {% endif %}
       <label for="service">Service</label>
       {{form.service (class="form-field", label = "service")}}
       {{form_field_error(form.service.error)}}
