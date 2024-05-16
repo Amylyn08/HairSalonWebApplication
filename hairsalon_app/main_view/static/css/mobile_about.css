@@ -1,7 +1,0 @@
-@media screen and (max-width: 900px) { 
-
-    #about_img p {
-        top: 65%; /* Position the paragraph */
-        font-size: larger;
-    }
-}
