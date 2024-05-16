@@ -133,7 +133,7 @@ label {
   border-radius: 4px;
   cursor: pointer;
   display: block; /* Display button as block element */
-  margin:5% 5% 5% 0%;
+  margin: 10px 10px 10px 0px;
 }
 
 button a{
