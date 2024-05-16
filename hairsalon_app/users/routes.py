@@ -8,7 +8,7 @@ import secrets
 import os
 from PIL import Image
 from markupsafe import escape
-from hairsalon_app.users.User import User
+from hairsalon_app.users.Member import Member
 from hairsalon_app.users.forms import LoginForm, NewUserForm, NewUserFormAdmin, UpdateProfileAdminForm, UpdateProfileForm, UpdateImageForm
 #Create an instance of Database
 login_manager = LoginManager()
@@ -66,15 +66,15 @@ def login():
         username=form.username.data
         user_exists = db.get_members_cond(condition=f"username = '{username}'")
         if user_exists:
-            if user_exists[0].is_active[0] == 1:
+            user_exists = user_exists[0]
+            if user_exists.is_active[0] == 1:
                 flash('Your account has been deactivated by the admin. Please contact us.', 'error')
                 return redirect(url_for('main_bp.home'))
             b = Bcrypt()
-            password_hashed = user_exists[0].password
+            password_hashed = user_exists.password
             if b.check_password_hash(password_hashed, form.password.data):
-                user = User(username=user_exists[0].username)
-                login_user(user)
-                if user_exists[0].status == 1:
+                login_user(user_exists)
+                if user_exists.status == 1:
                     flash('Your account has been flagged. You are actions are being monitored.', 'info')
                 flash(f'Success: Logged in as {form.username.data}', 'success')
                 return redirect(url_for('main_bp.home'))

@@ -196,3 +196,17 @@ a{
     display: none;
   }
   
+.specific-button-admin{
+    background-color: #2c2929;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.specific-button-admin:hover{
+    background-color: rgb(110, 100, 100);
+}
+.specific-button-admin a{
+    color: white;
+}

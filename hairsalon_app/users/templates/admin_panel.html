@@ -169,6 +169,9 @@
     </div>
     <div id="Appointments-list" class="content">
         <h3>Appointment List With Reports</h3>
+        <button class="specific-button-admin">
+            <a href="{{url_for('appointment_bp.create_appointment')}}">Create New Appointment</a>
+        </button>
         <table class="admin-table">
             <tr>
                 <th>ID</th>
@@ -192,7 +195,7 @@
     </div>   
     <div id="logs" class="content">
         <h3>All logs</h3>
-        <button>
+        <button class="specific-button-admin">
             <a href="{{url_for('users_bp.clear_logs')}}">Clear Logs</a>
         </button>
         <table class="admin-table">
