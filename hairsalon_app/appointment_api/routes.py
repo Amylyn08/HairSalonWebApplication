@@ -12,14 +12,23 @@ class Appointments_API(Resource):
                 "all_appointment": [appointment.to_dict() for appointment in all_appointments]}, 200
     
     def post(self):
-        data = request.json
-        db.add_new_appointment(data['username'], 
-                               data['professional'], 
-                               data['service'], 
-                               data['venue'], 
-                               data['slot'], 
-                               Date.fromisoformat(data['date'].split(' ')[0]))
-        return self.get(), 201
+        try:
+            data = request.get_json(force=True)
+            db.add_new_appointment(
+                data['username'], 
+                data['professional'], 
+                data['service'], 
+                data['venue'], 
+                data['slot'], 
+                Date.fromisoformat(data['date'])
+            )
+            return {'message': 'Appointment created successfully'}, 201
+        except KeyError as e:
+            return {'message': f'Missing key in request data: {e}'}, 400
+        except ValueError as e:
+            return {'message': f'Invalid date format: {e}'}, 400
+        except Exception as e:
+            return {'message': f'Error creating appointment: {e}'}, 500
 
 class Appointment_API(Resource):
     def get(self, appointment_id):

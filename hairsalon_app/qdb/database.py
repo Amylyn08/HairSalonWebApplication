@@ -101,8 +101,9 @@ class Database():
                     cursor.execute(qry)
                     rows = cursor.fetchall()
                     members_list = []
-                    for pro in rows:
-                        members_list.append(Member(*pro))
+                    for row in rows:
+                        member = Member(*row)
+                        members_list.append(member)
                     return members_list
         except Exception as e:
             print(f'Error retrieving member: {e}')

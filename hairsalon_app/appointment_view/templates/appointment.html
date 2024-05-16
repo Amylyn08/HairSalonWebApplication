@@ -12,9 +12,11 @@
 <form action="" method="POST">
     {{form.hidden_tag()}}  
     <fieldset>
-      <label for="username">Enter username</label>
-      {{form.username (class="form-field", label= "username", value=current_user.username)}}
-      {{form_field_error(form.username.errors)}}
+      {% if 'admin' not in current_user.user_type %}
+        <label for="username">Enter username</label>
+        {{form.username (class="form-field", label= "username", value=current_user.username)}}
+        {{form_field_error(form.username.errors)}}
+      {% endif %}
       <label for="venue">Room Number</label>
       {{form.venue (class="form-field", label= "venue")}}
       {{form_field_error(form.venue.errors)}}
@@ -28,7 +30,14 @@
         <label for="professional">Professional</label>
         {{form.professional (class="form-field", label = "professional")}}
         {{form_field_error(form.professional.errors)}}
+      {% elif current_user.user_type == 'professional' %}
+        <label for="client">Client</label>
+        {{form.client (class="form-field", label = "client")}}
+        {{form_field_error(form.client.errors)}}
       {% else %}
+        <label for="professional">Professional</label>
+        {{form.professional (class="form-field", label = "professional")}}
+        {{form_field_error(form.professional.errors)}}
         <label for="client">Client</label>
         {{form.client (class="form-field", label = "client")}}
         {{form_field_error(form.client.errors)}}

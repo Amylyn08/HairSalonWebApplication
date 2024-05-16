@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 import flask
 from flask_login import current_user, login_required
-from hairsalon_app.appointment_view.forms import AppointmentForm, AppointmentEditForm, AppointmentFormPro
+from hairsalon_app.appointment_view.forms import AppointmentForm, AppointmentEditForm, AppointmentFormAdmin, AppointmentFormPro
 from hairsalon_app.appointment_view.appointment import Appointment
 from hairsalon_app.qdb.database import db
 from markupsafe import escape
@@ -13,15 +13,24 @@ appointment_bp = Blueprint('appointment_bp', __name__, template_folder='template
 @appointment_bp.route('/appointment/', methods=['POST', 'GET'])
 @login_required 
 def create_appointment():
+    if current_user.user_type == 'admin_user':
+        flash("You are not permitted to create an appointment as an admin user", 'info')
+        return redirect(url_for('main_bp.home'))
     pros_list = db.get_members_cond(condition="user_type='professional'")
     client_list = db.get_members_cond(condition="user_type='client'")
     service_list = db.services_cond()
     
-    if current_user.user_type == 'professional' or 'admin' in current_user.user_type:
+    if current_user.user_type == 'professional':
         formPro = AppointmentFormPro()
         formPro.client.choices = [(c.username, c.username) for c in client_list]
         formPro.service.choices = [(s[1], s[1]) for s in service_list]
         form = formPro
+    elif 'admin' in current_user.user_type:
+        formAdmin=AppointmentFormAdmin()
+        formAdmin.client.choices = [(c.username, c.username) for c in client_list]
+        formAdmin.service.choices = [(s[1], s[1]) for s in service_list]
+        formAdmin.professional.choices = [(p.username, p.username) for p in pros_list]
+        form = formAdmin
     else:
         formClient = AppointmentForm()
         formClient.professional.choices = [(p.username, p.username) for p in pros_list]
@@ -31,11 +40,14 @@ def create_appointment():
     if form.validate_on_submit():
         existing_apps = db.appointments_cond(cond=f"WHERE date_appointment = TO_DATE('{form.date.data}', 'YYYY-MM-DD') AND client_name = '{current_user.full_name}'")    
         if len(existing_apps) == 0:       
-            if current_user.user_type == 'professional' or 'admin' in current_user.user_type:
+            if current_user.user_type == 'professional':
                 user_data = form.client.data
                 pro_data = current_user.username
-            else:
+            elif current_user.user_type == 'client':
                 user_data=current_user.username
+                pro_data = form.professional.data
+            else:
+                user_data = form.client.data
                 pro_data = form.professional.data
             db.add_new_appointment(
                 username=user_data,
@@ -95,7 +107,7 @@ def sort_appointments(sorted_by):
             all_appointments = db.appointments_cond(cond="WHERE status = 'cancelled'")
         return render_template("all_appointments.html", context = all_appointments)
 #route to edit appointment
-@appointment_bp.route("/edit_appointment/<int:appointment_id>", methods=['POST', 'GET'])
+@appointment_bp.route("/edit_appointment/<int:appointment_id>/", methods=['POST', 'GET'])
 @login_required 
 def edit_appointment(appointment_id):
     app = db.appointments_cond(cond=f"WHERE appointment_id={appointment_id} AND (client_id={current_user.user_id} or professional_id={current_user.user_id})")
@@ -123,7 +135,7 @@ def edit_appointment(appointment_id):
     return render_template('edit_appointment.html', form=form, appointment=appointment)
 
 
-@appointment_bp.route("/appointment/<int:appointment_id>", methods=['GET'])
+@appointment_bp.route("/appointment/<int:appointment_id>/", methods=['GET'])
 @login_required
 def specific_appointment(appointment_id):
     appointment =  db.appointments_cond(cond=f"WHERE appointment_id = {appointment_id}")[0]
@@ -135,7 +147,7 @@ def specific_appointment(appointment_id):
                            appointment = appointment,
                             reports = reports,
                             reports_length = len(reports))
-@appointment_bp.route("/delete_appointment/<int:appointment_id>", methods=['GET','POST'])
+@appointment_bp.route("/delete_appointment/<int:appointment_id>/", methods=['GET','POST'])
 @login_required 
 def delete_appointment(appointment_id):
     app = db.appointments_cond(cond=f"WHERE appointment_id={appointment_id} AND (client_id={current_user.user_id} or professional_id={current_user.user_id})")
