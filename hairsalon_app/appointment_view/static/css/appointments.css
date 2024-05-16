@@ -33,6 +33,8 @@
   gap: 5px;
   border: 2px solid #ccc;
   padding: 20px;
+  display:flex;
+  flex-wrap: wrap;
 }
 .specific-grid1,
 .specific-grid2,
@@ -42,8 +44,9 @@
 .specific-grid6,
 .specific-grid7{
   display: flex;
+  flex:1;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   padding: 10px;
   border: 1px solid #ccc; /* Add border around each grid item */
 }
@@ -109,7 +112,7 @@ label {
 
 .details{
   text-decoration: none;
-  background-color: #2e5a2d;
+  background-color: #367c29;
   color: white;
   border: none;
   border-radius: 4px;
@@ -117,17 +120,25 @@ label {
   display: block; 
   text-align: center;
   padding: 1%;
-  /* font-size: smaller; */
 }
 
 .details:hover{
   background-color: #2e5a2d;
   color: white;
 }
+.specific_app{
+  background-color: #418a34;
+  padding: 10px ;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block; /* Display button as block element */
+  margin:5% 5% 5% 0%;
+}
 
 button a{
   text-decoration: none;
-  color: #2e5a2d;
+  color: white;
   font-size: 17px;
 }
 
