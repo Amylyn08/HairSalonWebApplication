@@ -112,6 +112,13 @@ div > .form-field{
   display: block; /* Display button as block element */
 }
 
+.upd_buttons{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+}
+
 .button:hover {
   background-color: #45a049;
 }
@@ -128,6 +135,7 @@ input{
   border-radius: 4px;
   cursor: pointer;
   display: block; /* Display button as block element */
+  margin-top : 2%;
 }
 
 #delete-button a{

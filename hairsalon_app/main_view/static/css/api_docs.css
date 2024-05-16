@@ -17,7 +17,7 @@ ul li{
     list-style: none;
     font-size: 16px;
     margin-bottom: 5px;
-    
+    word-wrap: break-word;
 }
 
 ul li a {
