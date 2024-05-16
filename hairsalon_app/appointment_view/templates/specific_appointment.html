@@ -31,7 +31,7 @@
 {% if (current_user.user_id in (appointment.client_id, appointment.professional_id) or
     current_user.user_type == 'admin_super' or current_user.user_type == 'admin_appoint') and
     reports_length == 0 %}
-    <button>
+    <button type="button" class="specific_app">
         <a href="{{url_for('report_bp.create_report', appointment_id=appointment.appointment_id)}}">Create Report</a>
     </button>
 {% endif %}
@@ -63,8 +63,8 @@
     </div>
     {% if current_user.user_id in (appointment.client_id, appointment.professional_id) or
         current_user.user_type == 'admin_super' or current_user.user_type == 'admin_appoint' %}
-    <button type = "button"> <a href ="{{url_for('appointment_bp.edit_appointment', appointment_id = appointment.appointment_id)}}">Edit appointment </a></button>
-    <button>
+    <button type = "button" class="specific_app"> <a href ="{{url_for('appointment_bp.edit_appointment', appointment_id = appointment.appointment_id)}}">Edit appointment </a></button>
+    <button type="button" class="specific_app">
         <a href="{{url_for('appointment_bp.delete_appointment', appointment_id=appointment.appointment_id)}}">Delete Appointment</a>
     </button>
     {% endif %}

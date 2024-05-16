@@ -10,14 +10,17 @@ from PIL import Image
 from markupsafe import escape
 from hairsalon_app.users.Member import Member
 from hairsalon_app.users.forms import LoginForm, NewUserForm, NewUserFormAdmin, UpdateProfileAdminForm, UpdateProfileForm, UpdateImageForm
+
 #Create an instance of Database
 login_manager = LoginManager()
 
 #Create a blueprint
 users_bp = Blueprint("users_bp",__name__,template_folder='templates', static_folder='static', static_url_path='/users/static')
 
+#Registration of a user
 @users_bp.route('/register/', methods=['GET', 'POST'])
 def register():
+    """ Method for the registration of a user """
     form = NewUserForm()
     if form.password.data != form.confirm_password.data: 
         flash('Passwords do not match!', 'error')
@@ -59,8 +62,10 @@ def register():
             flash('This account already exists.', 'error')
     return render_template('register.html', form=form)  #redirect to login page???
 
+#Login of a user
 @users_bp.route('/login/', methods=['GET', 'POST'])
 def login():
+    """ Method for the login of a user """
     form = LoginForm()
     if form.validate_on_submit():
         username=form.username.data
@@ -81,10 +86,11 @@ def login():
         flash ('Invalid password or username. Retry', 'error')        
     return render_template('login.html', form=form)
 
-#route to profile
+#Route to general profile of a user
 @users_bp.route('/profile/<string:username>/')
 @login_required
 def profile(username):
+    """Returns to the profile using the given username """
     if username != current_user.username:
         flash("This is not your profile", 'error')
         return redirect(url_for('main_bp.home'))
@@ -96,9 +102,11 @@ def profile(username):
     user = user[0]
     return render_template('Profile.html', users=user)
 
+#Route to edit profile of a user
 @users_bp.route('/profile/edit/<string:username>/', methods=['GET', 'POST'])
 @login_required 
 def edit_profile(username):
+    """Edits the profile and returns to his profile if the update was succeseful """
     if current_user.username != username:
         flash("This is not your profile", 'error')
         return redirect(url_for('main_bp.home'))
@@ -141,9 +149,11 @@ def edit_profile(username):
         return redirect(url_for('users_bp.profile', username=user.username))
     return render_template('update_profile.html', form=form, form1=form1, users=user)
 
+#Route to edit profile of a user by the admin
 @users_bp.route('/profile/admin_edit/<string:username>/', methods=['GET', 'POST'])
 @login_required 
 def edit_profile_admin(username):
+    """Method where admin user can edit the profile of a user"""
     if current_user.user_type != 'admin_super' and \
             current_user.user_type != 'admin_user':
         flash('You must be admin appoint or super to access this view', 'info')
@@ -170,9 +180,11 @@ def edit_profile_admin(username):
         return redirect(url_for('users_bp.admin_pannel'))
     return render_template('edit_profile_admin.html', user=user[0], form=form)
 
+#Route to the admin pannel 
 @users_bp.route('/admin-pannel/', methods=['GET', 'POST'])
 @login_required 
 def admin_pannel():
+    """Returns to the admin pannel """
     if 'admin' not in current_user.user_type:
         flash('You must be admin appoint or super to access this view', 'info')
         return redirect(url_for('main_bp.home'))
@@ -237,10 +249,10 @@ def admin_pannel():
         logs=logs
     )
 
-
 @users_bp.route('/adminsuper-pannel/delete-user/<string:username>/', methods=['GET', 'POST'])
 @login_required 
 def delete_user(username):
+    """Method deletes the user from the database thanks to the admin pannel"""
     if current_user.user_type != 'admin_super' and \
         current_user.user_type != 'admin_user':
         flash('You must be admin appoint or super to access this view', 'info')
@@ -259,17 +271,20 @@ def delete_user(username):
 
 
 
-#route for and function for logout.
+
 @users_bp.route('/logout/', methods=['GET','POST'])
 @login_required
 def logout():
+    """Method for function logout."""
     logout_user()
     flash("You have been logged out successfully", "success")
     return redirect(url_for('main_bp.home'))
 
+
 @users_bp.route('/toggle_active/<string:username>/', methods=['GET','POST'])
 @login_required
 def toggle_active_user(username):
+    """Switch to toggle between admin_super and admin_user"""
     if current_user.user_type != 'admin_super' and \
         current_user.user_type != 'admin_user':
         flash('You must be admin appoint or super to access this view', 'info')
@@ -289,9 +304,11 @@ def toggle_active_user(username):
     db.set_active(username=username, active=active)
     return redirect(url_for('users_bp.admin_pannel'))
 
+
 @users_bp.route('/toggle_flag/<string:username>/', methods=['GET','POST'])
 @login_required
 def toggle_flag(username):
+    """Switch to toggle between flagging and deflagging an user"""
     if current_user.user_type != 'admin_super' and \
         current_user.user_type != 'admin_user':
         flash('You must be admin appoint or super to access this view', 'info')
@@ -313,12 +330,14 @@ def toggle_flag(username):
 @users_bp.route('/clear-logs/', methods=['GET', 'POST'])
 @login_required 
 def clear_logs():
+    """Clears the logs from the database"""
     db.clear_logs()
     flash('logs cleared', 'success')
     return redirect(url_for('users_bp.admin_pannel'))
 
 
 def save_file(form_file):
+    """Saves the file to the root static folder"""
     random_file_name  = secrets.token_hex(8)
     f_name, f_ext = os.path.splitext(form_file.filename)
     new_filename = random_file_name+f_ext
