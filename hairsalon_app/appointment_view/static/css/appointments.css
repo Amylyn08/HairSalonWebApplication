@@ -2,11 +2,10 @@
   display: grid;
   grid-template-columns: 50% 50%;
   grid-template-rows: 50% 50%;
-  border: 4px double #ccc; /* Add border around appointment boxes */
+  border: 4px double hsl(0, 0%, 80%); /* Add border around appointment boxes */
   margin-bottom: 10px;
-  padding: 40px;
+  padding: 50px;
 }
-
 /* Style for individual grid items */
 .grid1,
 .grid2,
@@ -110,7 +109,15 @@ label {
 
 .details{
   text-decoration: none;
-  color: #2e5a2d;
+  background-color: #2e5a2d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block; 
+  text-align: center;
+  padding: 1%;
+  /* font-size: smaller; */
 }
 
 .details:hover{
