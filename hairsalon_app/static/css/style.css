@@ -104,7 +104,6 @@ nav ul {
     margin: 0;
     padding: 5px;
     display: flex;
-    background-color: rgba(197, 197, 197, 0.9);
 }
 
 nav ul li {
@@ -160,12 +159,20 @@ main {
     bottom: 0; /* Stick to the bottom */
     left: 0; /* Align to the left */
     width: 100%; /* Occupy full width */
+    height: 60px;
+
 }
 
 #flash-errors ul {
     list-style: none; /* Remove default list styles */
     padding: 0; /* Remove padding */
-    margin: 0; /* Remove margin */
+    margin: 10px; /* Remove margin */
+    font-size: 22px;;
+}
+
+#flash-errors ul li{
+    border: #2c2929 solid 5px;
+    margin: 5px;
 }
 
   #main-pannel {
@@ -184,20 +191,23 @@ footer {
     margin-top: auto; /* Push the footer to the bottom */
 }
 
-footer p{
+/* footer p{
     background-color: rgba(197, 197, 197, 0.9);
-}
+} */
 
 .success{
-    background-color: rgb(76, 163, 76);;
+    background-color: rgb(76, 163, 76);
+    box-shadow: rgb(43, 174, 43)
 }
 
 .error{
-    background-color: rgb(196, 76, 76);;
+    background-color: rgb(196, 76, 76);
+    box-shadow:(185, 48, 48);
 }
 
 .info{
     background-color: rgb(207, 207, 67);
+    box-shadow: rgb(200, 200, 16);
 }
 
 /* Dropdown menu styles */

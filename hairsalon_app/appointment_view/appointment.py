@@ -1,5 +1,6 @@
 
 class Appointment:
+    ''' Class for appointment '''
     def __init__(self, appointment_id, 
                 status, approved, date_appointment,
                 client_id, professional_id, service_id,
@@ -19,6 +20,7 @@ class Appointment:
         self.service_name = service_name
 
     def to_dict(self):
+        ''' Method to turn fields of an appointment into a JSON representation for API '''
         return {
             'appointment_id': self.appointment_id,
             'status': self.status,

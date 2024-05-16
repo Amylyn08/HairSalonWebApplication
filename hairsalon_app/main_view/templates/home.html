@@ -6,6 +6,7 @@
 {% endblock content_css %}
 {% block content_when_login %}
 {% if current_user.is_authenticated %}
+{% if current_user.user_type != 'admin_user' %}
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Appointments <span class="caret"></span></a>
     <ul class="dropdown-menu">
@@ -16,6 +17,11 @@
         {% endif %}
     </ul>
 </li>
+{% else %}
+<li> 
+    <a href="{{url_for('appointment_bp.all_appointments')}}">Appointments</a>
+</li>
+{% endif %}
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <span>{{ current_user.username }}</span>

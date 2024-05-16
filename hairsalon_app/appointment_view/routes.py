@@ -1,34 +1,68 @@
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import Blueprint, flash, redirect, render_template, url_for
 import flask
 from flask_login import current_user, login_required
-from hairsalon_app.appointment_view.forms import AppointmentForm, AppointmentEditForm
-from hairsalon_app.appointment_view.appointment import Appointment
+from hairsalon_app.appointment_view.forms import AppointmentForm, AppointmentEditForm, AppointmentFormAdmin, AppointmentFormPro
 from hairsalon_app.qdb.database import db
 from markupsafe import escape
 
 
-appointment_bp = Blueprint('appointment_bp', __name__, template_folder='templates', static_folder='static', static_url_path='/appointment_view/static')
+appointment_bp = Blueprint('appointment_bp', __name__, template_folder='templates', 
+                           static_folder='static', static_url_path='/appointment_view/static')
 
 
 @appointment_bp.route('/appointment/', methods=['POST', 'GET'])
 @login_required 
 def create_appointment():
+    ''' Method and route to create appointment for users, different forms for different type of users. '''
+    if current_user.user_type == 'admin_user':
+        flash("You are not permitted to create an appointment as an admin user", 'info')
+        return redirect(url_for('main_bp.home'))
     pros_list = db.get_members_cond(condition="user_type='professional'")
+    client_list = db.get_members_cond(condition="user_type='client'")
     service_list = db.services_cond()
-    form = AppointmentForm(pros_list, service_list) #create form to add address to list
-    if form.validate_on_submit():  # Check if form has been submitted
-        existing_apps = db.appointments_cond(cond=f"WHERE date_appointment = TO_DATE('{form.date.data}', 'YYYY-MM-DD') AND client_name = '{current_user.full_name}'")
+    
+    if current_user.user_type == 'professional':
+        formPro = AppointmentFormPro()
+        formPro.client.choices = [(c.username, c.username) for c in client_list]
+        formPro.service.choices = [(s[1], s[1]) for s in service_list]
+        form = formPro
+    elif 'admin' in current_user.user_type:
+        formAdmin=AppointmentFormAdmin()
+        formAdmin.client.choices = [(c.username, c.username) for c in client_list]
+        formAdmin.service.choices = [(s[1], s[1]) for s in service_list]
+        formAdmin.professional.choices = [(p.username, p.username) for p in pros_list]
+        form = formAdmin
+    else:
+        formClient = AppointmentForm()
+        formClient.professional.choices = [(p.username, p.username) for p in pros_list]
+        formClient.service.choices = [(s[1], s[1]) for s in service_list]
+        form = formClient
+
+    if form.validate_on_submit():
+        existing_apps = db.appointments_cond(cond=f"WHERE date_appointment = TO_DATE('{form.date.data}', 'YYYY-MM-DD') AND client_name = '{current_user.full_name}'")    
         if len(existing_apps) == 0:       
-            db.add_new_appointment(username=current_user.username,
-                                   professional=form.professional.data,
-                                   service=form.service.data,
-                                   venue=form.venue.data,
-                                   slot=form.slot.data,
-                                   date=form.date.data)
+            if current_user.user_type == 'professional':
+                user_data = form.client.data
+                pro_data = current_user.username
+            elif current_user.user_type == 'client':
+                user_data=current_user.username
+                pro_data = form.professional.data
+            else:
+                user_data = form.client.data
+                pro_data = form.professional.data
+            db.add_new_appointment(
+                username=user_data,
+                professional=pro_data,
+                service=form.service.data,
+                venue=form.venue.data,
+                slot=form.slot.data,
+                date=form.date.data
+            )
             flash('Appointment scheduled', 'success')
             return redirect(url_for('appointment_bp.my_appointments', user_id=current_user.user_id))
         else:
-            flash('This appointment already exists.', 'error')  # Flash message for existing appointment
+            flash('This appointment already exists.', 'error')
+
     return render_template('appointment.html', form=form)
 
 
@@ -36,6 +70,7 @@ def create_appointment():
 @appointment_bp.route("/my_appointments/<int:user_id>/", methods=['GET'])
 @login_required
 def my_appointments(user_id):
+    ''' Method to list all appointments belonging to a user. '''
     if user_id != current_user.user_id:
         flash("Not your appointments to view", 'info')
     my_appointments = db.appointments_cond(cond=f"WHERE client_id={user_id} OR professional_id={user_id}")
@@ -47,6 +82,7 @@ def my_appointments(user_id):
 #route for all appointments
 @appointment_bp.route("/all_appointments/", methods=['GET'])
 def all_appointments():
+    ''' Method to list all appointments in the database, accessible to any user. '''
     all_appointments = db.appointments_cond()
     if (len(all_appointments)!= 0):
         return render_template("all_appointments.html", context = all_appointments)
@@ -55,6 +91,7 @@ def all_appointments():
 
 @appointment_bp.route("/all_appointments/sorted/<string:sorted_by>/", methods=['GET', 'POST'])
 def sort_appointments(sorted_by):
+        '''Method to sort all appointments or filter by a criteria.'''
         sorted_by = escape(sorted_by)
         if sorted_by == 'Date':
             all_appointments = db.appointments_cond(cond="ORDER BY date_appointment DESC")
@@ -74,16 +111,18 @@ def sort_appointments(sorted_by):
             all_appointments = db.appointments_cond(cond="WHERE status = 'cancelled'")
         return render_template("all_appointments.html", context = all_appointments)
 #route to edit appointment
-@appointment_bp.route("/edit_appointment/<int:appointment_id>", methods=['POST', 'GET'])
+@appointment_bp.route("/edit_appointment/<int:appointment_id>/", methods=['POST', 'GET'])
 @login_required 
 def edit_appointment(appointment_id):
+    '''Method and route to edit an appointment.'''
     app = db.appointments_cond(cond=f"WHERE appointment_id={appointment_id} AND (client_id={current_user.user_id} or professional_id={current_user.user_id})")
     if not app and (current_user.user_type != 'admin_super' and current_user.user_type != 'admin_appoint'):
         flash('Not your appointment to view.', 'info')
         return redirect(url_for("appointment_bp.all_appointments"))
     service_list = db.services_cond()
     appointment = db.appointments_cond(cond=f"WHERE appointment_id = {appointment_id}")[0]
-    form = AppointmentEditForm(service_list)
+    form = AppointmentEditForm()
+    form.service.choices = [(s[1], s[1]) for s in service_list]
     if flask.request.method == 'GET':
         form.date.data = appointment.date_appointment
         form.slot.data = appointment.slot
@@ -101,9 +140,10 @@ def edit_appointment(appointment_id):
     return render_template('edit_appointment.html', form=form, appointment=appointment)
 
 
-@appointment_bp.route("/appointment/<int:appointment_id>", methods=['GET'])
+@appointment_bp.route("/appointment/<int:appointment_id>/", methods=['GET'])
 @login_required
 def specific_appointment(appointment_id):
+    '''Method and route to view a specific appointment'''
     appointment =  db.appointments_cond(cond=f"WHERE appointment_id = {appointment_id}")[0]
     reports = db.reports_cond(cond=f"WHERE appointment_id = {appointment_id}")
     if appointment is None:
@@ -113,9 +153,10 @@ def specific_appointment(appointment_id):
                            appointment = appointment,
                             reports = reports,
                             reports_length = len(reports))
-@appointment_bp.route("/delete_appointment/<int:appointment_id>", methods=['GET','POST'])
+@appointment_bp.route("/delete_appointment/<int:appointment_id>/", methods=['GET','POST'])
 @login_required 
 def delete_appointment(appointment_id):
+    '''Method to delete an appointment using an ID'''
     app = db.appointments_cond(cond=f"WHERE appointment_id={appointment_id} AND (client_id={current_user.user_id} or professional_id={current_user.user_id})")
     if not app and (current_user.user_type != 'admin_super' and current_user.user_type != 'admin_appoint'):
         flash('Not your appointment to delete', 'info')
