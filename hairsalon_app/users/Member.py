@@ -24,7 +24,6 @@ class Member(UserMixin):
     def get_id(self):
         return str(self.username)
 
-
     @property
     def is_active(self):
         return self._is_active
