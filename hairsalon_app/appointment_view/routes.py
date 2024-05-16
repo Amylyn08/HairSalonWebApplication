@@ -1,18 +1,19 @@
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import Blueprint, flash, redirect, render_template, url_for
 import flask
 from flask_login import current_user, login_required
 from hairsalon_app.appointment_view.forms import AppointmentForm, AppointmentEditForm, AppointmentFormAdmin, AppointmentFormPro
-from hairsalon_app.appointment_view.appointment import Appointment
 from hairsalon_app.qdb.database import db
 from markupsafe import escape
 
 
-appointment_bp = Blueprint('appointment_bp', __name__, template_folder='templates', static_folder='static', static_url_path='/appointment_view/static')
+appointment_bp = Blueprint('appointment_bp', __name__, template_folder='templates', 
+                           static_folder='static', static_url_path='/appointment_view/static')
 
 
 @appointment_bp.route('/appointment/', methods=['POST', 'GET'])
 @login_required 
 def create_appointment():
+    ''' Method and route to create appointment for users, different forms for different type of users. '''
     if current_user.user_type == 'admin_user':
         flash("You are not permitted to create an appointment as an admin user", 'info')
         return redirect(url_for('main_bp.home'))
@@ -69,6 +70,7 @@ def create_appointment():
 @appointment_bp.route("/my_appointments/<int:user_id>/", methods=['GET'])
 @login_required
 def my_appointments(user_id):
+    ''' Method to list all appointments belonging to a user. '''
     if user_id != current_user.user_id:
         flash("Not your appointments to view", 'info')
     my_appointments = db.appointments_cond(cond=f"WHERE client_id={user_id} OR professional_id={user_id}")
@@ -80,6 +82,7 @@ def my_appointments(user_id):
 #route for all appointments
 @appointment_bp.route("/all_appointments/", methods=['GET'])
 def all_appointments():
+    ''' Method to list all appointments in the database, accessible to any user. '''
     all_appointments = db.appointments_cond()
     if (len(all_appointments)!= 0):
         return render_template("all_appointments.html", context = all_appointments)
@@ -88,6 +91,7 @@ def all_appointments():
 
 @appointment_bp.route("/all_appointments/sorted/<string:sorted_by>/", methods=['GET', 'POST'])
 def sort_appointments(sorted_by):
+        '''Method to sort all appointments or filter by a criteria.'''
         sorted_by = escape(sorted_by)
         if sorted_by == 'Date':
             all_appointments = db.appointments_cond(cond="ORDER BY date_appointment DESC")
@@ -110,6 +114,7 @@ def sort_appointments(sorted_by):
 @appointment_bp.route("/edit_appointment/<int:appointment_id>/", methods=['POST', 'GET'])
 @login_required 
 def edit_appointment(appointment_id):
+    '''Method and route to edit an appointment.'''
     app = db.appointments_cond(cond=f"WHERE appointment_id={appointment_id} AND (client_id={current_user.user_id} or professional_id={current_user.user_id})")
     if not app and (current_user.user_type != 'admin_super' and current_user.user_type != 'admin_appoint'):
         flash('Not your appointment to view.', 'info')
@@ -138,6 +143,7 @@ def edit_appointment(appointment_id):
 @appointment_bp.route("/appointment/<int:appointment_id>/", methods=['GET'])
 @login_required
 def specific_appointment(appointment_id):
+    '''Method and route to view a specific appointment'''
     appointment =  db.appointments_cond(cond=f"WHERE appointment_id = {appointment_id}")[0]
     reports = db.reports_cond(cond=f"WHERE appointment_id = {appointment_id}")
     if appointment is None:
@@ -150,6 +156,7 @@ def specific_appointment(appointment_id):
 @appointment_bp.route("/delete_appointment/<int:appointment_id>/", methods=['GET','POST'])
 @login_required 
 def delete_appointment(appointment_id):
+    '''Method to delete an appointment using an ID'''
     app = db.appointments_cond(cond=f"WHERE appointment_id={appointment_id} AND (client_id={current_user.user_id} or professional_id={current_user.user_id})")
     if not app and (current_user.user_type != 'admin_super' and current_user.user_type != 'admin_appoint'):
         flash('Not your appointment to delete', 'info')

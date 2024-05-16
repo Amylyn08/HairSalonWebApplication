@@ -1,15 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import *
-from wtforms.validators import *
+from wtforms import DateField, SelectField, StringField, SubmitField
+from wtforms.validators import DataRequired
 
-from hairsalon_app.qdb.database import db
 
-# form to add Owner
-from flask_wtf import FlaskForm
-from wtforms import *
-from wtforms.validators import *
-
-from hairsalon_app.qdb.database import db
 
 class AppointmentForm(FlaskForm):
     username = StringField('username', validators=[DataRequired()], render_kw={'readonly': True})

@@ -4,6 +4,8 @@
 <link rel="stylesheet" href="{{url_for('report_bp.static', filename='css/reports.css')}}">
 <script src="{{url_for('report_bp.static', filename='js/report.js')}}"></script>
 {% endblock content_css %}
+{% block content_side_pannel %}
+{% endblock content_side_pannel %}
 {% block content_main_pannel %}
 <h2>Create report as {{current_user.user_type}}</h2>
 <form action="" method="POST">
