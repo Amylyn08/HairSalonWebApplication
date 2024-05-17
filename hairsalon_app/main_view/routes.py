@@ -1,5 +1,4 @@
-from flask import Blueprint, flash, redirect, render_template, url_for
-from flask_login import login_required
+from flask import Blueprint, render_template
 from hairsalon_app.qdb.database import db
 
 

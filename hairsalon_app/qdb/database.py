@@ -1,4 +1,3 @@
-from multiprocessing.connection import Client
 import os
 import oracledb  
 from hairsalon_app.appointment_view.appointment import Appointment
@@ -6,7 +5,6 @@ from hairsalon_app.users.Member import Member
 from hairsalon_app.report_view.report import Report
 
 class Database():
-    #Using kwargs from config_db to establish connection
     def __connect(self, autocommit=True):
         if __name__ == '__main__':
             from config_db import host, usr, sn, pw
