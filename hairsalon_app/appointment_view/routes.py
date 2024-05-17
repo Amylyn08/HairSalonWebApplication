@@ -130,7 +130,11 @@ def edit_appointment(appointment_id):
         form.status.data = appointment.status
     if flask.request.method == 'POST':
         if form.validate_on_submit():
-            db.edit_appointment(appointment_id, form.status.data, form.date.data, form.service.data, form.slot.data)
+            db.edit_appointment(appointment_id, 
+                                form.status.data, 
+                                form.date.data, 
+                                form.service.data, 
+                                form.slot.data)
             flash('Appointment edited', 'success')
             return redirect(url_for('appointment_bp.specific_appointment', appointment_id=appointment_id))
             
