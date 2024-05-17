@@ -292,7 +292,7 @@ def toggle_active_user(username):
     """Switch to toggle between admin_super and admin_user"""
     if current_user.user_type != 'admin_super' and \
         current_user.user_type != 'admin_user':
-        flash('You must be admin appoint or super to access this view', 'info')
+        flash('You must be admin user or super to access this view', 'info')
         return redirect(url_for('main_bp.home'))
     elif current_user.username == username:
         flash("You can't deactivate yoursef", 'error')
@@ -316,7 +316,7 @@ def toggle_flag(username):
     """Switch to toggle between flagging and deflagging an user"""
     if current_user.user_type != 'admin_super' and \
         current_user.user_type != 'admin_user':
-        flash('You must be admin appoint or super to access this view', 'info')
+        flash('You must be admin user or super to access this view', 'info')
         return redirect(url_for('main_bp.home'))
     elif current_user.username == username:
         flash("You can't flag yoursef", 'error')
