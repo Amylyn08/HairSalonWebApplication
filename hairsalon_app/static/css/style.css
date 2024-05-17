@@ -148,7 +148,6 @@ main {
 #side-pannel {
     flex: 1;
     padding: 20px;
-    position: relative; /* Set position to relative */
     overflow-y: auto;
 }
 
