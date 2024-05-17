@@ -6,7 +6,7 @@
 <h3>Reports for Appointment ID: {{appointment.appointment_id}} </h3>
 {% for report in reports %}
 <div clas="report-div">
-    <h5>{{report.title}}</h5>
+    <h4>{{report.title}}</h4>
     <div class="rdiv1">
         <p>Date: {{report.date_report}}</p>
     </div>
@@ -20,10 +20,10 @@
 {% if current_user.user_id in (appointment.client_id, appointment.professional_id) or
     current_user.user_type == 'admin_super' or current_user.user_type == 'admin_appoint' %}
 
-    <button>
+    <button class="specific_app">
         <a href="{{url_for('report_bp.edit_report', report_id=report.report_id)}}">Edit Report</a>
     </button>
-    <button>
+    <button class="specific_app">
         <a href="{{url_for('report_bp.delete_report', report_id=report.report_id, appointment_id=appointment.appointment_id)}}">Delete Report</a>
     </button>
 {% endif %}

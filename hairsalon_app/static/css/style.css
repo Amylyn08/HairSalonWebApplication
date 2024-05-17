@@ -34,7 +34,6 @@ body {
 /* Navigation styles */
 #nav-main {
     background-image: url(../images/topf.jpg);
-    /* background-size: cover; */
     color: #fff;
     font-size: 17px;
     padding: 20px 60px;
@@ -110,7 +109,6 @@ nav ul li {
     margin-right: 20px;
     transition: transform 0.3s ease; /* Add transition effect */
     color: #2c2929;
-
 }
 
 nav ul li:last-child {
@@ -185,15 +183,17 @@ main {
 /* Footer styles */
 footer {
     background-image: url(../images/top3.jpg);
-    color: #0b0b0b;
+    color: rgba(255, 255, 255, 0.733);
     text-align: center;
     padding: 10px;
     margin-top: auto; /* Push the footer to the bottom */
 }
 
-/* footer p{
-    background-color: rgba(197, 197, 197, 0.9);
-} */
+
+.semi-transparent-bg {
+    background-color: rgba(46, 46, 46, 0.5); /* semi-transparent grey */
+    border-radius: 5px; /* optional: rounds the corners of the background */
+}
 
 .success{
     background-color: rgb(76, 163, 76);
