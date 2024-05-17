@@ -1,8 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import *
-from wtforms.validators import *
-
-from hairsalon_app.qdb.database import db
+from wtforms import StringField, SubmitField, SubmitField
+from wtforms.validators import DataRequired, Length
 
 #form to add report to a specific appointment
 class ReportForm(FlaskForm):

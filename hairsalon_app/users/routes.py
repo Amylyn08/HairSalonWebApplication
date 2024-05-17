@@ -1,5 +1,3 @@
-#Name : Iana Feniuc
-#Section : 01
 from decimal import Decimal
 from flask import Blueprint, current_app, flash, url_for, redirect, render_template,request
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
