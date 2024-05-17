@@ -30,11 +30,11 @@ def register():
             file_name = save_file(form_file=form.user_image.data)
         else:
             file_name = 'default.png'
-        member_exists = db.get_members_cond(f'username = "{form.username.data}"')
+        member_exists = db.get_members_cond(f"username = '{form.username.data}'")
         if not member_exists:
             b = Bcrypt()
             hashed_pass = b.generate_password_hash(form.password.data).decode('utf-8')
-            if form.pay_rate.data is not None and form.specialty.data is not None:
+            if form.pay_rate.data == '0.00' and form.specialty.data == '':
                 db.add_new_member( user_type='professional',
                                 username=form.username.data, 
                                 full_name=form.full_name.data,
