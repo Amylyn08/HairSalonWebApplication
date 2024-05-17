@@ -69,7 +69,7 @@ class Database():
         '''Method to delete a user according to their username'''
         with self.__connect() as connection:
             with connection.cursor() as cursor:
-                qry='''DELETE FROM salon_user WHERE username=:username'''
+                qry='''DELETE FROM salon_user WHERE username= :username'''
                 try:
                     cursor.execute(qry, username=username)
                     connection.commit()

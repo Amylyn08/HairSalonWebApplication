@@ -35,6 +35,16 @@ def register():
             b = Bcrypt()
             hashed_pass = b.generate_password_hash(form.password.data).decode('utf-8')
             if form.pay_rate.data == '0.00' and form.specialty.data == '':
+                db.add_new_member(  user_type='client',
+                    username=form.username.data, 
+                    full_name=form.full_name.data,
+                    email=form.email.data,
+                    user_image=file_name,
+                    password=hashed_pass, 
+                    phone=form.phone_number.data,
+                    address=form.address.data,
+                    age=form.age.data)
+            else:
                 db.add_new_member( user_type='professional',
                                 username=form.username.data, 
                                 full_name=form.full_name.data,
@@ -46,16 +56,6 @@ def register():
                                 age=form.age.data, 
                                 speciality=form.specialty.data,
                                 payrate=form.pay_rate.data)
-            else:
-                db.add_new_member(  user_type='client',
-                                    username=form.username.data, 
-                                    full_name=form.full_name.data,
-                                    email=form.email.data,
-                                    user_image=file_name,
-                                    password=hashed_pass, 
-                                    phone=form.phone_number.data,
-                                    address=form.address.data,
-                                    age=form.age.data)
             flash('Successful registration! Please Login to continue...', 'success')
             return redirect(url_for('users_bp.login'))
         else:
