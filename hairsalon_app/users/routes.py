@@ -1,5 +1,6 @@
 #Name : Iana Feniuc
 #Section : 01
+from decimal import Decimal
 from flask import Blueprint, current_app, flash, url_for, redirect, render_template,request
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from hairsalon_app.qdb.database import db
@@ -34,7 +35,7 @@ def register():
         if not member_exists:
             b = Bcrypt()
             hashed_pass = b.generate_password_hash(form.password.data).decode('utf-8')
-            if form.pay_rate.data == '0.00' and form.specialty.data == '':
+            if form.pay_rate.data == Decimal('0.00') and form.specialty.data == '':
                 db.add_new_member(  user_type='client',
                     username=form.username.data, 
                     full_name=form.full_name.data,
@@ -60,6 +61,7 @@ def register():
             return redirect(url_for('users_bp.login'))
         else:
             flash('This account already exists.', 'error')
+            return redirect(url_for('users_bp.login'))
     return render_template('register.html', form=form)  #redirect to login page???
 
 #Login of a user
