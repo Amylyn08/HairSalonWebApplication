@@ -1,11 +1,11 @@
 from flask import Blueprint, flash, redirect, render_template, url_for
-import flask
 from flask_login import current_user, login_required
 from hairsalon_app.report_view.forms import ReportForm, ReportEdit
 from hairsalon_app.qdb.database import db
 
 
-report_bp = Blueprint('report_bp', __name__, template_folder='templates', static_folder='static', static_url_path='/report_view/static')
+report_bp = Blueprint('report_bp', __name__, template_folder='templates', 
+                      static_folder='static', static_url_path='/report_view/static')
 
 
 
