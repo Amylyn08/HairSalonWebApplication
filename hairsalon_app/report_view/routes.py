@@ -13,7 +13,7 @@ report_bp = Blueprint('report_bp', __name__, template_folder='templates', static
 @report_bp.route('/report/<int:appointment_id>/', methods=['POST', 'GET'])
 @login_required 
 def create_report(appointment_id):
-    #check if exists, if it's theirs, if admin...
+    '''Creates a new report with some permissions given an appointment.'''
     if current_user.user_type == 'professional' or \
           current_user.user_type == 'client':
         app = db.appointments_cond(cond=f'''WHERE appointment_id = {appointment_id}
@@ -34,7 +34,11 @@ def create_report(appointment_id):
         return redirect(url_for('appointment_bp.all_appointments'))
     form = ReportForm() 
     if form.validate_on_submit():
-        db.add_new_report(current_user.user_id, appointment_id, form.title.data, form.client_report.data, form.professional_report.data)
+        db.add_new_report(current_user.user_id, 
+                          appointment_id, 
+                          form.title.data, 
+                          form.client_report.data, 
+                          form.professional_report.data)
         flash('Report sent', 'success')
         return redirect(url_for('appointment_bp.specific_appointment', appointment_id=appointment_id))
     flash('Invalid Inputs.' 'error')
@@ -44,6 +48,7 @@ def create_report(appointment_id):
 @report_bp.route('/edit_report/<int:report_id>/', methods=['POST', 'GET'])
 @login_required 
 def edit_report(report_id):
+    '''Edits a report given an ID, with some validations.'''
     if current_user.user_type == 'client' or \
         current_user.user_type == 'professional':
         report = db.reports_cond(cond=f'''WHERE 
@@ -80,6 +85,7 @@ def edit_report(report_id):
 @report_bp.route('/delete_report/<int:report_id>/<int:appointment_id>/', methods=['POST', 'GET'])
 @login_required 
 def delete_report(report_id, appointment_id):
+    '''Method to delete a report given a report_id and appointment_id for page rendering.'''
     if current_user.user_type == 'client' or \
             current_user.user_type == 'professional':
             report = db.reports_cond(cond=f'''WHERE 

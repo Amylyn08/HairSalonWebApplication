@@ -174,10 +174,18 @@ def edit_profile_admin(username):
             password = hashed_new_pass
         else:
             password = user[0].password
-        db.update_profile_admin(user_id=user[0].user_id, user_type=form.user_type.data, username=form.username.data, full_name=form.full_name.data,
-                                new_password=password, email=form.email.data, phone_number=form.phone_number.data,
-                                address=form.address.data, age=form.age.data, speciality=form.speciality.data,
-                                pay_rate=form.pay_rate.data, user_image=file_name)
+        db.update_profile_admin(user_id=user[0].user_id, 
+                                user_type=form.user_type.data, 
+                                username=form.username.data, 
+                                full_name=form.full_name.data,
+                                new_password=password, 
+                                email=form.email.data, 
+                                phone_number=form.phone_number.data,
+                                address=form.address.data, 
+                                age=form.age.data, 
+                                speciality=form.speciality.data,
+                                pay_rate=form.pay_rate.data, 
+                                user_image=file_name)
         flash('Successful update!', 'success')
         return redirect(url_for('users_bp.admin_pannel'))
     return render_template('edit_profile_admin.html', user=user[0], form=form)
