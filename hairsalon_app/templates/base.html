@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hair Salon App</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/mobile.css')}}">
+    {% block content_css %}{% endblock content_css %}
+</head>
+<body>
+    <nav id="nav-main">
+        <div id ="left-nav">
+            <ul>
+                <li id="saloon-header">
+                    <h3>Saloon</h3>
+                    <img id="logo" src="{{ url_for('static', filename='images/logo1.png') }}" alt="logo for web">
+                </li>            
+                <li><a href="{{url_for('main_bp.home')}}">Home</a></li>
+                <li><a href="{{url_for('main_bp.about')}}">About Us</a></li>
+                <li><a href="{{url_for('main_bp.api_docs')}}">API</a></li>
+            </ul>
+        </div>
+        <section id="flash-errors">
+            {% if get_flashed_messages() %}
+            <ul>
+                 <!-- with categories true meaning we get the category, plus the message. [0] = category, [1] = message itself  -->
+                {% for message in get_flashed_messages(with_categories=True) %}
+                    {% if 'success' in message[0] %}
+                        <li class="success">{{ message[1] }}</li>
+                    {% elif 'error' in message[0] %}
+                        <li class="error">{{ message[1] }}</li>
+                    {% elif 'info' in message[0] %}
+                        <li class="info">{{ message[1] }}</li>
+                    {% endif %}
+                {% endfor %}  
+            </ul>
+            {% endif %}
+        </section>
+        <div id="right-nav">
+            <nav>
+                <ul >
+                    {% block content_when_login %}
+                    <li> 
+                        <a href="{{url_for('users_bp.login')}}">Login</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('users_bp.register') }}">Register</a>
+                    </li>
+                    <li> 
+                        <a href="{{url_for('appointment_bp.all_appointments')}}">Appointments</a>
+                    </li>
+                    {% endblock %}
+                </ul>
+            </nav>
+        </div> 
+    </nav>
+    <main>
+        <div id="side-pannel">
+        {% block content_side_pannel %}
+             <!-- In the respective templates, override this block to add content for your view.  --> 
+        {% endblock content_side_pannel %}         
+        </div>
+        <div id="main-pannel">
+            {% block content_main_pannel %}
+            <!-- In the respective templates, override this block to add content for your view. -->
+            {% endblock %}
+        </div>
+    </main>
+    <footer>
+        <div>
+        <p class="semi-transparent-bg">Developers: Amy Nguyen, Iana Fenuic, Darina Hojeij</p>
+        <p class="semi-transparent-bg">Winter 2024 - 420 Final Project</p>
+        <p class="semi-transparent-bg">Dawson College 420.B0</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+{% block content_css %}
+<link rel="stylesheet" href="{{url_for('main_bp.static', filename='css/api_docs.css')}}"/>
+{% endblock content_css %}
+{% block content_side_pannel %}
+<h2>Saloon API</h2>
+<ul id="get-all" onclick="toggleDiv('get-all-rp')">
+    <h5>GET: List all appointments</h5>
+    <li><a href="http://127.0.0.1:5015/api/appointments/">api/appointments/</a></li>
+</ul>
+<ul id="get-one" onclick="toggleDiv('get-one-rp')">
+    <h5>GET: List Appointment ID 1</h5>
+    <li><a href="http://127.0.0.1:5015/api/appointment/1/">api/appointment/1/</a></li>
+</ul>
+<ul id="create" onclick="toggleDiv('create-rp')">
+    <h5>POST: Create Appointment</h5>
+    <li>curl -X POST http://127.0.0.1:5010/api/appointments/ -H "Content-Type: application/json" -d '{"username":"AmyClient", "professional":"Alice_pro", "service":"Trimming", "venue":"1", "slot":"11-12", "date":"2024-06-30"}'</li>
+</ul>
+<ul id="delete" onclick="toggleDiv('delete-rp')">
+    <h5>DELETE: Delete Appointment 2</h5>
+    <li>curl -X DELETE http://127.0.0.1:5010/api/appointment/2/ -H "Content-Type: application/json"</li>
+</ul>
+{% endblock content_side_pannel %}
+{% block content_main_pannel %}
+<div id="get-all-rp" style="display:none;">
+    <h4>GET method for all appointments</h4>
+    <section>
+        <pre>
+        {
+            "length": 2,
+            "all_appointment": [
+                {
+                    "appointment_id": 1,
+                    "status": "pending",
+                    "approved": 1,
+                    "date_appointment": "2024-05-24T00:00:00",
+                    "client_id": 1,
+                    "professional_id": 6,
+                    "service_id": 1,
+                    "slot": "10-11",
+                    "venue": "1",
+                    "client_name": "ADMIN SUPER",
+                    "professional_name": "Amy nguyen",
+                    "service_name": "Trimming"
+                },
+                {
+                    "appointment_id": 2,
+                    "status": "pending",
+                    "approved": 1,
+                    "date_appointment": "2024-05-30T00:00:00",
+                    "client_id": 1,
+                    "professional_id": 5,
+                    "service_id": 1,
+                    "slot": "11-12",
+                    "venue": "1",
+                    "client_name": "ADMIN SUPER",
+                    "professional_name": "bianca ",
+                    "service_name": "Trimming"
+                }
+            ]
+        }
+        </pre>
+    </section>
+</div>
+<div id="get-one-rp" style="display:none;">
+    <h4>GET method for appointment with ID 1</h4>
+    <section>
+        <pre>
+            {
+                "appointment_id": 1,
+                "status": "pending",
+                "approved": 1,
+                "date_appointment": "2024-05-24T00:00:00",
+                "client_id": 1,
+                "professional_id": 6,
+                "service_id": 1,
+                "slot": "10-11",
+                "venue": "1",
+                "client_name": "ADMIN SUPER",
+                "professional_name": "Amy nguyen",
+                "service_name": "Trimming"
+            }            
+        </pre>      
+    </section>
+</div>
+<div id="create-rp" style="display:none;">
+    <h4>POST method for creating an appointment</h4>
+    <section>
+        <pre>
+    Code 201
+    After selecting, calling the get all appointments results: 
+  {
+    "length": 6,
+    "all_appointment": [
+        {
+            "appointment_id": 1,
+            "status": "completed",
+            "approved": 1,
+            "date_appointment": "2024-05-15T22:42:03",
+            "client_id": 8,
+            "professional_id": 4,
+            "service_id": 1,
+            "slot": "10-11",
+            "venue": "1",
+            "client_name": "Ridaa",
+            "professional_name": "Alice McGraw",
+            "service_name": "Trimming"
+        },
+        {
+            "appointment_id": 2,
+            "status": "approved",
+            "approved": 1,
+            "date_appointment": "2024-05-30T00:00:00",
+            "client_id": 9,
+            "professional_id": 5,
+            "service_id": 2,
+            "slot": "16-17",
+            "venue": "1",
+            "client_name": "Amyy",
+            "professional_name": "Matthew Kravinski",
+            "service_name": "Women Haircut"
+        },
+        {
+            "appointment_id": 3,
+            "status": "pending",
+            "approved": 1,
+            "date_appointment": "2024-06-01T00:00:00",
+            "client_id": 10,
+            "professional_id": 6,
+            "service_id": 3,
+            "slot": "11-12",
+            "venue": "2",
+            "client_name": "Jottie",
+            "professional_name": "Cateline Boval",
+            "service_name": "Men haircut"
+        },
+        {
+            "appointment_id": 4,
+            "status": "cancelled",
+            "approved": 1,
+            "date_appointment": "2024-05-20T00:00:00",
+            "client_id": 8,
+            "professional_id": 7,
+            "service_id": 4,
+            "slot": "14-15",
+            "venue": "3",
+            "client_name": "Ridaa",
+            "professional_name": "Alceste Muhirwa",
+            "service_name": "Dye"
+        },
+        {
+            "appointment_id": 5,
+            "status": "pending",
+            "approved": 1,
+            "date_appointment": "2024-06-05T00:00:00",
+            "client_id": 9,
+            "professional_id": 4,
+            "service_id": 5,
+            "slot": "15-16",
+            "venue": "3",
+            "client_name": "Amyy",
+            "professional_name": "Alice McGraw",
+            "service_name": "Clean shave"
+        },
+        {
+            "appointment_id": 6,
+            "status": "pending",
+            "approved": 1,
+            "date_appointment": "2024-06-30T00:00:00",
+            "client_id": 9,
+            "professional_id": 4,
+            "service_id": 1,
+            "slot": "11-12",
+            "venue": "1",
+            "client_name": "Amyy",
+            "professional_name": "Alice McGraw",
+            "service_name": "Trimming"
+        }
+    ]
+}
+        </pre>
+    </section>
+</div>
+<div id="delete-rp" style="display:none;">
+    <h4>DELETE method for deleting appointment with ID 2</h4>
+    <section>
+        Code: 204
+    </section>
+</div>
+<script>
+function toggleDiv(divId) {
+    var div = document.getElementById(divId);
+    if (div.style.display === "none") {
+        div.style.display = "block";
+    } else {
+        div.style.display = "none";
+    }
+
+    // Hide all other divs
+    var allDivs = document.querySelectorAll("[id$='-rp']");
+    for (var i = 0; i < allDivs.length; i++) {
+        if (allDivs[i].id !== divId) {
+            allDivs[i].style.display = "none";
+        }
+    }
+}
+
+</script>
+{% endblock content_main_pannel %}

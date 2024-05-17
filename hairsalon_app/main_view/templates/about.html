@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content_css %}
+<link rel="stylesheet" href="{{url_for('main_bp.static', filename='css/about.css')}}"/>
+<link rel="stylesheet" href="{{url_for('main_bp.static', filename='css/mobile_about.css')}}">
+{% endblock content_css %}
+{% block content_main_pannel %}
+<div>
+    <div id="about_us"> 
+        <div id ="about_img">
+            <img src="{{url_for('main_bp.static', filename='images/about_us.jpg')}}" alt="About us image">
+            <div class="image-overlay"></div>
+            <h1>About Us</h1>  
+            <p> Strongest beauty team in Montreal! </p>
+        </div>
+    </div>
+    <div id="about_text">
+            <h2 class="text">Our Mission</h2>
+            <p>At SALOON, our mission is to elevate beauty through personalized services that empower our clients to look and feel their best. We specialize in expert hairstyling, precision nail artistry, transformative makeup applications, and rejuvenating face treatments. Our dedicated team of skilled professionals is committed to delivering exceptional results tailored to enhance each client's unique style and beauty. Step into our salon and experience a harmonious blend of creativity, skill, and care, where every visit leaves you feeling confident, refreshed, and beautiful.</p>
+    </div>
+    <div id="about_team">
+        <h2 class="text"> Our team</h2>
+        <div id="team">
+            <div class ="team_img">
+            <img src="{{url_for('main_bp.static', filename='images/amy.jpg')}}" alt="Team image" id="amy"> 
+            <p class="text"> Amy Nguyen</p>
+            </div>
+            <div>
+            <img src="{{url_for('main_bp.static', filename='images/iana.jpg')}}" alt="Team image" id="iana"> 
+            <p class="text"> Iana Feniuc</p>
+            </div>
+            <div class ="team_img">
+            <img src="{{url_for('main_bp.static', filename='images/darina.jpg')}}" alt="Team image" id="darina"> 
+            <p class="text"> Darina Hojeij</p>
+            </div>
+        </div>
+        <p> Founded by three passionate entrepreneurs, Amy Nguyen, Iana Feniuc, and Darina Hojeij, our beauty salon has been a beloved part of our community for over five years. Together, we envisioned a place where clients could experience the ultimate in pampering and personal care. From manicures and pedicures to luxurious facial treatments, makeup artistry, and exquisite hairstyling, our salon offers a comprehensive range of services tailored to enhance natural beauty and boost confidence. With a commitment to excellence and a warm, inviting atmosphere, our salon is dedicated to helping every client look and feel their best.</p>  
+    </div>
+</div>
+{% endblock content_main_pannel %}
